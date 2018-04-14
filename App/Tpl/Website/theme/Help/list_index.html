@@ -1,0 +1,47 @@
+<include file="Public:header"/>
+<title>{$vo.type_name}-{$glo.web_name}</title>
+<meta http-equiv="keywords" content="{$glo.web_keywords}"/>
+<meta http-equiv="description" content="{$glo.web_descript}"/>
+<link rel="stylesheet" href="/Style/H/css/about_us.css"/>
+<div class="banner_list">{:get_ad(31)}</div>
+<div class="cms_page"> 
+  <div class="cms_frame cf"> <include file="left" />
+    <div class="cms_content_new float_right fill_color borderall">
+        <div class="cms_title borderbottom"><div class="t_text font18">{$vo.type_name}</div></div>
+        <div class="cms-details">
+        <div class="article-list-wrap mgt">
+          <div class="article-list mgt">
+            <ul>
+              <volist name="list" id="vl">
+                <li class="changecolor"> <span class="item-title"><a href="{$vl.arturl}"  >{$vl.title|cnsubstr=###,30}</a></span> <span class="release-time">{$vl.art_time|date="Y-m-d",###}</span> </li>
+              </volist>
+            </ul>
+          </div>
+          <div class="list_bottom">
+            <div class="list_bottom_right martop_20">
+              <ul>
+                {$pagebar}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+</div>
+<script language="javascript">
+	$(function() {
+		$(".changecolor").bind("mouseover", function(){
+			$(this).css("background", "#f8f8f8");
+			$(this).css("color", "#c00");
+		})
+
+		$(".changecolor").bind("mouseout", function(){
+			$(this).css("background", "#fff");
+			$(this).css("color", "#737272");
+		})
+	});
+
+</script>
+<include file="Public:bottom"/>

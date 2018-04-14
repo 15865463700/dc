@@ -1,0 +1,65 @@
+<include file="Pub:header" />
+<main>
+  <div class="fund_information text-center">
+    <p class="font05">资金总额</p>
+    <span> <img src="/Style/Mobile/images/per_cen/fund_infor_bac.png"/> {:MFormt($minfo['total'])} </span> </div>
+  <div class="width-100">
+    <div class="fund_infor_zj">
+      <div class="fund_infor_a float-left color-bg-whtie">
+        <div class="fund_infor">
+          <p><img src="/Style/Mobile/images/per_cen/keyongye.png"/>可用余额</p>
+          <span> {:MFormt($minfo['total_money'])}元 </span> </div>
+      </div>
+      <div class="fund_infor_a float-right color-bg-whtie">
+        <div class="fund_infor">
+          <p><img src="/Style/Mobile/images/per_cen/dongjieze.png"/>冻结总额</p>
+          <span> {$minfo.money_freeze|MFormt=###}元 </span> </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="fund_infor_zj">
+      <div class="fund_infor_a float-left color-bg-whtie">
+        <div class="fund_infor">
+          <p><img src="/Style/Mobile/images/per_cen/daishouze.png"/>待收总额</p>
+          <span> {$minfo.money_collect|MFormt=###}元 </span> </div>
+      </div>
+      <div class="fund_infor_a float-right color-bg-whtie">
+        <div class="fund_infor">
+          <p><img src="/Style/Mobile/images/per_cen/daishoulx.jpg"/>待收利息</p>
+          <span> {:MFormt($minfo['dslx'])}元 </span> </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="fund_infor_zj">
+      <div class="fund_infor_a float-left color-bg-whtie">
+        <div class="fund_infor">
+          <p><img src="/Style/Mobile/images/per_cen/tixianze.jpg"/>提现总额</p>
+          <span> {$minfo.withdraw|default="0.00"}元 </span> </div>
+      </div>
+      <div class="fund_infor_a float-right color-bg-whtie">
+        <div class="fund_infor">
+          <p><img src="/Style/Mobile/images/per_cen/chongzhize.jpg"/>充值总额</p>
+          <span> {$minfo.charge|default="0.00"}元 </span> </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="fund_infor_zj">
+      <div class="fund_infor_a float-left color-bg-whtie">
+        <div class="fund_infor">
+          <p><img src="/Style/Mobile/images/per_cen/leijijr.png"/>累计借入</p>
+          <span> {$minfo.borrow|default="0.00"}元 </span> </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</main>
+<div class="f-seat"></div>
+<script language="javascript">
+$(function(){
+	$("head").prepend("<title>资金信息</title>");
+	$("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+	$("body").css("background","#f0f0f0");
+});
+</script> 
+<include file="Pub:footer" /> 

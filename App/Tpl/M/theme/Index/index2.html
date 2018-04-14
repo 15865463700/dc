@@ -1,0 +1,93 @@
+<include file="Pub:header" />
+<main>
+  <div class="investBox mt10">
+    <div class="invest-tab">
+      <ul>
+        <li onclick="window.location.href='/M/index/index4'">新手专区</li>
+        <li onclick="window.location.href='/M/index/index3'">散标理财</li>
+        <li class="focus">优选理财</li>
+      </ul>
+    </div>
+    <div class="invest-boxs">
+      <div class="invest-box">
+        <div class="i-prod" id="wrapper">
+          <div class="i-list2" id="scroller">
+          <div id="pullDown"></div>
+              <notempty name="list.list">
+                  <ul id="thelist">
+                      <volist name="list.list" id="tvo">
+                          <li>
+                              <h3><a href="{:U('M/tinvest/tdetail', array('id'=>$tvo['id']))}">优选定期 （{$tvo.borrow_name|cnsubstr=###,12}）</a></h3>
+                              <div class="i_cont">
+                                  <div class="progress">
+                                      <div class="progress-bar" style="width:{$tvo.progress}%;"> </div>
+                                  </div>
+                                  <p><span class="u_rate">{$tvo.borrow_interest_rate}<em>%</em></span><span class="u_price">{$tvo.borrow_money|getMoneyFormt=###}<em>元</em></span> <span class="u_date">{$tvo.borrow_duration}<em><php> echo $tvo['repayment_type']==1?'天':'个月'</php></em></span></p>
+                                  <div class="clearfix"></div>
+                              </div>
+                              <if condition="$tvo['is_show'] eq 0 and ($tvo['borrow_status'] eq 7 or $tvo['borrow_status'] eq 3)">
+                                  <a class="btn btn-primary">已完成</a>
+                                  <elseif condition="$tvo['online_time'] gt $time" />
+                                  <a class="btn btn-default">即将上线</a>
+                                  <elseif condition="$tvo['is_show'] eq 1 and $tvo['transfer_out'] neq $tvo['transfer_total']" />
+                                  <a href="{:U('M/tinvest/tdetail', array('id'=>$tvo['id']))}"  class="btn btn-default">立即加入</a>
+                                  <else/>
+                                  <a href="{:U('M/tinvest/tdetail', array('id'=>$tvo['id']))}" class="btn btn-primary">还款中</a> </if>
+                              <div class="clearfix"></div>
+                          </li>
+                      </volist>
+                  </ul>
+                  <else/>
+                  <ul >
+                      <img src="/Style/H/images/images/no_records.png" alt="" style="width: 10rem;height: 8rem;margin:5rem 3rem 2rem 3rem;"/>
+                      <p style="font: 0.75rem/0.5rem arial;color: #1d1d1d;text-align: center;">暂无记录</p>
+                  </ul>
+              </notempty>
+
+             <div id="pullUp"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<div class="f-seat"></div>
+<script type="text/javascript" src="/Style/M/js/iscroll.js"></script> 
+<script type="text/javascript" src="/Style/M/js/scrollUpdate.js"></script>
+<script type="text/javascript">
+ var pageIndex = {$list.page.nowPage};
+ var pageCount = {$list.page.total};
+$(function(){
+  $("head").prepend("<title>优选理财-{$glo['web_name']}</title>");
+   $(".i-list2 li").click(function(){
+        window.location.href = $(this).find("a").attr("href");
+    });
+	if (pageCount <= 1) {
+        $("#pullUp").hide();
+    }
+    iScroll.onLoadData = getInfo;
+});
+  function getInfo(flag) {
+        nextPage = pageIndex;
+        $.ajax({
+            url: location.href,
+            data: { p: nextPage },
+            type: 'get',
+            async: true,
+            success: function (res) {
+				if (flag == "empty") {
+                   $("#thelist").children().remove();
+                }
+                $("#thelist").append(res);
+				if (nextPage > pageCount) {
+                     $("#pullUp").hide();
+                }
+                myScroll.refresh();
+            },
+            error: function () {
+                //document.getElementById('result').innerHTML = "";
+            }
+        });
+    }
+</script> 
+﻿<include file="Pub:footer" /> 

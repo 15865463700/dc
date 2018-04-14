@@ -1,0 +1,1 @@
+schtasks /create /tn AutoRepayment /tr E:/phpStudy/WWW/zeren/ThinkPHP/Auto/AutoRepayment/do.bat  /sc daily /st 23:50:00

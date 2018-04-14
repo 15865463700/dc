@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script language=javascript type="text/javascript" src="/Style/Js/jquery.js"></script>
+    <script  type="text/javascript"  src="/Style/layer/layer.js"></script>
+    <link rel="stylesheet" type="text/css" href="/Style/H/css/config.css" />
+    <link rel="stylesheet" type="text/css" href="/Style/Member/css/member.css" />
+    <script type="text/javascript" src="/Style/M/js/login.js"></script>
+    <script type="text/javascript" src="/Style/H/js/placeholder.js"></script>
+    <title>用户登录-- {$glo.web_name}</title>
+</head>
+<script>
+    $(function(){
+        var ght = $(window).height();
+        var tophgt = $(".login-top").height();
+        var hh = ght-tophgt;
+        $(".login-content").css("min-height",hh+"px");
+    });
+    var curpath="__URL__";
+</script>
+<body>
+    <div class="login-top">{:get_ad(1)}</div>
+    <div class="login-content">
+        <div class="box">
+            <div class="login-title">
+                账号<br/>登录
+            </div>
+            <div class="account-login"></div>
+            <!--<div class="account-login">ACCOUNT LOGIN</div>-->
+            <div class="account-text">
+                账号
+                <input type="text" value="" id="txtUser" placeholder="请输入账号">
+            </div>
+            <div class="account-text">
+                密码
+                <input type="password" value="" id="txtPwd" placeholder="请输入密码">
+            </div>
+            <div class="account-btn">
+                <a href="/register">我要注册</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="/user/common/getpwd">忘记密码</a>
+                <div onclick="LoginSubmit(this);" class="btn">登&nbsp;&nbsp;录</div>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+        <div class="login-contact">
+            <img style="float: left" src="/Style/Member/images/login/phone.png"/>
+            <div class="phone">
+                <?php $dw_kefu=get_qq(2);?>
+                <font><?php echo($dw_kefu[0]["qq_title"]); ?></font><br/>
+                <font style="font-size: 20px;font-weight: 800"><?php echo ($dw_kefu[0]["qq_num"]); ?></font>
+            </div>
+            <div class="qq">
+                <?php $dw_kefu=get_qq(0);?>
+                <font><?php echo($dw_kefu[0]["qq_title"]); ?></font><br/>
+                <font style="font-size: 20px;font-weight: 800"><?php echo ($dw_kefu[0]["qq_num"]); ?></font>
+            </div>
+            <img src="/Style/Member/images/login/qq.png" style="float: right"/>
+            <div style="clear: both"></div>
+        </div>
+        <div class="login-btm">
+            <a href="/">返回首页</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<img src="/Style/Member/images/login/666.png" />
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,133 @@
+<include file="Public:header"/>
+<title>债权转让-{$glo.web_name}</title>
+<meta http-equiv="keywords" content="{$glo.web_keywords}"/>
+<meta http-equiv="description" content="{$glo.web_descript}"/>
+<link rel="stylesheet" href="/Style/H/css/invest.css"/>
+<link rel="stylesheet" type="text/css" href="/Style/fancybox/jquery.fancybox-1.3.2.css" media="screen"/>
+<script type="text/javascript">
+    var url = window.location.href;
+    if(url)var allargs = url.split("?")[1];
+    if(allargs)var tab1= allargs.split("=")[1];
+    if(tab1)var tab= tab1.split("&")[0];
+
+    $(function(){
+        if(tab==9){
+            $('#a1').addClass("show_style");
+        }
+        if(tab==4){
+            $('#a2').addClass("show_style");
+            $('#a1').removeClass("show_style");
+        }
+        if(tab==6){
+            $('#a3').addClass("show_style");
+            $('#a1').removeClass("show_style");
+        };
+        if(tab==7){
+            $('#a4').addClass("show_style");
+            $('#a1').removeClass("show_style");
+        };
+        if(tab==10){
+            $('#a5').addClass("show_style");
+            $('#a1').removeClass("show_style");
+            $('#black').attr('style','display:block');
+            $('#con').attr('style','display:none');
+        };
+    });
+
+</script>
+<script type="text/javascript">
+    function buy_debt(debt_id)
+    {
+        var ii = layer.load();
+        $.get("__URL__/buydebt?debt_id="+debt_id,
+                {},
+                function(e){
+                    layer.close(ii);
+                    if(e.status==0){
+                        layer.msg(e.message+"1",{icon:5,shade:0.3});
+                    }else{
+                        layer.open({
+                            type:1,
+                            title:"购买债权",
+                            area:['320px','260px'],
+                            content: e.content,
+                            resize:false,
+                            zindex:66
+                        })
+                    }
+                },
+                "json"
+        );
+    }
+</script>
+<div class="width1200 marbottom_10">
+    {:get_ad(27)}
+</div>
+<!--/*借款列表*/-->
+<volist name="list.list" id="vb">
+    <div class="width1200 marbottom_30 color-bg-grey index-borrow-box invest">
+        <div class="index_pro_img pull-left">
+            <if condition="$vb.project_pic_thumb neq ''">
+                <img src="/{$vb.project_pic_thumb}" alt=""/>
+                <else />
+                <img src="/Style/H/images/invest/default_index.jpg" alt=""/>
+            </if>
+        </div>
+        <div class="index-borrow-content float_right">
+            <div class="martop_20 marbottom_10">
+                <a href="{$vb.id|getInvestUrl=###}" class="font16 color-black">{:getIco($vb)}{$vb.borrow_name|cnsubstr=###,11}</a>
+                <div class="clear"></div>
+            </div>
+            <div class="float_left width155">年化利率</div>
+            <div class="float_left width155"><!--信用等级--></div>
+            <div class="float_left width155">转让价格</div>
+            <div class="float_left width155">待收本息</div>
+            <div class="float_left width155">转让期数/总期数</div>
+            <div class="float_left">
+                <if condition="$vb.status eq '1'"> <a class="a-small-button color-bg-blue color-white text-center font16 invest-a" href="javascript:;" onclick="buy_debt('{$vb.debt_id}')">立即购买</a>
+                    <elseif condition="$vb.status eq '4'"/>
+                    <a class="a-small-button invest_bg_color_black color-white text-center font16 invest-a" href="javascript:;" >已完成</a>
+                    <elseif condition="$vb.status eq '2'"/>
+                    <a class="a-small-button invest_bg_color_black color-white text-center font16 invest-a" href="javascript:;" >还款中</a>
+                </if>
+            </div>
+            <div class="clear"></div>
+            <div class="float_left width155 color-95"><font class="font22 color-blue">{$vb.borrow_interest_rate}</font>%</div>
+            <div class="float_left width155 color-95"><!--<span class="marleft_20">{$vb.credits|getLeveIco=###,2}</span>--></div>
+            <div class="float_left width155 color-95"><font class="font22 color-black">{$vb.transfer_price|default=0}</font></div>
+            <div class="float_left width155 color-95"><font class="font22 color-black">{$vb.money|default=0}</font>元</div>
+            <div class="float_left width155 color-95">{$vb.period}期/{$vb.total_period}期</div>
+            <div class="float_left color-95">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</volist>
+<div class="width1200 text-center height50 invest_page">
+    <div style="margin:0 auto">
+        {$list.page}
+    </div>
+</div>
+<script language="javascript">
+    $(function() {
+        $(".borrowlistp").bind("mouseover", function(){
+            $(this).css("background", "#fce8e1");
+        })
+
+        $(".borrowlistp").bind("mouseout", function(){
+            $(this).css("background", "#fff");
+        })
+
+
+        $(".borrowlistl").bind("mouseover", function(){
+            $(this).css("background", "#f8f8f8");
+        })
+
+        $(".borrowlistl").bind("mouseout", function(){
+            $(this).css("background", "#fff");
+        })
+    });
+
+</script>
+<include file="Public:bottom"/>

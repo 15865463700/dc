@@ -1,0 +1,35 @@
+<include file="Pub:header" />
+<main class="color-bg-whtie">
+    <div class="cen_msg_main">
+        <volist name="list.list" id="vo">
+            <div class="r_list" id="msg">
+                <div class="msg_img float-left">
+                    <img src="/Style/Mobile/images/<if condition='$vo.status eq 1'>read.png<else/>unread.png</if>">
+                </div>
+                <div class="msg_content float-left">
+                    <div class="msg_content_a">
+                        <span class="color-444">{$glo.web_name}</span>
+                        <p class="float-right color-999">{$vo.send_time|date="Y-m-d",###}</p>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="{:U('M/user/msg_content', array('id'=>$vo['id']))}" data="{$vo.id}" class="color-999">
+                        {$vo.title}
+                    </a>
+                </div>
+            </div>
+        </volist>
+        <div class="page">{$list.page}</div>
+        <div class="clear"></div>
+    </div>
+</main>
+<div class="f-seat"></div>
+<script type="text/javascript">
+$(function(){
+    $("head").prepend("<title>站内信息列表</title>");
+    $("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+    $("body").css("background","#f0f0f0");
+
+})
+</script>
+<div class="f-seat"></div>
+﻿<include file="Pub:footer" /> 

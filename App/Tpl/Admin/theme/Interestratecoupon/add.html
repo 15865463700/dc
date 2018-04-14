@@ -1,0 +1,107 @@
+<include file="Public:_header" xmlns:htmlA="http://www.w3.org/1999/html"/>
+<script type="text/javascript" src="/Style/My97DatePicker/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">添加加息券</div>
+<div class="page_tab"><span data="tab_1" class="active">基本信息</span></div>
+<div class="form2">
+	<form method="post" action="" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<div id="tab_1">
+        <input type="hidden" id="id" name="id" value="{$vo.id}" />
+        <if condition="$vo['id'] gt 0">
+            <dl class="lineD"><dt>加息券获得节点：</dt>
+                <dd>
+                    {$ctype[$vo['type']]}
+                </dd>
+            </dl>
+
+            <else/>
+            <dl class="lineD"><dt>加息券获得节点：</dt>
+                <dd>
+                    <htmlA:select id="type" value="key|vo.type" datakey='ctype' default="==请选择==" tip="加息券获得节点"/>
+                </dd>
+            </dl>
+        </if>
+	<dl class="lineD"><dt>加息券名称：</dt>
+        <dd><htmlA:input id="title" value="{$vo.title}"/>
+            <span class="tip">加息券名称默认自动生成，可手动更改。</span>
+        </dd>
+    </dl>
+
+
+    <dl class="lineD"><dt>下发/领取开始时间：</dt>
+        <dd>
+            <htmlA:timer id="online_time" tip='开始时间(加息券一旦开始下发/领取就不可再更改加息券的信息，默认三小时后开始)' arg="{maxDate:'#F{$dp.$D(\\\\'deadline\\\\')||\\\\'2020-10-01\\\\'}',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}"  class="Wdate" value="{$vo.online_time|mydate='Y-m-d H:i:s',###}"/>
+        </dd>
+    </dl>
+    <dl class="lineD"><dt>下发/领取终止时间：</dt>
+        <dd>
+            <htmlA:timer id="deadline" tip='终止时间 （超过这个时间，将不能下发/领取）' arg="{minDate:'#F{$dp.$D(\\\\'online_time\\\\')}',maxDate:'2020-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}"  class="Wdate" value="{$vo.deadline|mydate='Y-m-d H:i:s',###}"/>
+        </dd>
+    </dl>
+        <dl class="lineD"><dt>有效时长：</dt>
+            <dd><htmlA:input id="day" value="{$vo.day|default=1}" tip="天"/><span class="tip">从用户领取日期算起可用时长，保证用户的可用时长一致</span></dd>
+        </dl>
+        <dl class="lineD"><dt>加息利率：</dt>
+            <dd><htmlA:input id="rate" value="{$vo.rate|default=1}" tip="‰"/><span class="tip">加息券年化利率(填3表示千分之3)。</span></dd>
+        </dl>
+        <dl class="lineD"><dt>借款期限：</dt>
+            <dd>
+                <htmlA:input id="duration_from" value="{$vo.duration_from|default=1}" tip="" addstr='style="width:60px"'/>
+                —
+                <htmlA:input id="duration_to" value="{$vo.duration_to|default=12}" tip="" addstr='style="width:60px"'/>
+                月<span class="tip">借款期限在此区间内方可使用本加息券。</span>
+            </dd>
+        </dl>
+        <dl class="lineD"><dt>最低投资金额：</dt>
+            <dd>
+                <htmlA:input id="min_money" value="{$vo.min_money|default=0.00}" tip="" addstr='style="width:60px"'/>
+                &nbsp;元<span class="tip">使用本加息券的最低投资金额。</span>
+            </dd>
+        </dl>
+        <dl class="lineD"><dt>天标是否可用：</dt>
+            <dd>
+                <htmlA:radio id="can_day" value="key|vo.can_day"  default="0|否,1|是" tip='*'/>
+                <span class="tip">勾选天标可用的情况下投资时将不会判断期限，只要为天标即可使用。</span>
+            </dd>
+        </dl>
+
+	</div><!--tab1-->
+        <if condition="$vo['status'] eq 0 or $vo['status'] eq ''">
+            <div class="page_btm">
+              <input type="submit" name="submit" class="btn_b" value="确定" />
+            </div>
+        </if>
+	</form>
+</div>
+
+</div>
+<script type="text/javascript">
+var cansub = true;
+function subcheck(){
+	if(!cansub){
+		alert("请不要重复提交，如网速慢，请耐心等待！");
+		return false;	
+	}
+	var title = $('#title').val();
+    var type = $('#type').val();
+	var rate = $('#rate').val();
+	if(title==''){
+		ui.error("请填写加息券名称!");
+		return false;
+	}
+    if(type==''){
+        ui.error("请选择加息券下发节点!");
+        return false;
+    }
+	if(rate==''||rate==0 || isNaN(rate)){
+		ui.error("请填写加息利率!");
+		return false;
+	}
+
+	cansub = false;
+	return true;
+}
+</script>
+<include file="Public:_footer" />

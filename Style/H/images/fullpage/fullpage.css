@@ -1,0 +1,81 @@
+*{ padding:0; margin:0;}
+ul,ol{ list-style:none;}
+a{ text-decoration:none;}
+input,a{ outline:none;}
+body{ font-family:"微软雅黑";}
+img{ border:none;}
+
+.section{ overflow:hidden; position:relative; width:100%;}
+.s1 { background: url(/Style/H/images/fullpage/s1.jpg) 50%;}
+.s2 { background: url(/Style/H/images/fullpage/s2.jpg) 50%;}
+.s3 { background: url(/Style/H/images/fullpage/s3.jpg) 50%;}
+.s4 { background: url(/Style/H/images/fullpage/s4.jpg) 50%;}
+.section .s_con{ width:1200px; margin:0 auto; position:relative;}
+
+/*这是第一屏*/
+
+/*Y向上*/
+@-webkit-keyframes shang{
+	0%{ -webkit-transform:translateY(200px); filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity:0; opacity:0;}
+	
+	100%{ -webkit-transform:translateY(0); filter:alpha(opacity=100); -moz-opacity:1; -khtml-opacity:1; opacity:1;}
+}
+@keyframes shang{
+	0%{ transform:translateY(200px); filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity:0; opacity:0;}
+	
+	100%{ transform:translateY(0); filter:alpha(opacity=100); -moz-opacity:1; -khtml-opacity:1; opacity:1;}
+}
+/*X向左*/
+@-webkit-keyframes zuo{
+	0%{ -webkit-transform:translateX(-300px); filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity:0; opacity:0;}
+	
+	100%{ -webkit-transform:translateX(0); filter:alpha(opacity=100); -moz-opacity:1; -khtml-opacity:1; opacity:1;}
+}
+@keyframes zuo{
+	0%{ transform:translateX(-300px); filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity:0; opacity:0;}
+	
+	100%{ transform:translateX(0); filter:alpha(opacity=100); -moz-opacity:1; -khtml-opacity:1; opacity:1;}
+}
+
+.s1 .s_con .iphone1{ position:relative; left:-260px; top:40px; -webkit-animation:zuo 0.8s linear forwards; animation:zuo 0.8s linear forwards; filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity:0; opacity:0;}
+
+.s1 .s_con .title{ position:absolute; top:20%; left:580px;}
+.s1 .s_con .title h3{ font-size:56px; color:#4bb0e4; font-weight:100; -webkit-animation:shang 0.8s 0.8s linear forwards; animation:shang 0.8s 0.8s linear forwards; filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity:0; opacity:0;}
+.s1 .s_con .title p{ font-size:43px; color:#fff; margin:20px 0; -webkit-animation:shang 0.8s 1s linear forwards; animation:shang 0.8s 1s linear forwards; filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity:0; opacity:0;}
+
+.s1 .s_con .title ul{ position:relative; margin-top:60px; -webkit-animation:shang 0.6s 1.3s linear forwards; animation:shang 0.6s 1.3s linear forwards; filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity:0; opacity:0;}
+.s1 .s_con .title ul li{ margin-bottom:17px; width:360px;}
+.s1 .s_con .title ul li b{ display:block; font-size:22px; color:#fff; font-weight:100; width:197px; height:62px; border:1px solid #fff; border-radius:5px; line-height:62px; text-align:center; margin-left:165px; cursor:pointer;}
+.s1 .s_con .title ul li b:hover{background:#4bb0e4; border:1px solid #4bb0e4;}
+.s1 .s_con .title ul li .download{ position:relative; top:4px; left:-5px;}
+.s1 .s_con .title ul li .QR_code{ position:absolute; top:0; left:0;}
+.s1 .s_con .title ul li:hover #hover_QR{ filter:alpha(opacity=100); -moz-opacity:1; -khtml-opacity:1; opacity:1;}
+#hover_QR{ -moz-transition:0.5s; -webkit-transition:0.5s; -o-transition:0.5s; transition:0.5s; filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity:0; opacity:0;}
+
+
+/*第二屏*/
+.s2 .s_con .iphone2{ position:relative; left:-80%; top:0;}
+.s2 .s_con .title{ position:absolute; top:140%; left:480px;}
+.s2 .s_con .title h3{ font-size:56px; color:#4bb0e4; font-weight:100;}
+.s2 .s_con .title p{ font-size:43px; color:#fff; margin:30px 0;}
+
+
+
+/*第三屏*/
+.s3 .s_con .iphone3{ position:relative; left:130%; top:0;}
+.s3 .s_con .title{ position:absolute; top:140%; left:50px;}
+.s3 .s_con .title h3{ font-size:56px; color:#4bb0e4; font-weight:100;}
+.s3 .s_con .title p{ font-size:43px; color:#fff; margin:30px 0;}
+
+
+
+/*第四屏*/
+.s4 .s_con .iphone4{ position:relative; left:-80%; top:0;}
+.s4 .s_con .title{ position:absolute; top:140%; left:480px;}
+.s4 .s_con .title h3{ font-size:56px; color:#4bb0e4; font-weight:100;}
+.s4 .s_con .title p{ font-size:43px; color:#fff; margin:30px 0;}
+
+.pic{ position:fixed; left:50%; margin-left:-960px; bottom:0;}
+.pic .close{ cursor:pointer; position:absolute; top:5%; right:16%; width:80px; height:80px;}
+.fix{ position:fixed; top:20px; left:30px; color:#fff; font-size:14px; z-index:11; opacity:1; transition:0.3s;}
+.fix:hover{ opacity:0.7;}

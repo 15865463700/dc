@@ -1,0 +1,55 @@
+<include file="Pub:header" />
+<link rel="stylesheet" type="text/css" href="/Style/M/css/capital_record.css">
+<section class="p_gold">
+    <notempty name="list">
+	<ul>
+    	<volist name="list" id="vo">
+		<li>
+        	<a href="#">
+        			<img src="/Style/M/images/gold_gold.jpg" alt="我的特权金"/>                    
+                <div class="p_gold_left">
+                	<if condition="$vo.status eq 1">
+                		<h3>{$vo.rate}%</h3>
+                    <else/>
+                    	<h3 style="color:#999;">{$vo.rate}%</h3>
+                    </if>
+                    <p>年利率</p>
+                </div>
+                <div class="p_gold_center">
+                	<h4>{$vo.title}</h4>
+                    <if condition="$vo.status eq 1">
+                    	<b>{$vo.money}<em>元</em></b>
+                    <else/>
+                    	<b style="color:#999;">{$vo.money}<em>元</em></b>
+                    </if>
+                    <i>特权金额</i>
+                    <p>收益次数：{$vo.total}&nbsp;&nbsp;下次收益时间{$vo.next_time|date="Y-m-d H:i:s",###}</p>
+                </div>
+                <div class="p_gold_right">
+                	<if condition="$vo.status eq 1">
+                		<h5><img src="/Style/Mobile/images/per_cen/having.png" alt="进行中"/></h5>
+                    <else/>
+                    	<h5><img src="/Style/Mobile/images/per_cen/wancheng.png" alt="已完成"/></h5>
+                    </if>
+                </div>
+        	</a>
+        </li>
+        </volist>
+	</ul>
+    <else/>
+    <ul >
+        <img src="/Style/H/images/images/no_records.png" alt="" style="width: 10rem;height: 8rem;margin:5rem 3rem 0.5rem 3rem;"/>
+        <p style="font: 0.75rem/0.5rem arial;color: #1d1d1d;text-align: center;line-height: 2rem">暂无记录</p>
+    </ul>
+    </notempty>
+</section>
+<section class="p_gold_box"></section>
+<div class="f-seat"></div>
+<script type="text/javascript">
+$(function(){
+	$("head").prepend("<title>我的特权金</title>");
+	$("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+	$("body").css("background","#f0f0f0");
+});
+</script>
+﻿<include file="Pub:footer" />

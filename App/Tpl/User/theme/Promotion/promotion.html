@@ -1,0 +1,28 @@
+<!--jquery.zclip 插件兼容主流浏览器-->
+<script language=javascript type="text/javascript" src="/Style/Js/jquery.zclip.js"></script> 
+<script language=javascript type="text/javascript" src="/Style/Js/jquery.zclip.min.js"></script>
+<script type="text/javascript">
+        //获取（复制链接）id
+        $('#copyBtn').zclip({ 
+            //导入swf文件 
+            //路径
+            path: "/Style/Js/ZeroClipboard.swf", 
+            copy: function(){ 
+                //返回获取到的路径 
+                return $('#link').val();}
+        }); 
+</script>
+<div style="text-align: left; margin-top: 20px;">
+  <div style="width: 985px; margin: 0 auto; line-height: 40px; height: 40px; border: #E5E5E5 solid 1px;
+		font-weight: bold; text-indent: 20px; font-size: 14px; color: #555555; background-color: #F6F6F6;"> 邀请好友成功投标（不包含净值标、天标交易），立即送您投资收益的千分之<span style="color:#fc8936; font-size:24px;"> {$reward} </span>的奖金，赶快行动吧。 </div>
+  <div style="height: 117px; width: 985px; margin: 0 auto; line-height: 40px; border: #E5E5E5 solid 1px;
+		border-top: none;">
+    <div style="margin-left: 35px; height: 25px; line-height: 25px; padding: 12px 0px;"> 您的邀请链接：
+      <input id="link" readonly="readonly" class="text1" value="{:C('WEB_URL')}/register?invite={:session('u_id')}" type="text">
+      <span id="copyBtn" class="member-button font14 color-white border-radius">复制链接</span> 
+    </div>
+    <div style="margin-left: 125px; width: 460px; line-height: 20px; color: #666;"> 您可以通过QQ、微博与邮件把上面的链接告诉您的好友，邀请他们加入进来。 </div>
+  </div
+>
+</div>
+<div style="clear:both;"></div>

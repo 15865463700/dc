@@ -1,0 +1,86 @@
+<include file="Public:header"/>
+<title>借款计算器-{$glo.web_name}</title>
+<meta http-equiv="keywords" content="{$glo.web_keywords}"/>
+<meta http-equiv="description" content="{$glo.web_descript}"/>
+<link rel="stylesheet" href="/Style/H/css/tool.css"/>
+<!--中部开始-->
+
+<div class="banner_list">{:get_ad(12)}</div>
+<div class="cms_page">
+    <div class="cms_frame cf"> <include file="left" />
+        <div class="cms_content_newcal float_right fill_color border-all marbottom_10">
+            <div class="cal_title_1 font18">借款计算器</div>
+            <div class="cal_title_3 font14 borderbottom bottom40">目前支持网站正在使用的四种还款方式：按天到期还款、按月分期还款、按月还息到期还本、到期还本息。<br/>
+                天标一次性扣除借款金额*{$fee_borrow_manage[0]}%*借款天数的管理费<br/>
+                月标一次性扣除借款金额*{$fee_borrow_manage[1]}%*的管理费，并在每个月还款时支付{$fee_borrow_manage[2]}%的管理费</div>
+            <div class="float_left font16 cal_left">借款金额：</div>
+            <div class="float_left font16 cal_right">
+                <input class="text_input" type="text" value="10000" id="amount" name="amount" title="借款金额"/>&nbsp;&nbsp;元
+            </div>
+            <div class="both_clear"></div>
+            <div class="float_left font16 cal_left">借款期限：</div>
+            <div class="float_left font16 cal_right">
+                <input class="text_input" type="text" value="1" id="date_limit" name="date_limit" title="投资期限"/>&nbsp;&nbsp;
+            </div>
+            <div class="both_clear"></div>
+            <div class="float_left font16 cal_left">借款利率：</div>
+            <div class="float_left font16 cal_right">
+                <input class="text_input" type="text" value="" id="rate" name="rate" title="借款利率"/>&nbsp;&nbsp;%
+            </div>
+            <div class="both_clear"></div>
+            <div class="float_left font16 cal_left">还款方式：</div>
+            <div class="float_left font16 cal_right">
+                <select title="返还方式" class="select_input" name="repayment_type" id="repayment_type">
+                    <option value='2' selected='selected'>按月分期还款</option>
+                    <option value='3'>每月还息到期还本</option>
+                    <option value='4'>到期还本息</option>
+                </select>
+            </div>
+            <div class="both_clear"></div>
+            <a href="javascript:;" class="invest_big_btn" id="addbtn" style="margin: 20px 0 0 150px;">开始计算</a>
+            <div id="rst"  class="top30"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+
+
+        $(".reward_total,.reward_num").change(function(){
+            if ($(".reward_total").val()==0 || $(".reward_num").val()==0 ) return false;
+            else $(".reward_rate").val(($(".reward_num").val()*100/$(".reward_total").val()).toFixed(4));
+        });
+
+        $(".reward_rate").change(function(){
+            $(".reward_total").val("0.0000");
+            $(".reward_num").val("0.0000");
+        });
+
+
+
+        $("#addbtn").click(function(){
+            $.ajax({
+                url: "__URL__/index",
+                data: {
+                    "date_limit":$("#date_limit").val(),
+                    "rate":$("#rate").val(),
+                    "amount":$("#amount").val(),
+                    "repayment_type":$("#repayment_type option:selected").val()
+                },
+                timeout: 5000,
+                cache: false,
+                type: "post",
+                dataType: "json",
+                success: function (d, s, r) {
+                    if(d){
+                        $("#rst").html(d.html);
+                    }
+                }
+            });
+        });
+    });
+</script>
+<div class="clear">
+
+</div>
+<include file="Public:bottom"/>

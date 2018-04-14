@@ -1,0 +1,736 @@
+<include file="theme:Public:header" group="Website"/>
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<!--[if IE 8]>
+    <script>
+        alert('对不起，您的浏览器版本过低。为了您的帐号完全，请您更新浏览器版本或更换浏览器。');
+        window.location.href = '/index.php';
+    </script>
+<![endif]-->
+<style>
+    .regi {
+        width: 950px;
+        margin: 0 auto;
+        margin-top: 40px;
+        height: 775px;
+        box-shadow: 0 0 50px rgba(0, 0, 0, .1);
+        padding: 0 120px;
+        padding-top: 120px;
+        background-image: url("/registerBackground.png");
+        background-position: center right;
+        background-repeat: no-repeat;
+    }
+
+    .regi .new-reg {
+        height: 60px;
+        width: 355px;
+    }
+
+    .regi .new-reg .new-reg-box label {
+        width: 20px;
+        height: 20px;
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        background-color: #cccccc;
+        color: #FFF;
+        border-radius: 50%;
+    }
+
+    .regi .new-reg .new-reg-box .title-tip {
+        float: left;
+        width: 85px;
+        text-align: center;
+    }
+
+    .regi .new-reg .new-reg-box .active label {
+        background-color: #5cacee;
+    }
+
+    .regi .new-reg .new-reg-box .title-tip font {
+        color: #444;
+        margin-top: 5px;
+        display: block;
+    }
+
+    input[type=text], input[type=password] {
+        height: 37px;
+        line-height: 37px;
+        border: solid 1px #d7d7d7;
+        border-radius: 3px;
+        padding: 0 10px;
+        margin-top: 20px;
+        opacity: 1;
+        transition: opacity .5s;
+    }
+
+    input[type=text]:focus, input[type=password]:focus {
+        opacity: 1;
+    }
+
+    .inputBlock {
+        width: 296px;
+    }
+
+    .inputHalf {
+        width: 175px;
+    }
+
+    .clearfix {
+        *zoom: 1;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+        display: table;
+        line-height: 0;
+        content: "";
+    }
+
+    .clearfix:after {
+        clear: both;
+    }
+
+    .mt20 {
+        margin-top: 20px;
+    }
+
+    input[type=submit] {
+        background-color: #5cacee;
+        width: 316px;
+        color: #FFF;
+        height: 39px;
+        line-height: 39px;
+        border-radius: 3px;
+        border: none;
+    }
+
+    form {
+        display: inline-block;
+    }
+
+    .error, .success, .loading {
+        float: right;
+        width: 42px;
+        height: 42px;
+        margin-top: 17px;
+    }
+
+    .error {
+        background: url('/Style/H/images/zhuce_no.png') center center no-repeat;;
+    }
+
+    .success {
+        background: url('/Style/H/images/zhuce_yes.png') center center no-repeat;;
+    }
+
+    .loading {
+        background: url('/Style/H/images/zhuce0.gif') center center no-repeat;;
+    }
+</style>
+
+<div class="regi">
+    <!--title-->
+    <div class="new-reg">
+        <div class="new-reg-box">
+            <if condition="$step egt 1">
+                <div class="title-tip active">
+                    <label>1</label>
+                    <font>注册用户信息</font>
+                </div>
+                <else/>
+                <div class="title-tip active">
+                    <label>1</label>
+                    <font>注册用户信息</font>
+                </div>
+            </if>
+            <if condition="$step egt 2">
+                <div class="title-tip active">
+                    <label style="left:43px;">2</label>
+                    <font>实名认证</font>
+                </div>
+                <else/>
+                <div class="title-tip">
+                    <label style="left:43px;">2</label>
+                    <font>实名认证</font>
+                </div>
+            </if>
+            <if condition="$step egt 3">
+                <div class="title-tip active">
+                    <label style="left:58px;">3</label>
+                    <font>设置交易密码</font>
+                </div>
+                <else/>
+                <div class="title-tip">
+                    <label style="left:58px;">3</label>
+                    <font>设置交易密码</font>
+                </div>
+            </if>
+            <if condition="$step egt 4">
+                <div class="title-tip active">
+                    <label style="left:41px;">4</label>
+                    <font>注册成功</font>
+                </div>
+                <else/>
+                <div class="title-tip">
+                    <label style="left:41px;">4</label>
+                    <font>注册成功</font>
+                </div>
+            </if>
+        </div>
+    </div>
+    <!--form-->
+    <switch name="step">
+        <case value="1">
+            <include file="step1"/>
+        </case>
+        <case value="2">
+            <if condition="$business eq 1">
+                <include file="step4"/>
+                <else/>
+                <include file="step2"/>
+            </if>
+        </case>
+        <case value="3">
+            <include file="step3"/>
+        </case>
+        <case value="4">
+            <include file="over"/>
+        </case>
+    </switch>
+</div>
+<script>
+
+    //region 常量
+    var curpath_new = "__URL__";
+    var timer = null;
+    // endregion
+
+    //region 公共方法
+    function ajaxSend(url, data, success, error, before, type, debug) {
+        if (before == null)
+            before = null;
+        if (type == null)
+            type = "post";
+        if (debug == null)
+            debug = false;
+        $.ajax({
+            url: url,
+            data: data,
+            type: type,
+            success: function (req) {
+                if (debug) {
+                    console.log("req:" + req);
+                    console.log("info:" + req.info);
+                }
+                //console.log(req)
+                req = $.parseJSON(req);
+                var info = req.info;
+                var status = info.status;
+                if (status === 1) {
+                    success(req);
+                } else error(req);
+            },
+            error: function () {
+                // console.log('链接错误！');
+            },
+            beforeSend: before
+        });
+    }
+
+    // 判断是否支持 placeholder
+    function placeholder(eleInput) {
+        var hoder = "placeholder" in document.createElement('input');
+        if (!hoder) {
+            var isPass = eleInput.attr('type') == "password" ? true : false;
+            var holderText = eleInput.attr('placeholder');
+            if (isPass)
+                eleInput.attr('type', 'text');
+            eleInput.val(holderText);
+            eleInput.focus(function () {
+                if (isPass)
+                    eleInput.attr('type', 'password');
+                if (eleInput.val() === holderText)
+                    eleInput.val('')
+            });
+            eleInput.blur(function () {
+                if (isPass)
+                    eleInput.attr('type', 'password');
+                if (eleInput.val() === '') {
+                    eleInput.attr('type', 'text');
+                    eleInput.val(holderText)
+                }
+            })
+        }
+    }
+
+    function emptyParm(ele, msg) {
+        if (!msg)
+            msg = '缺少字段';
+        if (ele.val() == '' && ele.val() == 0) {
+            toastError(msg);
+            return true;
+        }
+    }
+
+    function toast(msg, icon, shade) {
+        if (!msg) msg = "message";
+        if (!shade) shade = .3;
+        layer.msg(msg, {icon: icon, shade: shade});
+    }
+
+    function toastSuccess(msg, icon, shade) {
+        if (!msg) msg = "success";
+        if (!icon) icon = 6;
+        if (!shade) shade = .3;
+        toast(msg, icon, shade);
+    }
+
+    function toastError(msg, icon, shade) {
+        if (!msg) msg = "error";
+        if (!icon) icon = 5;
+        if (!shade) shade = .3;
+        toast(msg, icon, shade);
+    }
+
+    function verifyInputMessage(ele, status) {
+        ele = ele.parent();
+        var box = "<div class='error'></div>";
+        if (status == 1) box = "<div class='success'></div>";
+        ele.find('.error').remove();
+        ele.find('.success').remove();
+        ele.find('.loading').remove();
+        ele.append(box);
+    }
+
+    function verifyInput(url, ele, data, debug) {
+        if (!debug) debug = false;
+        var success = function (req) {
+            verifyInputMessage(ele, req.info.status);
+        };
+        var error = function (req) {
+            verifyInputMessage(ele, req.info.status);
+        };
+        var before = function () {
+            ele.find('.error').remove();
+            ele.find('.success').remove();
+            ele.find('.loading').remove();
+            ele.append("<div class='loading'></div>");
+        };
+        ajaxSend(url, data, success, error, before, "post", debug);
+    }
+
+    //endregion
+
+    //region 18-02-08之前 源代码
+    // 获取短信验证码
+    function smssend2() {
+        var mobile = $("input[name=phone]").val();
+        var vcode = $("input[name=verify]").val();
+
+        var ii = layer.load();
+        $.ajax({
+            url: curpath_new + "/sendphone/",
+            type: "post",
+            dataType: "json",
+            data: {"phone": mobile, "code": vcode},
+            success: function (d) {
+                leftsecond = 60;
+                layer.close(ii);
+                if (d.status == 1) {
+                    layer.msg('发送成功', {icon: 6, shade: 0.3});
+                    $("#sms").html("发送成功");
+                    clearInterval(timer);
+                    timer = setInterval(setLeftTime, 1000);
+                } else if (d.status == 3) {
+                    layer.msg(d.message, {icon: 5, shade: 0.3});
+                    $("#imVcode").trigger("click");
+                } else {
+                    layer.msg(d.message, {icon: 5, shade: 0.3});
+                    $("#imVcode").trigger("click");
+                }
+            }
+        });
+        return false;
+    }
+
+    function setLeftTime() {
+        var second = Math.floor(leftsecond);
+        $("#sms").attr("disabled", true);
+        $("#sms").html(second + "秒");
+        leftsecond--;
+        if (leftsecond < 1) {
+            $("#sms").html("可重新发送！");
+            $("#sms").attr("disabled", false);
+            clearInterval(timer);
+            try {
+                $("#sms").html("获取短信验证码");
+            } catch (E) {
+            }
+            return;
+        }
+        return false;
+    }
+
+    //endregion
+
+    //region form1 验证方法
+    function verifyPhone() {
+        var inputPhone = $('input[name=phone]');
+        placeholder(inputPhone);
+        inputPhone.change(function () {
+            // 正则验证电话号码
+            var vPhone = /^1[34578]\d{9}$/.test(inputPhone.val());
+            if (vPhone) {
+                // ajaxSend 验证
+                var url = curpath_new + "/ajaxCheckPhone";
+                var data = {"phone": inputPhone.val()};
+                verifyInput(url, inputPhone, data);
+            } else {
+                verifyInputMessage(inputPhone, 0);
+                // console.log('电话格式不正确');
+            }
+        });
+    }
+
+    function verifyVcode() {
+        var inputVcode = $('input[name=verify]');
+        placeholder(inputVcode);
+        inputVcode.change(function () {
+            var url = curpath_new + "/ajaxcheckimgcode";
+            var data = {'img_code': inputVcode.val()};
+            verifyInput(url, inputVcode, data);
+        });
+    }
+
+    function verifyPhoneNum() {
+        var phoneVerify = $('input[name=phoneVerify]');
+        placeholder(phoneVerify);
+        phoneVerify.change(function () {
+            var url = curpath_new + "/ajaxcheckphonecode";
+            var data = {'phone_code': phoneVerify.val()};
+            verifyInput(url, phoneVerify, data);
+        });
+    }
+
+    function verifyPass() {
+        // 验证密码 正则
+        var inputPass = $('input[name=pwd]');
+        placeholder(inputPass);
+        inputPass.change(function () {
+            var vPass = /^.{6,20}$/.test(inputPass.val());
+            if (vPass) {
+                verifyInputMessage(inputPass, 1);
+            } else {
+                verifyInputMessage(inputPass, 0);
+            }
+        });
+    }
+
+    function verifyPass2() {
+        var inputPass2 = $('input[name=pwd2]');
+        var inputPass = $('input[name=pwd]');
+        placeholder(inputPass2);
+
+        inputPass2.change(function () {
+            var password_c = inputPass2.val();
+
+            var password = $('input[name=pwd]').val();
+
+            if (password === password_c) {
+                verifyInputMessage(inputPass2, 1);
+                verifyInputMessage(inputPass, 1);
+            } else {
+                verifyInputMessage(inputPass2, 0);
+            }
+        });
+    }
+
+    function verifyInvite() {
+        var inputInvite = $('input[name=invite]');
+        placeholder(inputInvite);
+        inputInvite.change(function () {
+            var vInvite = /^1[3|4|5|8|7][0-9]\d{8}$/.test(inputInvite.val());
+            if (vInvite) {
+                var url = curpath_new + "/ajaxCheckPhone2";
+                var ele = inputInvite;
+                var data = {'phone': inputInvite.val()};
+                verifyInput(url, ele, data, true);
+            } else {
+                verifyInputMessage(inputInvite, 0);
+            }
+        });
+    }
+
+    //endregion
+
+    //region form2 验证方法
+    function verifyRealName() {
+        var inputRealName = $('input[name=real_name]');
+        inputRealName.change(function () {
+            if ($.trim(inputRealName.val()) === "") {
+                verifyInputMessage(inputRealName, 0);
+            } else {
+                verifyInputMessage(inputRealName, 1);
+            }
+        });
+    }
+
+    function verifyidCard() {
+        var inputIdCard = $('input[name=idcard]');
+        inputIdCard.change(function () {
+            var idcard = $.trim(inputIdCard.val());
+            if (idcard === '') {
+                verifyInputMessage(inputIdCard, 0);
+            } else {
+                var exp = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                var vIdCard = exp.test(idcard);
+                if (vIdCard) {
+                    verifyInputMessage(inputIdCard, 1);
+                } else {
+                    verifyInputMessage(inputIdCard, 0);
+                }
+            }
+        });
+    }
+
+    //endregion
+
+    //region form3 验证方法
+    function verifyPin() {
+        var inputPin = $('input[name=pin]');
+        var reg = /^.{6,16}$/;
+        inputPin.change(function () {
+            var pin = inputPin.val();
+            if (reg.test(pin)) {
+                verifyInputMessage(inputPin, 1);
+            } else {
+                verifyInputMessage(inputPin, 0);
+            }
+        });
+    }
+
+    function verifyPinC() {
+        var inputPin = $('input[name=pin]');
+        var inputPinC = $('input[name=pinc]');
+
+        var reg = /^.{6,16}$/;
+        inputPinC.change(function () {
+            var pinc = inputPinC.val();
+            var pin = inputPin.val();
+            if (reg.test(pin)) {
+                verifyInputMessage(inputPinC, 1);
+            } else {
+                verifyInputMessage(inputPinC, 0);
+            }
+
+            if (pinc === pin) {
+                verifyInputMessage(inputPinC, 1);
+            } else {
+                verifyInputMessage(inputPinC, 0);
+            }
+        });
+    }
+
+    //endregion
+
+    //region form4 验证方法
+    function verifyBusinessName() {
+        var inputBusinessName = $('input[name=business_name]');
+
+        inputBusinessName.change(function () {
+            var businessName = inputBusinessName.val();
+            if ($.trim(businessName) === '') {
+                verifyInputMessage(inputBusinessName, 0);
+            } else {
+                verifyInputMessage(inputBusinessName, 1);
+            }
+        });
+    }
+
+    function verifyBusinessIdNum() {
+        var inputBusinessIdNum = $('input[name=business_idNum]');
+        var businessIdNum = inputBusinessIdNum.val();
+        var reg = /^(?:(?![IOZSV])[\dA-Z]){2}\d{6}(?:(?![IOZSV])[\dA-Z]){10}$/;
+        var vBusiness = reg.test(businessIdNum);
+        inputBusinessIdNum.change(function () {
+            var businessIdNum = inputBusinessIdNum.val();
+            if (businessIdNum === '') {
+                verifyInputMessage(inputBusinessIdNum, 0);
+            } else {
+                verifyInputMessage(inputBusinessIdNum, 1);
+            }
+
+            if (vBusiness) {
+                verifyInputMessage(inputBusinessIdNum, 0);
+            } else {
+                verifyInputMessage(inputBusinessIdNum, 1);
+            }
+        });
+    }
+
+    //endregion
+
+    //region 初始化
+    $(function () {
+        var form1 = $('form#step1');
+        var form2 = $('form#step2');
+        var form3 = $('form#step3');
+        var form4 = $('form#step4');
+
+        //region form1 verify
+        verifyPhone();
+        verifyVcode();
+        verifyPhoneNum();
+        verifyPass();
+        verifyPass2();
+        verifyInvite();
+        form1.submit(function () {
+            var user_type = $('input[name=business]:checked').val();
+
+            var form = $('form#step1');
+            var xieyi = $('#xieyi').is(':checked');
+            if (!xieyi) toastError('请先阅读《注册服务协议》并确认');
+
+            var pwdInput = $('input[name=pwd]');
+            var pwdInput2 = $('input[name=pwd2]');
+
+            // 验证空值
+            if (emptyParm(pwdInput2, '请填写确认密码')) return false;
+            if (emptyParm(pwdInput, '请填写密码')) return false;
+            if (emptyParm($('input[name=phoneVerify]'), '请填写手机验证码', form)) return false;
+            if (emptyParm($('input[name=verify]'), '请填写验证码')) return false;
+            if (emptyParm($('input[name=phone]'), '请填写手机号')) return false;
+
+            // 验证两次密码是否一样
+            if (pwdInput.val() !== pwdInput2.val()) {
+                toastError('两次密码不一致！');
+                return false;
+            }
+
+            // ajaxSend 验证并注册
+            var ll = layer.load();
+
+            if (user_type === "1") {
+                // region 个人注册
+                var url = curpath_new + "/ajaxRegAction/";
+                var data = form.serialize();
+                var success = function (req) {
+                    layer.close(ll);
+                    window.location.reload();
+                    // console.log(req);
+                };
+                var error = function (req) {
+                    toastError(req.info.msg);
+                    layer.close(ll);
+                    // console.log(req);
+                };
+                var before = function () {
+                };
+                ajaxSend(url, data, success, error, before);
+                //endregion
+            } else if (user_type === "2") {
+                //region 企业用户
+                var url = curpath_new + "/ajaxRegBusinessAction/";
+                var data = form.serialize();
+                var success = function (req) {
+                    layer.close(ll);
+                    window.location.reload();
+                    // console.log(req);
+                };
+                var error = function (req) {
+                    toastError(req.info.msg);
+                    layer.close(ll);
+                    // console.log(req);
+                };
+                var before = function () {
+                };
+                ajaxSend(url, data, success, error, before);
+                //endregion
+            } else {
+                toastError('请选择注册类型!');
+                layer.close(ll);
+            }
+            return false;
+        });
+        //endregion
+
+        //region form2 verify
+        verifyRealName();
+        verifyidCard();
+        form2.submit(function () {
+            // 验证空值
+            if (emptyParm($('input[name=real_name]'), '请填写姓名')) return false;
+            if (emptyParm($('input[name=idcard]'), '请填写身份证号')) return false;
+
+            var ll = layer.load();
+            var url = curpath_new + "/ajaxCheckidcard/";
+            var data = form2.serialize();
+            var success = function (req) {
+                layer.close(ll);
+                window.location.reload();
+            };
+            var error = function (req) {
+                layer.close(ll);
+                toastError(req.info.msg);
+            };
+            var before = function () {
+            };
+            ajaxSend(url, data, success, error, before);
+            return false;
+        });
+        //endregion
+
+        //region form3 verify
+        verifyPin();
+        verifyPinC();
+        form3.submit(function () {
+            // 验证空值
+            if (emptyParm($('input[name=pin]'), '请填写支付密码')) return false;
+            if (emptyParm($('input[name=pinc]'), '请确认支付密码')) return false;
+
+            var ll = layer.load();
+            var url = curpath_new + "/ajaxSavepinpass/";
+            var data = form3.serialize();
+            var success = function (req) {
+                layer.close(ll);
+                // console.log(req);
+                window.location.reload();
+            };
+            var error = function (req) {
+                layer.close(ll);
+                // console.log(req);
+            };
+            var before = function () {
+            };
+            ajaxSend(url, data, success, error, before);
+            return false;
+        });
+        //endregion
+
+        //region form4 verify
+        // form3 已加入验证姓名和身份证号，故此处只认证企业号和企业名称
+        verifyBusinessName();
+        verifyBusinessIdNum();
+
+        form4.submit(function () {
+            var url = curpath_new + "/ajaxcheckbusiness/";
+            var data = form4.serialize();
+            var success = function (req) {
+                // console.log(req);
+                window.location.reload();
+            };
+            var error = function (req) {
+                // console.log(req);
+                toastError(req.info.msg);
+            };
+            var before = function () {
+            };
+            ajaxSend(url, data, success, error, before, "post");
+            return false;
+        });
+        // endregion
+    });
+    //rendregion
+
+</script>
+<include file="Public:_footer"/>

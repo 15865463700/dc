@@ -1,0 +1,62 @@
+<include file="Pub:header" />
+<main>
+  <div class="login-wrap">
+  <div class="user-img"><img src="/Style/M/images/user-img.jpg" class="img-circle" alt="" />
+    <p>请登入您的账户</p>
+  </div>
+  <div class="login-form">
+    <form class="form-horizontal" action="" method="post" name="loginForm" id="loginForm">
+      <div class="form-group">
+        <label class="label-img"><img src="/Style/M/images/icon/phone.png" alt="" /></label>
+        <input type="text" name='sUserName' placeholder="请输入用户名" id="sUserName" value="" class="form-control" />
+      </div>
+      <div class="form-group" id="psd">
+        <label class="label-img"><img src="/Style/M/images/icon/lock.png" alt="" /></label>
+        <input name="sPassword" placeholder="请输入您的密码" value="" id="sPassword" class="form-control" type="password" />
+        <div class="btnsee" id="btnSee">
+        <img src="/Style/M/images/icon/eye_close.png" />
+        </div> </div>
+      <div class="form-group">
+        <label class="label-img"><img src="/Style/M/images/icon/yz.png" alt="" /></label>
+        <input name="verify" id="verify" placeholder="请输入验证码" class="form-control login_code" value="" type="text">
+        <img src='/M/Pub/verify'  class="verify" onclick="this.src=this.src+'?t='+Math.random()"/> </div>
+      <div class="button"><span class="butt">登&nbsp;录</span></div>
+    </form>
+    <div class="login_other">还没账号？<a href="{:U('M/pub/regist')}">马上注册</a></div>
+    <div class="login_others" ><a href="{:U('M/pub/repass')}" >忘记登录密码？</a></div>
+  </div>
+</div>
+</main>
+<div class="f-seat"></div>
+<script language="javascript">
+$(function(){
+	$("head").prepend("<title>登录</title>");
+	$("#btnSee").click(function () {
+		var $psd = $("#sPassword");
+		var eye = $(this).find('img');
+		if ($psd.attr('type') == 'password') {
+			eye.attr("src","/Style/M/images/icon/eye_opens.png");
+			$psd.attr('type', 'text');
+		} else {
+			eye.attr("src","/Style/M/images/icon/eye_close.png");
+			$psd.attr('type', 'password');
+		}
+	});
+    $(".butt").click(function(){
+        if($.trim($("#sUserName").val())==''){
+            Apprise('<font color=red>请输入用户名！</font>');
+            return false;
+        }
+        if($.trim($("#sPassword").val())==''){
+            Apprise('<font color=red>请输入密码！</font>'); 
+            return false;
+        }
+        if($.trim($("#verify").val())==''){
+            Apprise('<font color=red>请输入验证码！</font>'); 
+            return false;
+        }
+        $("#loginForm").submit();
+    })
+});
+</script>
+﻿<include file="Pub:footer" />

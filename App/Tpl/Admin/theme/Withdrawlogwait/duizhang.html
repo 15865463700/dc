@@ -1,0 +1,63 @@
+<include file="Public:_header" />
+<link href="__ROOT__/Style/Swfupload/swfupload.css" rel="stylesheet" type="text/css">
+<tagLib name="htmlA" />
+<div class="so_main">
+
+    <div class="page_tit">订单对账</div>
+    <div class="page_tab"><span data="tab_1" class="active">对账信息</span></div>
+    <div class="form2">
+        <form method="post" action="__URL__/duizhangedit" onsubmit="return subcheck();">
+            <input type="hidden" name="id" value="{$vo.id}" />
+            <input type="hidden" name="fee" value="{$vo.fee}" />
+        <div id="tab_1">
+
+            <dl class="lineD"><dt>对账说明：</dt><dd>
+                1.对于某笔超时的实时交易需要查询结果，超时后3分钟内，相邻查询时间间隔不应短于20秒<br/>
+                2.在超时后3-10分钟内，相邻查询时间间隔不应短于1分钟<br/>
+                3.在超时后10分钟以上的，相邻查询时间间隔不应短于5分钟<br/>
+                4.对于30分钟内通联一直返回1002的，应确认该笔交易失败，通联没有成功接收，应立刻停止继续查询。<br/>
+                <font color="red">*对于查询过于频繁的客户，通联会向对方提出改进的建议，坚持不改的，通联将会把该客户列入黑名单，列入黑名单的客户通过本接口进行查询交易将受到严厉的限制。</font>
+            </dd></dl>
+
+            <dl class="lineD"><dt>通联订单号：</dt><dd>{$vo.order}</dd></dl>
+            <dl class="lineD"><dt>提现会员：</dt><dd>{$vo.uname}</dd></dl>
+            <dl class="lineD"><dt>银行账户：</dt><dd>{$vo.name}</dd></dl>
+            <dl class="lineD"><dt>银行账号：</dt><dd>{$vo.bank_no}</dd></dl>
+            <dl class="lineD"><dt>到账金额：</dt><dd>{$vo.money}</dd></dl>
+            <dl class="lineD"><dt>通联返回码：</dt><dd>{$vo.allinpay_code}</dd></dl>
+            <dl class="lineD"><dt>通联返回信息：</dt><dd>{$vo.allinpay_err}</dd></dl>
+            <dl class="lineD"><dt>最终返回码：</dt><dd>{$vo.end_code}</dd></dl>
+            <dl class="lineD"><dt>最终信息：</dt><dd>{$vo.end_err}</dd></dl>
+            <dl class="lineD"><dt>提现状态：</dt><dd><htmlA:radio id="withdraw_status" datakey="type_list" value="key|vo.withdraw_status" tip="请根据通联最终返回选择该笔提现状态"/></dd></dl>
+            <dl class="lineD"><dt>处理说明：</dt><dd><htmlA:text id="deal_info" value="{$vo.deal_info}"  tip="*"/></dd></dl>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+            </div>
+
+        </div>
+            </form>
+    </div>
+
+</div>
+<script type="text/javascript">
+    var cansub = true;
+    function subcheck(){
+        if(!cansub){
+            alert("请不要重复提交，如网速慢，请耐心等待！");
+            return false;
+        }
+        if($("input[name='withdraw_status']:checked").val()!=1 && $("input[name='withdraw_status']:checked").val()!=0 && $("input[name='withdraw_status']:checked").val()!=2 && $("input[name='withdraw_status']:checked").val()!=3){
+            ui.error("请选择处理结果");
+            return false;
+        }
+
+        var deal_info = $('#deal_info').val();
+        if(deal_info==''||deal_info==null){
+            ui.error("请填写处理说明");
+            return false;
+        }
+        cansub = false;
+        return true;
+    }
+</script>
+<include file="Public:_footer" />

@@ -1,0 +1,51 @@
+<include file="Pub:header" />
+<link rel="stylesheet" type="text/css" href="/Style/M/css/security.css">
+<div class="san_top"> 您目前的企业直投投资总额是：<span class="red">￥{$count_money|default="0.00"}</span>，共<span class="red">{$count}</span>笔投标。 </div>
+<div class="width-100">
+    <div class="san_invest">
+        <volist name="list.list" id="yjh">
+            <div class="san_invest_a width-100">
+                <div class="san_invest_b">
+                    <div class="san_invest_c"> <a href="{:U('M/tinvest/tdetail', array('id'=>$yjh['borrow_id']))}" class="float-left color-444">{$yjh.borrow_name|cnsubstr=###,16}</a> <span class="color-999 float-right">投资日期：{$yjh.add_time|date="Y-m-d",###}</span> </div>
+                    <div class="width-100 por">
+                        <div class="san_invest_d float-left">
+                            <div class="san_invest_e float-left width-100">
+                                <p class="float-left font05 color-999">投资金额（元）</p>
+                                <span class="float-left color-444 font05">{$yjh.investor_capital}元</span> </div>
+                            <div class="san_invest_e float-left width-100">
+                                <p class="float-left font05 color-999">年化利率</p>
+                                <span class="float-left color-444 font05">{$yjh.final_interest_rate}%</span> </div>
+                            <div class="san_invest_e float-left width-100">
+                                <p class="float-left font05 color-999">投资期限</p>
+                <span class="float-left color-444 font05">{$yjh.transfer_month}个月
+                </span> </div>
+                            <div class="san_invest_e float-left width-100">
+                                <p class="float-left font05 color-999">待收本息（元）</p>
+                                <span class="float-left color-444 font05">{$yjh['investor_capital']+$yjh['investor_interest']}元</span> </div>
+                            <div class="san_invest_e float-left width-100">
+                                <p class="float-left font05 color-999">回收时间</p>
+                                <span class="float-left color-444 font05">{$yjh.deadline|date="Y-m-d",###}</span> </div>
+                        </div>
+                        <div class="san_investment_zt">
+                            <if condition="$yjh.status eq 1"> <img src="/Style/M/images/loan_red.png" alt="回收中"/>
+                                <else/>
+                                <img src="/Style/M/images/loan_gray.png" alt="已收回"/> </if>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </volist>
+        <div class="page">{$list.page}</div>
+        <div class="clear"></div>
+    </div>
+</div>
+<section class="all_graybox"></section>
+<script language="javascript">
+    $(function(){
+        $("head").prepend("<title>优计划投资列表</title>");
+        $("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+        $("body").css("background","#f0f0f0");
+    });
+</script>
+﻿<include file="Pub:footer" />

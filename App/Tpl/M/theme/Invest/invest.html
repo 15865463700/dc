@@ -1,0 +1,96 @@
+<include file="Pub:header" />
+<main>
+    <form method="post" action="" name="investForm" id="investForm" onkeydown="if(event.keyCode==13)return false;">
+        <div class="join-box">
+            <h2><span>可用余额：{:MFormt($user_info['account_money']+$user_info['back_money'])}元 </span>
+                <span>可投金额：{:MFormt($borrow_info['borrow_money']-$borrow_info['has_borrow'])}元</span></h2>
+            <ul class="join-in">
+                <li>
+                    <label>投资金额</label>
+                    <input type="text" name="invest_money" id="invest_money" autocomplete="off" value="" class="join-input" onfocus="getlist()">
+                    元</li>
+                <li>
+                    <label>支付密码</label>
+                    <notempty name="paypass">
+                        <input type="password" name="paypass" autocomplete="off" id="paypass" value="" class="join-input" />
+                        <else />
+                        <a href="{:U('M/user/setpaypass')}">请先设置支付密码</a></notempty>
+                </li>
+                <if condition="$borrow_info.password neq ''">
+                    <li>
+                        <label>定向标密码</label>
+                        <input type="password" name="invest_pass" autocomplete="off" id="invest_pass" value="" class="join-input" />
+                    </li>
+                </if>
+                <li>
+                    <label>加息券</label>
+                    <select id="cid" name="cid" >
+                        <option value="0">&nbsp;====&nbsp;请选择&nbsp;====&nbsp;</option>
+                    </select>
+                </li>
+            </ul>
+            <div class="join-btn">
+                <input class="butt" id="dobutton" value="立即投资" type="button">
+            </div>
+        </div>
+    </form>
+</main>
+<div class="f-seat"></div>
+<script language="javascript">
+    var cont = true;
+    $(function(){
+        $("head").prepend("<title>立即投标</title>");
+        $("#invest").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/invest-on.png");
+        $("#dobutton").click(function() {
+            if(cont){
+                cont = false;
+            }else{
+                return;
+            }
+            var e = $("#invest_pass").val(),
+                    t = $("#invest_money").val(),
+                    n = $("#paypass").val(),
+                    cid = $("#cid").val();
+            invest_pass = $("#invest_pass").val();
+            r = "invest_money=" + t + "&paypass=" + n + "&cid=" + cid + "&invest_pass=" + invest_pass;
+            //新手标判断
+            if({$borrow_info['is_new']} && {$user_info['money_collect']}){
+                return Apprise("<font color=red>对不起，此标为新手标，只有新用户才能投此标！</font>");
+            }
+            if({$borrow_info['is_new']}&& {$user_info['money_freeze']}){
+                return Apprise("<font color=red>对不起，此标为新手标，只有新用户才能投此标！</font>");
+            }
+            //新手标判断
+            if ($("#invest_pass").lenght > 0) {
+                r = r + "&invest_pass=" + e;
+                if ($.trim($("#invest_pass").val()) == "") return Apprise("<font color=red>请输入投资密码！</font>"), !1
+            }
+            if ($.trim($("#invest_money").val()) == "") return Apprise("<font color=red>请输入投资金额!</font>"), !1;
+            if ($.trim($("#paypass").val()) == "") return Apprise("<font color=red>请输入支付密码！</font>"), !1;
+
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: r,
+                dataType: "json",
+                success: function(e) {
+                    e.status == 1 ? (Apprise(e.message), $("#apprise-btn-confirm").click(function() {
+                        parent.location.href = "{:U('M/invest/detail', array('id'=>$borrow_id))}";
+                    })) : Apprise("<font color=red>" + e.message + "</font>")
+                },
+                error: function(e) {
+                    Apprise("<font color=red>提交发生错误！请重试</font>")
+                }
+            })
+        })
+    });
+
+    //获取加息券列表
+    function getlist(){
+        var borrow_id = {$borrow_id};
+        $.post("__URL__/get_coupon_list",{'borrow_id':borrow_id,'money':$("#invest_money").val()},function(d){
+            $("#cid").html(d);
+        });
+    }
+</script>
+</body></html>

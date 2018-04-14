@@ -1,0 +1,46 @@
+<include file="Pub:header" /> 
+<link rel="stylesheet" type="text/css" href="/Style/M/css/security.css">
+<section class="cap">
+    <section class="cap_re_gray"></section>
+    <section class="cap_re_con">
+        <ul>
+        	<volist name="list" id="ab" key="k">
+            <li>
+                <if condition="$ab.affect_money lt 0">
+                	<a href="records_details.html?id={$ab.id}">
+                    <img src="/Style/M/images/cap_red.jpg"  alt="资金减少" name="cap_red" class="cap_red"/>
+                    <article class="left">    
+                        <p>{$log_type[$ab['type']]}</p>
+                        <b>{$ab.add_time|date="Y年m月d日",###}</b>
+                    </article>
+                    <article class="cap_right">
+                        <i class="color_money red" name="color_moneys">{$ab.affect_money}</i>
+                    </article>
+                    </a>
+                   <else/>
+                   <a href="records_details.html?id={$ab.id}">
+                   <img src="/Style/M/images/cap_yell.jpg" alt="资金增加" name="cap_yell" class="cap_yell"/>
+                   <article class="left">    
+                        <p>{$log_type[$ab['type']]}</p>
+                        <b>{$ab.add_time|date="Y年m月d日",###}</b>
+                    </article>
+                    <article class="cap_right">
+                        <i class="color_money" name="color_moneys">{$ab.affect_money}</i>
+                    </article>
+                    <!--<div class="clear"></div>-->
+                    </a>
+                   </if>
+            </li>
+            </volist>  
+        </ul>
+    </section>
+</section>
+<section class="all_graybox"></section>
+<script language="javascript">
+$(function(){
+	$("head").prepend("<title>资金记录页面</title>");
+    $("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+    $("body").css("background","#f0f0f0");
+});
+</script> 
+<include file="Pub:footer" /> 

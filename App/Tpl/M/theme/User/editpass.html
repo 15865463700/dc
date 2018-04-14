@@ -1,0 +1,107 @@
+<include file="Pub:header" />
+<main>
+  <div class="login-wrap">
+   <div class="login-form">
+   <form  action="" method="post" name="setpayForm" id="setpayForm">
+   <div class="form-group">
+        <label class="label-img"><img src="/Style/M/images/icon/lock.png" alt="" /></label>
+        <input type="password" name='oldpass' id="oldpass" class="form-control" placeholder="请输入登录密码" />
+        <div class="btnsee" id="btnSee">
+        <img src="/Style/M/images/icon/eye_close.png" />
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="label-img"><img src="/Style/M/images/icon/lock.png" alt="" /></label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="请输入新密码" />
+        <div class="btnsee" id="btnSee2">
+        <img src="/Style/M/images/icon/eye_close.png" />
+        </div>
+       </div>
+       <div class="form-group">
+        <label class="label-img"><img src="/Style/M/images/icon/lock.png" alt="" /></label>
+        <input type="password" name="password2" id="password2" class="form-control" placeholder="请确认密码"  />
+       </div>
+       <div class="button btn_center"><input type="button" class="butt" value="确认" /></div>
+        </form>
+   </div>
+  </div>
+</main>
+<div class="f-seat"></div>  
+<script language="javascript">
+$(function(){
+	$("head").prepend("<title>修改登录密码</title>");
+	$("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+	$("#btnSee").click(function () {
+		var $psd = $("#oldpass");
+		var eye = $(this).find('img');
+		if ($psd.attr('type') == 'password') {
+			eye.attr("src","/Style/M/images/icon/eye_opens.png");
+			$psd.attr('type', 'text');
+		} else {
+			eye.attr("src","/Style/M/images/icon/eye_close.png");
+			$psd.attr('type', 'password');
+		}
+	});
+	$("#btnSee2").click(function () {
+		var $psd = $("#password");
+		var eye = $(this).find('img');
+		if ($psd.attr('type') == 'password') {
+			eye.attr("src","/Style/M/images/icon/eye_opens.png");
+			$psd.attr('type', 'text');
+		} else {
+			eye.attr("src","/Style/M/images/icon/eye_close.png");
+			$psd.attr('type', 'password');
+		}
+	});
+    $(".butt").click(function(){
+        var oldpass = $.trim($("#oldpass").val());
+        var password = $.trim($("#password").val());
+        var password2 = $.trim($("#password2").val());
+        if(!oldpass){
+            Apprise('<font color=red>请输入登录密码！</font>');
+            return false;
+        }
+        if(!password){
+            Apprise('<font color=red>请输入新的密码！</font>'); 
+            return false;
+        }
+        if(!password2){
+            Apprise('<font color=red>请输入确认密码！</font>'); 
+            return false;
+        }
+        if(password2 != password){
+            Apprise('<font color=red>两次密码不相同！</font>'); 
+            return false;
+        }
+        if(password.length<6){
+            Apprise('<font color=red>密码必须大于等于6位字符</font>'); 
+            return false;
+        }
+        $.ajax({
+           type: "POST",
+           url: "",
+           data: 'oldpass='+oldpass+'&password='+password+'&password2='+password2,
+            dataType : "json" ,
+            success: function(e){
+               if(e.status==1){
+                  Apprise("恭喜密码设置完成");
+                  $("#apprise-btn-confirm").click(function(){
+                     window.location.href="{:U('M/user/index')}";
+                  })
+               }else if(e.status == 2){
+                   Apprise("请先登录");
+                   $("#apprise-btn-confirm").click(function(){
+                       window.location.href="{:U('M/user/index')}";
+                   })
+               }else{
+                  Apprise('<font color=red>'+ e.message+'</font>');
+               }
+           },
+           error:function(e){
+               Apprise("<font color=red>提交发生错误！请重试</font>");
+           }
+       });
+    })
+})
+</script>
+﻿<include file="Pub:footer" />

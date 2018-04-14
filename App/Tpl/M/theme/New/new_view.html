@@ -1,0 +1,19 @@
+<include file="Pub:header" />
+<main>
+  <article>
+    <div class="post-head">
+      <h1>{$content.title}</h1>
+      <time>{$content.time|date='Y-m-d H:i:s',###}</time>
+    </div>
+    <section class="post-cont">
+      {$content.content}
+    </section>
+  </article>
+</main>
+<div class="f-seat"></div>
+<script type="text/javascript">
+$(function(){
+   $("head").prepend("<title>{$content.type_name}</title>");
+});
+</script>
+<include file="Pub:footer" />

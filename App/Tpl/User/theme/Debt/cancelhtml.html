@@ -1,0 +1,53 @@
+<table style=" margin:10px; font-size:12px; text-align:left; line-height:24px;" width="250" id="tips">
+<tbody>
+<tr>
+    <td><font style="font-size: 14px; color:#fc8936;">您确定要撤销此债权么？</font></td>
+</tr>
+<tr>
+    <td>支付密码:<input type="password" name="paypass"  id="paypass" style="width:120px; height:20px; line-height:20px" />&nbsp;<font color="red">*</font></td>
+</tr>
+
+<tr>
+    <td>
+    <input type="hidden" name="debt_id" id="debt_id" value="{$debt_id}">
+    <input type="button" name="dosubmit" id="dosubmit" class="btnselall" value="确认撤销">
+    
+    </td>
+</tr>
+</tbody></table>
+<script type="text/javascript">
+
+$("#dosubmit").click(function(){
+    var paypass = $("#paypass").val();
+    var debt_id = $("#debt_id").val();
+    if(!debt_id){
+        layer.msg("缺少参数，请与管理员联系",{icon:5,shade:0.3});
+        return;
+    }
+    if(!paypass){
+        layer.msg("请输入支付密码",{icon:5,shade:0.3});
+        return;
+    }
+    layer.confirm("你确定撤销债权转让吗?",{icon:3,title:"提示",shade:0.3},function(){
+        var ii = layer.load();
+        $.ajax({
+            url: "__URL__/cancel/",
+            data: {"paypass":paypass, "debt_id":debt_id},
+            timeout: 4000,
+            cache: false,
+            type: "post",
+            dataType: "json",
+            success: function (d, s, r) {
+                layer.close(ii);
+                if(d.status==1){
+                    layer.msg(d.message,{icon:6,shade:0.3},function(){
+                        location.reload();
+                    });
+                }else{
+                    layer.msg(d.message,{icon:5,shade:0.3});
+                }
+            }
+        });
+    });
+})
+</script>

@@ -1,0 +1,102 @@
+<include file="Pub:header" />
+<main>
+  <div class="login-wrap">
+  <div class="login-form">
+    <form  action="" method="post" name="setpayForm" id="setpayForm">
+      <div class="form-group" id="psd">
+        <label class="label-img"><img src="/Style/M/images/icon/lock.png" alt="" /></label>
+        <input type="password" placeholder="登录密码" name='password' id="password" class="form-control" />
+       <div class="btnsee" id="btnSee">
+        <img src="/Style/M/images/icon/eye_close.png" />
+        </div></div>
+        <div class="form-group">
+        <label class="label-img"><img src="/Style/M/images/icon/lock.png" alt="" /></label>
+        <input type="password" placeholder="支付密码" name="paypass" id="paypass" class="form-control" />
+        <div class="btnsee" id="btnSee2">
+        <img src="/Style/M/images/icon/eye_close.png" />
+        </div>
+        </div>
+        <div class="form-group">
+        <label class="label-img"><img src="/Style/M/images/icon/lock.png" alt="" /></label>
+        <input type="password" placeholder="确认支付密码" name="paypass2" id="paypass2" class="form-control"  />
+        </div>
+      <div class="button">
+        <input type="button" class="butt" value="确定" />
+      </div>
+    </form>
+  </div>
+</div>
+</main>
+<div class="f-seat"></div>
+<script language="javascript">
+$(function(){
+	$("head").prepend("<title>设置支付密码</title>");
+	$("#btnSee").click(function () {
+		var $psd = $("#password");
+		var eye = $(this).find('img');
+		if ($psd.attr('type') == 'password') {
+			eye.attr("src","/Style/M/images/icon/eye_opens.png");
+			$psd.attr('type', 'text');
+		} else {
+			eye.attr("src","/Style/M/images/icon/eye_close.png");
+			$psd.attr('type', 'password');
+		}
+	});
+	$("#btnSee2").click(function () {
+		var $psd = $("#paypass");
+		var eye = $(this).find('img');
+		if ($psd.attr('type') == 'password') {
+			eye.attr("src","/Style/M/images/icon/eye_opens.png");
+			$psd.attr('type', 'text');
+		} else {
+			eye.attr("src","/Style/M/images/icon/eye_close.png");
+			$psd.attr('type', 'password');
+		}
+	});
+    $(".butt").click(function(){
+        var password = $.trim($("#password").val());
+        var paypass = $.trim($("#paypass").val());
+        var paypass2 = $.trim($("#paypass2").val());
+        if(!password){
+            Apprise('<font color=red>请输入登录密码！</font>');
+            return false;
+        }
+        if(!paypass){
+            Apprise('<font color=red>请输入新的支付密码！</font>'); 
+            return false;
+        }
+        if(!paypass2){
+            Apprise('<font color=red>请输入确认支付密码！</font>'); 
+            return false;
+        }
+        if(paypass2 != paypass){
+            Apprise('<font color=red>两次支付密码不相同！</font>'); 
+            return false;
+        }
+        if(paypass.length<6){
+            Apprise('<font color=red>支付密码必须大于等于6位字符</font>'); 
+            return false;
+        }
+        $.ajax({
+           type: "POST",
+           url: "",
+            dataType : "json",
+           data: 'password='+password+'&paypass='+paypass+'&paypass2='+paypass2,
+           success: function(e){
+               if(e.status==1){
+                  Apprise("恭喜支付密码设置完成");
+                  $("#apprise-btn-confirm").click(function(){
+                     window.location.href="{:U('M/user/index')}";
+                  })
+               }else{
+                  Apprise('<font color=red>'+ e.message+'</font>');
+               }
+           },
+           error:function(err){
+               Apprise("<font color=red>提交发生错误！请重试</font>");
+           }
+       });
+    })
+})
+</script>
+﻿<include file="Pub:footer" />

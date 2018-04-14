@@ -1,0 +1,30 @@
+<include file="Pub:header" />
+<link rel="stylesheet" type="text/css" href="/Style/M/css/security.css">
+<section class="cap">
+  <div class="cap_money">
+    <if condition="$list.affect_money lt 0">
+        <h3>{$list.affect_money}</h3>
+    <else/>  
+        <h3 style="color:rgb(0,153,0);">{$list.affect_money}</h3>
+    </if> 
+    <p>{$log_type[$list['type']]}（元）</p>
+  </div>
+  <section class="cap_de_gray"></section>
+  <ul>
+    <li><a>可用余额：<b>{$list['account_money'] + $list['back_money']}元</b></a></li>
+    <li><a>冻结金额：<b>{$list.freeze_money}元</b></a></li>
+    <li><a>待收金额：<b>{$list.collect_money}元</b></a></li>
+    <li><a>发生时间：<b>{$list.add_time|date="Y-m-d H:i",###}</b></a></li>
+    <li class="bottom_none"><a>说明：</a></li>
+    <li><a><b>{$list.info}</b></a></li>
+  </ul>
+</section>
+<section class="all_graybox"></section>
+<script language="javascript">
+$(function(){
+	$("head").prepend("<title>资金记录页面</title>");
+    $("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+    $("body").css("background","#f0f0f0");
+});
+</script> 
+<include file="Pub:footer" /> 

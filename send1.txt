@@ -1,0 +1,1 @@
+{"code":"Faild","data":{"returnstatus":"Faild","message":"短信必须带报备过的签名","remainpoint":0,"taskID":"0","successCounts":"0"},"msg":"短信必须带报备过的签名"}

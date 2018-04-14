@@ -1,0 +1,87 @@
+<include file="Pub:header" />
+<main>
+    <div class="investBox mt10">
+        <div class="invest-tab">
+            <ul>
+                <li class="focus">新手专区</li>
+                <li onclick="window.location.href='/M/index/index3'">散标理财</li>
+                <li onclick="window.location.href='/M/index/index2'">优选理财</li>
+            </ul>
+        </div>
+        <div class="invest-boxs">
+            <div class="invest-box">
+                <div class="i-prod" id="wrapper">
+                    <div class="i-list" id="scroller">
+                        <div id="pullDown"></div>
+                        <notempty name="list.list">
+                            <ul id="thelist">
+                                <volist name="list.list" id='tvo'>
+                                    <li>
+                                        <h3><a href="{:U('M/invest/detail', array('id'=>$tvo['id']))}">{$tvo.borrow_name|cnsubstr=###,13}</a><a href="{:U('m/invest/invest', array('id'=>$tvo['id']))}" >{:getIco($tvo)}</a><if condition="$tvo.reward_num neq 0"><span class="invest-new invest-red">奖励+{$tvo.reward_num}%</span></if></h3>
+                                        <div class="i_rate"><strong>{$tvo.borrow_interest_rate}</strong><em>%</em><br>
+                                            年化收益率</div>
+                                        <div class="i_cont">
+                                            <p>{$tvo.borrow_money|getMoneyFormt=###}元 <i>|</i> {$tvo.borrow_duration}<php> echo $tvo['repayment_type']==1?'天':'个月'</php></p>
+                                            <div class="progress i_progress">
+                                                <div class="progress-bar" style="width:{$tvo.progress}%;"> </div>
+                                                <span class="progress-value">{$tvo.progress}%</span> </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        {$tvo.borrow_status|borrow_status=$tvo['id'],###}
+                                        <div class="clearfix"></div>
+                                    </li>
+                                </volist>
+                            </ul>
+                            <else/>
+                            <ul >
+                                <img src="/Style/H/images/images/no_records.png" alt="" style="width: 10rem;height: 8rem;margin:5rem 3rem 2rem 3rem;"/>
+                                <p style="font: 0.75rem/0.5rem arial;color: #1d1d1d;text-align: center;">暂无记录</p>
+                            </ul>
+                        </notempty>
+                        <div id="pullUp"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div class="f-seat"></div>
+<script type="text/javascript" src="/Style/M/js/iscroll.js"></script>
+<script type="text/javascript" src="/Style/M/js/scrollUpdate.js"></script>
+<script type="text/javascript">
+    var pageIndex = {$list.nowPage};
+    var pageCount = {$list.total};
+    $(function(){
+        $("head").prepend("<title>新手专区-{$glo['web_name']}</title>");
+        $(".i-list li").click(function(){
+            window.location.href = $(this).find("a").attr("href");
+        });
+        if (pageCount <= 1) {
+            $("#pullUp").hide();
+        }
+        iScroll.onLoadData = getInfo;
+    });
+    function getInfo(flag) {
+        nextPage = pageIndex;
+        $.ajax({
+            url: location.href,
+            data: { p: nextPage },
+            type: 'get',
+            async: true,
+            success: function (res) {
+                if (flag == "empty") {
+                    $("#thelist").children().remove();
+                }
+                $("#thelist").append(res);
+                if (nextPage > pageCount) {
+                    $("#pullUp").hide();
+                }
+                myScroll.refresh();
+            },
+            error: function () {
+                //document.getElementById('result').innerHTML = "";
+            }
+        });
+    }
+</script>
+﻿<include file="Pub:footer" />

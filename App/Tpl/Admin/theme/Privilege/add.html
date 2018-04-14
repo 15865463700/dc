@@ -1,0 +1,109 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="/Style/My97DatePicker/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<script type="text/javascript">
+    function changestr(para){
+
+        para = para.replace(/^[^1-9]/g,'');
+
+        para = para.replace(/[^0-9]/g,'');
+
+        return para;
+    }
+    function subcheck(){
+
+        var title=$('#title').val();
+        var money=$('#money').val();
+        var rate=$('#rate').val();
+        var total=$('#total').val();
+
+
+        if(title.length==0 || title.length>20){
+            alert("标题不能为空或者字数超过20字！");
+            return false;
+        }
+
+        //去除变量前面的0
+        money=money.replace(/\b(0+)/gi,"");
+        if(money.length==0){
+            alert("金额不能为空");
+            return false;
+        }
+        if(isNaN(money)){
+            alert("输入的金额有误！");
+            return false;
+        }
+
+        rate=rate.replace(/\b(0+)/gi,"");
+        if(rate>24||rate==0){
+            alert("年利率不能大于24或小于1");
+            return false;
+        }
+        if(isNaN(rate)){
+            alert("输入的利率有误！");
+            return false;
+        }
+
+        total=total.replace(/\b(0+)/gi,"");
+        if(total.length==0){
+            alert("天数不能为空"+number);
+            return false;
+        }
+        if(isNaN(total)){
+            alert("输入的领取次数有误！");
+            return false;
+        }
+
+    }
+</script>
+    <div class="so_main">
+
+        <div class="page_tit">添加特权金</div>
+        <div class="page_tab"></div>
+        <div class="form2">
+            <form method="post" action="__URL__/add" onsubmit="return subcheck();" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="{$vo.id}"/>
+                <table style=" width: 100%">
+                    <tr style="display:block; padding: 6px;border-bottom: 1px dashed #e2e2e2;margin-left: 20px;">
+                        <td style="">活动标题:</td>
+                        <td><input style="width: 300px;height: 20px;" type="text"  id="title" name="title" value="{$vo.title}"/></td><td>最大字数为20字</td>
+                    </tr>
+                    <tr style="display:block; padding: 6px;border-bottom: 1px dashed #e2e2e2;margin-left: 20px;">
+                        <td style="">特权金额:</td>
+                        <td><input style="width: 300px;height: 20px;" type="text"  id="money" name="money" onkeyup="value=changestr(value)" value="{$vo.money}"/></td><td>*</td>
+                    </tr>
+                    <tr style="display:block; padding: 6px;border-bottom: 1px dashed #e2e2e2;margin-left: 20px;">
+                        <td style="">年 利 率: </td>
+                        <td><input style="width: 300px;height: 20px;" type="text"  id="rate" name="rate"  onkeyup="value=changestr(value)" value="{$vo.rate}" /></td><td>%(1~24)</td>
+                    </tr>
+                    <tr style="display:block; padding: 6px;border-bottom: 1px dashed #e2e2e2;margin-left: 20px;">
+                        <td style="">活动开始时间:</td>
+                        <td><htmlA:timer id="online_time" tip='*' arg="{maxDate:'#F{$dp.$D(\\\\'deadline\\\\')||\\\\'2020-10-01\\\\'}',dateFmt:'yyyy-MM-dd ',alwaysUseStartDate:true}"  class="Wdate" value="{$vo.online_time|mydate='Y-m-d ',###}"/></td><td>格式:2015-02-03</td>
+                    </tr>
+                    <tr style="display:block; padding: 6px;border-bottom: 1px dashed #e2e2e2;margin-left: 20px;">
+                        <td style="">活动结束时间:</td>
+                        <td><htmlA:timer id="deadline" tip='*' arg="{minDate:'#F{$dp.$D(\\\\'online_time\\\\')}',maxDate:'2020-10-01',dateFmt:'yyyy-MM-dd ',alwaysUseStartDate:true}"  class="Wdate" value="{$vo.deadline|mydate='Y-m-d ',###}"/></td><td>格式:2015-02-03</td>
+                    </tr>
+                    <tr style="display:block; padding: 6px;border-bottom: 1px dashed #e2e2e2;margin-left: 20px;">
+                        <td style="">领取条件:</td>
+                        <td>
+                            <input type="checkbox" name="conditions[phone]" value="1" <if condition="$vo['conditions']['phone'] eq 1">checked="checked"</if>/>手机认证;
+                            <input type="checkbox" name="conditions[idcard]" value="1" <if condition="$vo['conditions']['idcard'] eq 1">checked="checked"</if>/>实名认证;
+                            <input type="checkbox" name="conditions[email]" value="1" <if condition="$vo['conditions']['email'] eq 1">checked="checked"</if>/>邮箱认证;
+                            待收本金
+                        <input style="width: 100px;height: 20px;" type="text" name="conditions[principal]" onkeyup="value=changestr(value)" value="{$vo['conditions']['principal']}"/>  只有在选择待收本金时才可以在该输入框输入对应的金额！</td>
+                    </tr>
+                    <tr style="display:block; padding: 6px;border-bottom: 1px dashed #e2e2e2;margin-left: 20px;">
+                        <td style="">收益有效天数:</td>
+                        <td><input style="width: 300px;height: 20px;" type="text"  id="total" name="total" onkeyup="value=changestr(value)"  value="{$vo.total}"/></td><td>一天收益生效一次</td>
+                    </tr>
+                    <tr style="display:block; padding: 5px;border-bottom: 1px dashed #e2e2e2;margin-left: 20px;">
+                        <td><input type="submit" class="btn_b" name="submit" value="确定"/></td>
+                    </tr>
+                </table>
+
+            </form>
+        </div>
+
+    </div>
+<include file="Public:_footer" />

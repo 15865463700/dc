@@ -1,0 +1,177 @@
+<include file="Pub:header" />
+<div class="main">
+    <div class="box7">
+        <div class="san_top">
+            您目前竞标中的投资总额是：<span class="red">￥{$total_money|default="0.00"}</span>，共<span class="red"> {$count} </span>笔投标。
+        </div>
+        <div class="width-100">
+            <notempty name="list.list">
+                <div class="san_invest">
+                    <volist name="list.list" id="vot">
+                        <div class="san_invest_a width-100">
+                            <div class="san_invest_b">
+                                <div class="san_invest_c">
+                                    <a href="{:U('M/invest/detail', array('id'=>$vot['borrow_id']))}" class="float-left color-444">{$vot.borrow_name|cnsubstr=###,12}</a>
+                                    <span class="color-999 float-right">投标日期：{$vot.add_time|date="Y-m-d",###}</span>
+                                </div>
+                                <div class="width-100 por">
+                                    <div class="san_invest_d float-left">
+                                        <if condition="$vot.borrow_status eq 7">
+                                            <div class="san_invest_e float-left width-100">
+                                                <p class="float-left font05 color-999">投资金额(元)</p>
+                                                <span class="float-left color-444 font05">{$vot.investor_capital}</span>
+                                            </div>
+                                            <div class="san_invest_e float-left width-100">
+                                                <p class="float-left font05 color-999">年化利率</p>
+                                                <span class="float-left color-444 font05">{$vot.borrow_interest_rate}%</span>
+                                            </div>
+                                            <div class="san_invest_e float-left width-100">
+                                                <p class="float-left font05 color-999">已收本金(元)</p>
+                                         <span class="float-left color-444 font05">
+                                             {$vot.receive_capital}
+                                         </span>
+                                            </div>
+                                            <div class="san_invest_e float-left width-100">
+                                                <p class="float-left font05 color-999">已收利息(元)</p>
+                                         <span class="float-left color-444 font05">
+                                             {$vot.receive_interest}
+                                         </span>
+                                            </div>
+
+                                            <elseif condition="$vot.borrow_status eq 6" />
+                                            <div class="san_invest_e san_invest_ea float-left width-100">
+                                                <p class="float-left font05 color-999">投资金额(元)</p>
+                                                <span class="float-left color-444 font05">{$vot.investor_capital}</span>
+                                            </div>
+                                            <div class="san_invest_e san_invest_ea float-left width-100">
+                                                <p class="float-left font05 color-999">年化利率</p>
+                                                <span class="float-left color-444 font05">{$vot.borrow_interest_rate}%</span>
+                                            </div>
+                                            <div class="san_invest_e san_invest_ea float-left width-100">
+                                                <p class="float-left font05 color-999">待收本息(元)</p>
+                                         <span class="float-left color-444 font05">
+                                             {:MFormt($vot['investor_capital'] + $vot['investor_interest']-$vot['receive_capital'] - $vot['receive_interest'])}
+                                         </span>
+                                            </div>
+                                            <div class="san_invest_e san_invest_ea float-left width-100">
+                                                <p class="float-left font05 color-999">已收本息(元)</p>
+                                         <span class="float-left color-444 font05">
+                                             {:MFormt($vot['receive_capital'] + $vot['receive_interest'])}
+                                         </span>
+                                            </div>
+                                            <div class="san_invest_e san_invest_ea float-left width-100">
+                                                <p class="float-left font05 color-999">已还/总期数</p>
+                                         <span class="float-left color-444 font05">
+                                            {$vot.has_pay}/{$vot.total}
+                                         </span>
+                                            </div>
+
+                                            <elseif condition="$vot.borrow_status eq 2" />
+                                            <div class="san_invest_e float-left width-100">
+                                                <p class="float-left font05 color-999">投资金额(元)</p>
+                                                <span class="float-left color-444 font05">{$vot.investor_capital}</span>
+                                            </div>
+                                            <div class="san_invest_e float-left width-100">
+                                                <p class="float-left font05 color-999">年化利率</p>
+                                                <span class="float-left color-444 font05">{$vot.borrow_interest_rate}%</span>
+                                            </div>
+                                            <div class="san_invest_e float-left width-100">
+                                                <p class="float-left font05 color-999">待收本息(元)</p>
+                                         <span class="float-left color-444 font05">
+                                             {:MFormt($vot['investor_capital'] + $vot['investor_interest'])}
+                                         </span>
+                                            </div>
+
+                                            <elseif condition="$vot.borrow_status eq 4" />
+                                            <div class="san_invest_e float-left width-100">
+                                                <p class="float-left font05 color-999">投资金额(元)</p>
+                                                <span class="float-left color-444 font05">{$vot.investor_capital}</span>
+                                            </div>
+                                            <div class="san_invest_e float-left width-100">
+                                                <p class="float-left font05 color-999">年化利率</p>
+                                                <span class="float-left color-444 font05">{$vot.borrow_interest_rate}%</span>
+                                            </div>
+                                            <div class="san_invest_e float-left width-100">
+                                                <p class="float-left font05 color-999">待收本息(元)</p>
+                                         <span class="float-left color-444 font05">
+                                             {:MFormt($vot['investor_capital'] + $vot['investor_interest'])}
+                                         </span>
+                                            </div>
+                                            <elseif condition="($vot.borrow_status eq 8) or ($vot.borrow_status eq 9)" />
+                                            <div class="san_invest_e san_invest_eb float-left width-100">
+                                                <p class="float-left font05 color-999">投资金额(元)</p>
+                                                <span class="float-left color-444 font05">{$vot.investor_capital}</span>
+                                            </div>
+                                            <div class="san_invest_e san_invest_eb float-left width-100">
+                                                <p class="float-left font05 color-999">年化利率</p>
+                                                <span class="float-left color-444 font05">{$vot.borrow_interest_rate}%</span>
+                                            </div>
+                                            <div class="san_invest_e san_invest_eb float-left width-100">
+                                                <p class="float-left font05 color-999">待收本金(元)</p>
+                                         <span class="float-left color-444 font05">
+                                             {$vot.investor_capital|default="0.00"}
+                                         </span>
+                                            </div>
+                                            <div class="san_invest_e san_invest_eb float-left width-100">
+                                                <p class="float-left font05 color-999">逾期天数</p>
+                                         <span class="float-left color-444 font05">
+                                             {$vot.breakday}
+                                         </span>
+                                            </div>
+                                            <div class="san_invest_e san_invest_eb float-left width-100">
+                                                <p class="float-left font05 color-999">待收利息(元)</p>
+                                         <span class="float-left color-444 font05">
+                                             {$vot.investor_interest|default="0.00"}
+                                         </span>
+                                            </div>
+                                            <div class="san_invest_e san_invest_eb float-left width-100">
+                                                <p class="float-left font05 color-999">当前/总期数</p>
+                                         <span class="float-left color-444 font05">
+                                             {$vot.has_pay}/{$vot.total}
+                                         </span>
+                                            </div>
+
+                                        </if>
+                                    </div>
+                                    <div class="san_investment_zt">
+                                        <if condition="$vot.borrow_status eq 7">
+                                            <img src="/Style/Mobile/images/per_cen/wancheng.png"/>
+                                            <elseif condition="$vot.borrow_status eq 6" />
+                                            <img src="/Style/Mobile/images/per_cen/huankuan.png"/>
+                                            <elseif condition="$vot.borrow_status eq 2" />
+                                            <img src="/Style/Mobile/images/per_cen/jiekuan.png"/>
+                                            <elseif condition="$vot.borrow_status eq 4" />
+                                            <img src="/Style/Mobile/images/per_cen/fushen.png"/>
+                                            <elseif condition="$vot.borrow_status eq 8" />
+                                            <img src="/Style/Mobile/images/per_cen/yuqi.png"/>
+                                            <elseif condition="$vot.borrow_status eq 9" />
+                                            <img src="/Style/Mobile/images/per_cen/yuqi.png"/>
+                                        </if>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </volist>
+                    <div class="page">{$list.page}</div>
+                    <div class="clear"></div>
+                </div>
+                <else/>
+                <ul >
+                    <img src="/Style/H/images/images/no_records.png" alt="" style="width: 10rem;height: 8rem;margin:5rem 3rem 2rem 3rem;"/>
+                    <p style="font: 0.75rem/0.5rem arial;color: #1d1d1d;text-align: center;">暂无记录</p>
+                </ul>
+            </notempty>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="f-seat"></div>
+<script language="javascript">
+    $(function(){
+        $("head").prepend("<title>散标投资列表</title>");
+        $("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+        $("body").css("background","#f0f0f0");
+    });
+</script>
+﻿<include file="Pub:footer" />

@@ -1,0 +1,77 @@
+<include file="Pub:header" />
+<style>
+#repay_type1{ background-color:#53a8f4;}
+#repay_type2{ background-color:#53a8f4;}
+</style>
+<main>
+  <div class="join-box">
+    <h2><span>可用余额：{$mmoney|MFormt=###}元 </span><span>剩余：{$vo['transfer_total']-$vo['transfer_out']}份</span></h2>
+    <ul class="join-in">
+      <li>
+        <input placeholder="请输入投资份数" name="tnum" id="tnum" value="1份" class="select_num" type="text">
+        <input type="button" name="minus" id="minus" value="-" class="bt1 minus">
+        <input name="plus" id="plus" value="+" class="bt1 add" type="button">
+      </li>
+      <li>
+        <label>还款方式</label><span style="float:right">
+        <input type="radio" id="repay_type1" name="repay_type" checked="checked"  value="1">
+        <label for="repay_type1">按月还息</label>
+        <input type="radio" id="repay_type2" name="repay_type" value="2">
+        <label for="repay_type2">利息复投</label>
+        </span>
+      </li>
+      <li>
+        <label>支付密码</label>
+        <notempty name="paypass">
+          <input type="password" name="paypass" id="paypass" class="join-input" />
+          <else />
+          <a href="{:U('M/user/setpaypass')}">请先设置支付密码</a></notempty>
+        </notempty>
+      </li>
+    </ul>
+    <div class="join-btn">
+      <input id="dobutton" class="butt" value="立即投资" type="submit">
+    </div>
+  </div>
+</main>
+<div class="f-seat"></div>
+<script language="javascript">
+$(function() {
+	$("head").prepend("<title>立即投标</title>");
+    $("#dobutton").click(function() {
+        var num = $("#tnum").val().replace(/[^0-9]/ig, "");
+        var cnum = parseInt(num);
+        var paypass = $("#paypass").val();
+        var repay_type = $('input:radio[name=repay_type]:checked').val();
+        if(repay_type == ""){
+            Apprise("<font color=red>请选择还款方式！</font>");
+            return false;
+        }
+        r = "cnum=" + cnum + "&paypass=" + paypass + "&repay_type=" +repay_type;
+        if ($.trim(paypass) == "") 
+        {
+            Apprise("<font color=red>请输入支付密码！</font>");
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "",
+            data: r,
+            dataType : "json",
+            success: function(e) {
+                if(e.status ==1){
+                    Apprise(e.message);
+                    $("#apprise-btn-confirm").click(function(){
+                        window.location.href="{:U('m/tinvest/tdetail',array('id'=>$borrow_id))}";
+                    });
+                }else{
+                    Apprise("<font color=red>" + e.message + "</font>")
+                }
+            },
+            error: function(e) {
+                Apprise("<font color=red>提交发生错误！请重试</font>")
+            }
+        })
+    })
+})
+</script>

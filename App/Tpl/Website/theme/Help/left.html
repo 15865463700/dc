@@ -1,0 +1,5 @@
+<div class="cms_left float_left">
+    <volist name="leftlist" id="vl">
+        <div class="left_list_div"><a class="font16 <if condition="$vl.id eq $cid">a_link_in<else/>a_link</if>" href="{$vl.turl}" title="{$vl.type_name}">{$vl.type_name|cnsubstr2=###,8}</a></div>
+    </volist>
+</div>

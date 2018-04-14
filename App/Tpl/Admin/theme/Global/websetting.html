@@ -1,0 +1,35 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">参数配置</div>
+
+
+  <div class="Toolbar_inbox">
+  	<div class="page right"></div>
+  </div>
+  
+  <div class="form2">
+  	<form method="post" action="__URL__/doEdit">
+	<volist name="list" id="vo" offset="0" length="6">
+    <dl class="lineD" id="line_{$vo['id']}">
+      <dt>{$vo['name']}：</dt>
+      <dd>
+	  	<if condition="$vo['type'] eq 'textarea' ">
+			<textarea name="{$vo['id']}" class="areabox">{$vo['text']}</textarea>
+		<else />
+			<input name="{$vo['id']}" class="input" type="text" value="{$vo['text']}">
+		</if>
+		<if condition="$vo['tip'] neq ' ' "><span>{$vo['tip']}({$vo['code']})</span><else />({$vo['code']})</if>
+      </dd>
+    </dl>
+	</volist>
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="{$Think.lang.lan_edit_do}" />
+    </div>
+    </form>
+	
+  </div>
+
+</div>
+
+<include file="Public:_footer" />

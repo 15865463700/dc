@@ -1,0 +1,152 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="/Style/My97DatePicker/WdatePicker.js" language="javascript"></script>
+<link href="/Style/Swfupload/swfupload.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/Style/Swfupload/handlers.js"></script>
+<script type="text/javascript" src="/Style/Swfupload/swfupload.js"></script>
+<script type="text/javascript">
+	var IS_AD = true;
+	$(document).ready(function() {
+		//swf上传图片
+		swfu = new SWFUpload(
+		{
+			// Backend Settings
+			upload_url: "__URL__/swfupload",
+			post_params: {"PHPSESSID": "<php> echo session_id(); </php>", "dopost" : ""},
+
+			// File Upload Settings
+			file_size_limit : "1 MB",	// 1MB
+			file_types : "*.jpg; *.gif; *.png",
+			file_types_description : "选择 JPEG/GIF/PNG 格式图片",
+			file_upload_limit : "0",
+
+			file_queue_error_handler : fileQueueError,
+			file_dialog_complete_handler : fileDialogComplete,
+			upload_progress_handler : uploadProgress,
+			upload_error_handler : uploadError,
+			upload_success_handler : uploadSuccess,
+			upload_complete_handler : uploadComplete,
+
+			button_image_url : "../images/SmallSpyGlassWithTransperancy_17x18.png",
+			button_placeholder_id : "spanButtonPlaceholder",
+			button_width: 250,
+			button_height: 18,
+			button_text : '<span class="button">选择本地图片 <span class="buttonSmall">(单图最大为 1 MB，支持多选)</span></span>',
+			button_text_style : '.button { font-family: "微软雅黑", sans-serif; font-size: 12px; } .buttonSmall { font-size: 10pt; }',
+			button_text_top_padding: 0,
+			button_text_left_padding: 18,
+			button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+			button_cursor: SWFUpload.CURSOR.HAND,
+			
+			// Flash Settings
+			flash_url : "/Style/Swfupload/swfupload.swf",
+
+			custom_settings : {
+				upload_target : "divFileProgressContainer"
+			},
+			
+			// Debug Settings
+			debug: false
+		});
+		//swf上传图片
+	});
+
+</script>
+<script type="text/javascript">
+//swf上传后排序
+function rightPic(o){
+	 var o = $("#albCtok"+o);
+	 if( o.next().length > 0) {
+		  var tmp = o.clone();
+		  var oo = o.next();
+		  o.remove();
+		  oo.after(tmp);
+	 }else{
+		alert("已经是最后一个了"); 
+	 }
+}
+//swf上传后排序
+function leftPic(o){
+	 var o = $("#albCtok"+o);
+	 if( o.prev().length > 0) {
+		  var tmp = o.clone();
+		  var oo = o.prev();
+		  o.remove();
+		  oo.before(tmp);
+	 }else{
+		alert("已经是第一个了"); 
+	 }
+}
+//swf上传后删除图片start
+function delPic(id){
+	var imgpath = $("#albCtok"+id).find("input[type='hidden']").eq(0).val();
+	var datas = {'picpath':imgpath,'oid':id};
+	$.post("__URL__/swfupload?delpic", datas, picdelResponse,'json');
+}
+
+function picdelResponse(res){
+	var imgdiv = $("#albCtok"+res.data);
+		imgdiv.remove();
+		ui.success(res.info);
+		ui.box.close();
+}
+//swf上传后删除图片end
+</script>
+<style type="text/css">
+.albCt{height:200px}
+</style>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">添加App  更多</div>
+<div class="page_tab"></div>
+<div class="form2">
+	<form method="post" action="__URL__/moresave"  enctype="multipart/form-data">
+	<div id="tab_1">
+
+        <dl class="lineD" style="overflow:hidden"><dt>更多banner：</dt>
+            <dd><img src="/{$vo['more_img']}" style="float: left; width: 200px;">
+                <input type="file" id="more_img" name="more_img" style="float:left"/>
+                <span style="float:left"><div style="text-align:left; clear:both; overflow:hidden; width:290px; height:50px"><div id="imgDiv"></div></div></span>
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>介绍：</dt>
+            <dd>
+                <include file="./Style/Editor/kissy.html" />
+                <htmlA:editor id="text_content" w='780px' type='kissy' value="{$vo['text_content']}"/>
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>微信：</dt>
+            <dd>
+                <htmlA:input id="weixin" value="{$vo['weixin']}" tip="*"/>
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>微博：</dt>
+            <dd>
+                <htmlA:input id="weibo" value="{$vo['weibo']}" tip="*"/>
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>客服：</dt>
+            <dd>
+                <htmlA:input id="kefu" value="{$vo['kefu']}" tip="*"/>
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>客服服务时间：</dt>
+            <dd>
+                <htmlA:input id="kefu_time" value="{$vo['kefu_time']}" tip="*"/>
+            </dd>
+        </dl>
+	</div><!--tab1-->
+
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<include file="Public:_footer" />

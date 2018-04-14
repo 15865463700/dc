@@ -1,0 +1,328 @@
+<include file="Public:header" />
+<include file="Public:lunbo" />
+<link rel="stylesheet" type="text/css" href="/Style/H/css/index.css" />
+<div class="index-gonggao layui-main">
+    <font>重要公告</font>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{$noticeList['arturl']}"  title="{$noticeList['list'][0]['title']}" >{$noticeList['list'][0]['title']}</a>
+    <a href="/gonggao/index.html" class="index-more">更多>></a>
+    <div class="clear"></div>
+</div>
+<div class="layui-width100 index-credit">
+    <img src="/Style/H/images/index/credit.png" />
+</div>
+
+<!--项目列表-->
+<div class="layui-main index-title">
+    <img src="/Style/H/images/index/newbee.png">
+    <span>新手专区</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <img src="/Style/H/images/index/newbee_.png">
+    <font>新人的第一桶金</font>
+</div>
+<php>if(is_array($new_list['list'])){</php>
+<div class="layui-main index-box">
+    <div class="index-box-class">
+        {:get_ad(21)}
+        <a href="/novice/index" class="more-program">查看更多</a>
+    </div>
+    <div class="index-box-program layui-row index-border-top1">
+        <volist name="new_list.list" id="vo" key="k">
+            <div class="layui-col-md4 program <if condition='$k lt 3'>br</if>">
+                <div class="ptitle">{$vo.borrow_name|cnsubstr=###,16}</div>
+                <div class="pline"></div>
+                <div class="prate">{$vo.borrow_interest_rate}<font>%</font></div>
+                <div class="prate-word">年化利率</div>
+                <input type="hidden" name="options" value="b|{$vo.id}|{$vo.progress}" />
+                <div class="pcanvs" id="boptions{$vo.id}"></div>
+                <div class="pword layui-row">
+                    <div class="layui-col-md4">
+                        借款期限:
+                    </div>
+                    <div class="layui-col-md8" style="text-align: right">
+                        <font>{$vo.borrow_duration}</font>
+                        <if condition="$vo['repayment_type'] eq 1">天<else/>个月</if>
+                    </div>
+                </div>
+                <div class="pword layui-row">
+                    <div class="layui-col-md4">
+                        借款金额:
+                    </div>
+                    <div class="layui-col-md8"  style="text-align: right">
+                        <font>{$vo.borrow_money}</font>元
+                    </div>
+                </div>
+                <div class="pbtn">
+                    <if condition="$vo['borrow_status'] eq 4">
+                        <a href="{$vo['id']|getInvestUrl=###}" class="pbg2">复审中</a>
+                        <elseif condition="$vo['borrow_status'] eq 6"/>
+                        <a href="{$vo['id']|getInvestUrl=###}" class="pbg2">还款中</a>
+                        <elseif condition="$vo['borrow_status'] eq 7"/>
+                        <a href="{$vo['id']|getInvestUrl=###}" class="pbg2">已完成</a>
+                        <else/>
+                        <a href="{$vo['id']|getInvestUrl=###}" class="pbg1">投一笔</a>
+                    </if>
+                </div>
+            </div>
+        </volist>
+    </div>
+    <div class="clear"></div>
+</div>
+<php>}</php>
+<div class="layui-main index-title">
+    <img src="/Style/H/images/index/invest.png">
+    <span>精选散标</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <img src="/Style/H/images/index/invest_.png">
+    <font>自主选择&nbsp;灵活投资</font>
+</div>
+<php>if(is_array($borrow_list['list'])){</php>
+<div class="layui-main index-box">
+    <div class="index-box-class">
+        {:get_ad(22)}
+        <a href="/invest/index" class="more-program">查看更多</a>
+    </div>
+    <div class="index-box-program layui-row index-border-top2">
+        <volist name="borrow_list.list" id="vo" key="k">
+            <div class="layui-col-md4 program <if condition='$k lt 3'>br</if>">
+                <div class="ptitle">{$vo.borrow_name|cnsubstr=###,16}</div>
+                <div class="pline"></div>
+                <div class="prate">{$vo.borrow_interest_rate}<font>%</font></div>
+                <div class="prate-word">年化利率</div>
+                <input type="hidden" name="options" value="b|{$vo.id}|{$vo.progress}" />
+                <div class="pcanvs" id="boptions{$vo.id}"></div>
+                <div class="pword layui-row">
+                    <div class="layui-col-md4">
+                        借款期限:
+                    </div>
+                    <div class="layui-col-md8" style="text-align: right">
+                        <font>{$vo.borrow_duration}</font>
+                        <if condition="$vo['repayment_type'] eq 1">天<else/>个月</if>
+                    </div>
+                </div>
+                <div class="pword layui-row">
+                    <div class="layui-col-md4">
+                        借款金额:
+                    </div>
+                    <div class="layui-col-md8"  style="text-align: right">
+                        <font>{$vo.borrow_money}</font>元
+                    </div>
+                </div>
+                <div class="pbtn">
+                    <if condition="$vo['borrow_status'] eq 4">
+                        <a href="{$vo['id']|getInvestUrl=###}" class="pbg2">复审中</a>
+                        <elseif condition="$vo['borrow_status'] eq 6"/>
+                        <a href="{$vo['id']|getInvestUrl=###}" class="pbg2">还款中</a>
+                        <elseif condition="$vo['borrow_status'] eq 7"/>
+                        <a href="{$vo['id']|getInvestUrl=###}" class="pbg2">已完成</a>
+                        <else/>
+                        <a href="{$vo['id']|getInvestUrl=###}" class="pbg1">投一笔</a>
+                    </if>
+                </div>
+            </div>
+        </volist>
+    </div>
+    <div class="clear"></div>
+</div>
+<php>}</php>
+<php>if(is_array($fund_list['list'])){</php>
+<div class="layui-main index-title">
+    <img src="/Style/H/images/index/fund.png">
+    <span>理财计划</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <img src="/Style/H/images/index/fund_.png">
+    <font>定期理财&nbsp;分散投资</font>
+</div>
+<div class="layui-main index-box">
+    <div class="index-box-class">
+        {:get_ad(20)}
+        <a href="/fund/index" class="more-program">查看更多</a>
+    </div>
+    <div class="index-box-program layui-row index-border-top3">
+        <volist name="fund_list.list" id="vo" key="k">
+            <div class="layui-col-md4 program <if condition='$k lt 3'>br</if>">
+                <div class="ptitle">{$vo.borrow_name}</div>
+                <div class="pline"></div>
+                <div class="prate">{$vo.borrow_interest_rate}<font>%</font></div>
+                <div class="prate-word">年化利率</div>
+                <input type="hidden" name="options" value="f|{$vo.id}|{$vo.progress}" />
+                <div class="pcanvs" id="foptions{$vo.id}"></div>
+                <div class="pword layui-row">
+                    <div class="layui-col-md4">
+                        借款期限:
+                    </div>
+                    <div class="layui-col-md8" style="text-align: right">
+                        <font>{$vo.borrow_duration}</font>个月
+                    </div>
+                </div>
+                <div class="pword layui-row">
+                    <div class="layui-col-md4">
+                        借款金额:
+                    </div>
+                    <div class="layui-col-md8"  style="text-align: right">
+                        <font>{$vo.borrow_money}</font>元
+                    </div>
+                </div>
+                <div class="pbtn">
+                    <if condition="$vo['transfer_out']-$vo['transfer_total'] eq 0">
+                        <a href="{$vo['id']|getFundUrl=###}" class="pbg2">还款中</a>
+                        <elseif condition="$vo['online_time'] lt time()+300 and $vo['online_time'] gt time()" />
+                        <a href="{$vo['id']|getFundUrl=###}" class="pbg2">即将上线</a>
+                        <elseif condition="$vo['online_time'] lt time()" />
+                        <a href="{$vo['id']|getFundUrl=###}" class="pbg1">投一笔</a>
+                    </if>
+                </div>
+            </div>
+        </volist>
+    </div>
+    <div class="clear"></div>
+</div>
+<php>}</php>
+<!--最新动态，投资指南-->
+<div class="layui-main" style="margin-top: 40px;">
+    <div class="index-news bgfff" style="float: left;width: 766px">
+        <div class="ntitle">
+            <span>最新动态</span>
+            <a href="/news/index.html" class="index-more">更多>></a>
+            <div class="clear"></div>
+        </div>
+        <ul>
+            <volist name="NnoticeList.list" id="vo">
+                <li><span class="layui-badge-dot layui-bg-blue"></span><a href="{$vo.arturl}" title="{$vo.title}">{$vo.title|cnsubstr=###,30}</a> <label>{$vo.art_time|date="Y-m-d",###}</label></li>
+            </volist>
+        </ul>
+    </div>
+    <div class="index-news bgfff" style="float: right;width: 336px">
+        <div class="ntitle">
+            <span>投资指南</span>
+            <a href="" class="index-more">更多>></a>
+            <div class="clear"></div>
+        </div>
+        <ul>
+            <volist name="GnoticeList.list" id="vo">
+                <li><a href="{$vo.arturl}" title="{$vo.title}">{$vo.title|cnsubstr=###,30}</a> <label>{$vo.art_time|date="Y-m-d",###}</label></li>
+            </volist>
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="layui-main layui-row bgfff" style="margin-top: 40px;">
+
+    <div class="index-news layui-col-md8">
+        <div class="ntitle">
+            <span>公司风采</span>
+        </div>
+        <volist name=":get_ad(28)" id="va">
+            <img src="/{$va.img}" class="fengcai"/>
+        </volist>
+    </div>
+    <div class="index-news layui-col-md4 index-news-new">
+        <div class="ntitle">
+            <span>投资风云榜</span>
+        </div>
+        <ul>
+            <li><div>排名</div><div>用户名</div><div>投资金额</div></li>
+            <volist name="bangdan_list" id="vo" key="k">
+                <li><div>
+                    <if condition="$k eq 1">
+                        <img src="/Style/H/images/index/tfirst.png" />
+                        <else/>
+                        <span class="layui-badge <if condition='$k eq 2'>layui-bg-blue</if><if condition='$k eq 3'>layui-bg-orange</if><if condition='$k gt 3'>layui-bg-gray</if>">{$k}</span>
+                    </if>
+                </div><div>{$vo.user_name|hidecard=###,5}</div><div style="color:#ff6600">￥{$vo.suc_capital}</div></li>
+            </volist>
+        </ul>
+    </div>
+</div>
+<div class="layui-main index-friend" style="margin-top: 40px;">
+    <div class="ftitle">
+        <span>友情链接</span>
+    </div>
+    <volist name="link_img" id="vf">
+        <a href="{$vf.link_href}" target="_blank"><img src="{$vf.link_img}"/></a>
+    </volist>
+</div>
+
+<script src="/Style/echarts/build/dist/echarts.js"></script>
+<script type="text/javascript">
+
+    require.config({
+        paths: {
+            echarts: '/Style/echarts/build/dist'
+        }
+    });
+    require(
+            [
+                'echarts',
+                'echarts/chart/pie'
+            ],
+            DrawCharts
+    );
+    function DrawCharts(ec) {
+        var options = document.getElementsByName("options");
+        for(var i=0;i<options.length;i++){
+            var arr = options[i].value.split('|');
+            setechart(ec,arr[0]+'options'+arr[1],arr[2],46,55);
+        }
+    }
+    function setechart(ec,id,progress,inner,outer){
+        var myChart = ec.init(document.getElementById(id));
+        var dataStyle = {
+            normal: {
+                label: {show:false},
+                labelLine: {show:false}
+            }
+        };
+        var color = '#ff8b66';
+        if(progress==100){
+            color = '#ff5a2c';
+        }
+        var radius = [inner, outer];
+        var placeHolderStyle = {
+            normal : {
+                color: '#DCDCDC',
+                label: {show:false},
+                labelLine: {show:false}
+            }
+        };
+        var placeHolderStyle1 = {
+            normal : {
+                color: color,
+                label: {show:false},
+                labelLine: {show:false}
+            }
+        };
+        option = {
+            title: {
+                text: progress+'%',
+                x: 'center',
+                y: 'center',
+                itemGap: 10,
+                textStyle : {
+                    color : color,
+                    fontFamily : '微软雅黑',
+                    fontSize : 20,
+                    fontWeight : 'bolder'
+                }
+            },
+            series : [
+                {
+                    name:'1',
+                    type:'pie',
+                    clockWise:false,
+                    radius : radius,
+                    itemStyle : dataStyle,
+                    data:[
+                        {
+                            value:100-progress,
+                            name:'',
+                            itemStyle : placeHolderStyle
+                        },
+                        {
+                            value:progress,
+                            name:'',
+                            itemStyle : placeHolderStyle1
+                        }
+                    ]
+                }
+            ]
+        };
+        myChart.setOption(option);
+    }
+</script>
+<include file="Public:bottom" />

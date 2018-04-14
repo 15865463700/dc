@@ -1,0 +1,40 @@
+<include file="Pub:header" /> 
+<link rel="stylesheet" href="/Style/M/css/security.css" type="text/css"> 
+<section class="security">
+        <ul>
+            <li><a href="{:U('M/user/idcard')}"><div class="width_90">
+                <img src="/Style/M/images/security1.jpg" alt="实名认证" class="top"/>
+               <b>{$memberdetail.real_name|default="还未验证"} <if condition="$mstatus.id_status neq '1'"><em>[审核中]</em></if></b>
+                <img src="/Style/M/images/centre_arrow.jpg" alt="箭头" class="arrow"/>
+                <div class="clear"></div> 
+            </div></a></li>
+            <li><a href="{:U("M/user/editpass")}"><div class="width_90">
+                <img src="/Style/M/images/security2.jpg" alt="修改登录密码" class="top"/>
+                <b>修改登录密码</b>
+                <img src="/Style/M/images/centre_arrow.jpg" alt="箭头" class="arrow"/>
+                <div class="clear"></div> 
+            </div></a></li>
+            <li><a href="{:U('M/user/editpaypass')}"><div class="width_90">
+                <img src="/Style/M/images/security3.jpg" alt="修改支付密码" class="top"/>
+                <empty name="paypass"><a href="{:U('M/user/setpaypass')}">尚未设置</a>
+                <else/><b>修改支付密码</b></empty>
+                <img src="/Style/M/images/centre_arrow.jpg" alt="箭头" class="arrow"/>
+                <div class="clear"></div> 
+            </div></a></li>
+        </ul>
+</section>
+<script>
+$(function(){
+  $("head").prepend("<title>安全中心</title>");
+  $("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+  $("body").css("background","#f0f0f0");
+});
+    $('#nos').click(function(){
+        return Apprise("<font color=red>请前往PC端设置！</font>"), !1;
+    });
+
+    $('#email').click(function(){
+        return Apprise("<font color=red>请前往PC端设置！</font>"), !1;
+    });
+</script>
+﻿<include file="Pub:footer" />

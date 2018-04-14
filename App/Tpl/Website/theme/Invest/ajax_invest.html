@@ -1,0 +1,33 @@
+<link rel="stylesheet" type="text/css" href="/Style/H/css/invest.css" />
+<form class="ajax-invest" method="post" name="investForm" id="investForm" action="__URL__/investmoney" onkeydown="if(event.keyCode==13)return false;">
+	<input type="hidden" name="borrow_id" id="borrow_id" value="{$id}" />
+	<input type="hidden" name="money" id="money" value="{$investMoney}" />
+    <ul class="item">
+        <if condition="!empty($coupon_list)">
+            <li>
+            <h6>加息券</h6>
+            <select id="cid" name="cid" style="border: 1px solid #cbcbcb;border-radius: 3px;float: left;height: 30px;line-height: 30px;padding: 0 3px;width: 200px;">
+                <option value="0" style="padding: 10px;">&nbsp;======&nbsp;请&nbsp;选&nbsp;择&nbsp;======&nbsp;</option>
+                <volist id="vo" name="coupon_list">
+                    <option value="{$vo.id}" style="padding: 10px;">{$vo.title},加息{$vo.rate}</option>
+                </volist>
+            </select>
+            </li>
+        </if>
+        <li>
+            <h6>支付密码</h6>
+            <input type="password" id="pin" name="pin" />
+        </li>
+        <if condition="$pwd eq 1">
+        <li>
+            <h6>定向标密码</h6>
+            <input type="password" id="borrow_pass" name="borrow_pass" />
+        </li>
+        </if>
+        <li>
+            <div>
+            <a href="javascript:void(0);" class="center PostData" onclick="PostData()">立即投资</a>
+            </div>
+        </li>
+	</ul>
+</form>

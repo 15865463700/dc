@@ -1,0 +1,165 @@
+<include file="Pub:header" />
+<script language="javascript" type="text/javascript" src="/Style/Mobile/public.js"></script>
+<link rel="stylesheet" href="/Style/M/css/swiper.css" type="text/css" media="screen" charset="utf-8">
+<script src="/Style/M/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+<div id="wrappers">
+  <div id="scroller">
+     <div id="pullDown"></div>
+    <div id="index">
+      <div class="i-banner">
+        <div class="swiper-container" id="swiper">
+          <div class="swiper-wrapper" id="banner">
+            <volist name=":get_ad(32)" id="va">
+              <div class="swiper-slide">
+                <if condition="$va['url']==''"> <img src="/{$va.img}" alt="" />
+                  <else/>
+                  <a href="{$va.url}" target='_blank'><img src="/{$va.img}" alt="" /></a> </if>
+              </div>
+            </volist>
+          </div>
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+      <div class="index">
+        <div class="broadcast">
+          <div class="broadcast_img"><img src="/Style/M/images/icon/news-arr.png" alt="" /></div>
+          <div class="broadcast_title swiper-container" id="inews">
+            <div class="swiper_wrap swiper-wrapper">
+              <volist name="noticeList.list" id="vo">
+                <div class="swiper-slide"><a href="/M/New/new_view.html?nid={$vo.id}">{$vo.title|cnsubstr=###,30}</a></div>
+              </volist>
+            </div>
+          </div>
+        </div>
+        <div class="navs">
+          <ul>
+            <li><a href="/M/New/new_list.html?id=47"><img src="/Style/M/images/icon/news.png" class="navs-img" alt="" />
+              <p>官方动态<img src="/Style/M/images/dot.png" alt="" /></p>
+              </a>
+            </li>
+            <!--<li><a href="/M/integral/index"><img src="/Style/M/images/icon/integral.png" class="navs-img" alt="" />-->
+              <!--<p>积分商城</p>-->
+            <!--</a>-->
+            <!--</li>-->
+            <li>
+              <if condition="session('u_id') ==''">
+              <a href="/M/pub/login.html">
+              <else/>
+              <a href="/M/privilege">
+              </if>
+              <img src="/Style/M/images/icon/weal.png" class="navs-img" alt="" />
+              <p>我的福利</p>
+              </a>
+            </li>
+            <li><a href="/M/New/new_list.html?id=37"><img src="/Style/M/images/icon/help.png" class="navs-img" alt="" />
+              <p>帮助中心</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="inew_prod">
+            <h2><a href="/M/index/index4">新手专享</a><img src="/Style/M/images/ttBg.png" alt="" /></h2>
+            <a href="{:U('M/invest/detail', array('id'=>$listBorrowNew['id']))}">
+            <p class="p01"><span class="red">{$listBorrowNew.borrow_interest_rate}%</span><br>约定年化利率</p>
+            <p class="p02">{$listBorrowNew.borrow_duration}<php> echo $listBorrowNew['repayment_type']==1?'天':'个月'</php><i>|</i> {$listBorrowNew.borrow_min|getMoneyFormt=###}元起</p>
+            </a>
+        </div>
+        <div class="i-prod">
+          <div class="i-tit"><span>散标理财 <i>|</i> <em>精选散标 灵活投资</em></span> <a href="/M/index/index3" class="mores">更多></a></div>
+          <div class="clearfix"></div>
+          <div class="i-list">
+            <ul>
+              <volist name="listBorrow.list" id='tvo'>
+                <li>
+                  <h3><a href="{:U('M/invest/detail', array('id'=>$tvo['id']))}">{$tvo.borrow_name|cnsubstr=###,13}</a><a href="{:U('m/invest/invest', array('id'=>$tvo['id']))}">{:getIco($tvo)}</a>
+                    <if condition="$tvo.is_new eq '1'"> <span class="invest-new">新手专享</span> </if>
+                    <if condition="$tvo.reward_num neq 0"> <span class="invest-new invest-red">奖励+{$tvo.reward_num}%</span> </if>
+                  </h3>
+                  <div class="i_rate"><strong>{$tvo.borrow_interest_rate}</strong><em>%</em><br>
+                    年化收益率</div>
+                  <div class="i_cont">
+                    <p>{$tvo.borrow_money|getMoneyFormt=###}元 <i>|</i> {$tvo.borrow_duration}
+                      <php> echo $tvo['repayment_type']==1?'天':'个月'</php>
+                    </p>
+                    <div class="progress i_progress">
+                      <div class="progress-bar" style="width:{$tvo.progress}%;"> </div>
+                      <span class="progress-value">{$tvo.progress}%</span> </div>
+                    <div class="clearfix"></div>
+                  </div>
+                  {$tvo.borrow_status|borrow_status=$tvo['id'],###}
+                  <div class="clearfix"></div>
+                </li>
+              </volist>
+            </ul>
+          </div>
+          <div class="i-tit"><span>优选理财 <i>|</i> <em>定期理财 分期投资</em></span> <a href="/M/index/index2" class="mores">更多></a></div>
+          <div class="clearfix"></div>
+          <div class="i-list">
+            <ul>
+              <volist name="listTBorrow.list" id="tvo">
+                <li>
+                  <h3><a href="{:U('M/tinvest/tdetail', array('id'=>$tvo['id']))}" style="color: #535353;">优选定期（{$tvo.borrow_name|cnsubstr=###,12}）</a></h3>
+                  <div class="i_rate"><strong>{$tvo.borrow_interest_rate}</strong><em>%</em><br>
+                    年化收益率</div>
+                  <div class="i_cont">
+                    <p>{$tvo.borrow_money|getMoneyFormt=###}元 <i>|</i> {$tvo.borrow_duration}
+                      <php> echo $tvo['repayment_type']==1?'天':'个月'</php>
+                    </p>
+                    <div class="progress i_progress">
+                      <div class="progress-bar" style="width:{$tvo.progress}%;"> </div>
+                      <span class="progress-value">{$tvo.progress}%</span> </div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="i_btn">
+                    <if condition="$tvo['is_show'] eq 0 and ($tvo['borrow_status'] eq 7 or $tvo['borrow_status'] eq 3)"> <a class="btn btn-primary">已完成</a>
+                      <elseif condition="$tvo['is_show'] eq 1 and $tvo['transfer_out'] neq $tvo['transfer_total']" />
+                        <if condition="$time lt $tvo['online_time']">
+                            <a href="{:U('M/tinvest/tdetail', array('id'=>$tvo['id']))}"  class="btn btn-default">即将上线</a>
+                            <else/>
+                            <a href="{:U('M/tinvest/tdetail', array('id'=>$tvo['id']))}"  class="btn btn-default">立即加入</a>
+                        </if>
+                      <else/>
+                      <a class="btn btn-primary">还款中</a> </if>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+              </volist>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="f-seat"></div>
+<script type="text/javascript" src="/Style/M/js/iscroll.js"></script> 
+<script type="text/javascript" src="/Style/M/js/Update.js"></script>
+<script type="text/javascript">
+iScroll.onLoadData = NewIndexPage;
+//重新加载页面
+function NewIndexPage(flag) {
+    window.location.href = '/M';
+}
+$(function(){
+	$("head").prepend("<title>{$glo['web_name']}</title>");
+	//首页banner
+    var mySwiper = new Swiper ('#swiper', {
+      pagination : '#pagination',
+      autoplay: 3000,
+      loop : true
+    });
+	
+	//最新公告   
+	var myNews = new Swiper ('#inews', {
+      autoplay: 4000,
+	  direction: 'vertical',
+      loop : true
+    });
+	//
+	$(".navs li:last").css("border","0");
+	 $(".i-list li").click(function(){
+        window.location.href = $(this).find("a").attr("href");
+    });
+});
+</script> 
+﻿<include file="Pub:footer_M" /> 

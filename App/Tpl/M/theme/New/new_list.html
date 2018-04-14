@@ -1,0 +1,46 @@
+<include file="Pub:header" />
+<main>
+  <div class="colum-list">
+    <ul>
+     <volist name="list" id="vo">
+     <li>
+        <h1><a href="/M/New/new_view.html?nid={$vo.id}">{$vo.title|cnsubstr=###,16}</a></h1>
+        <time>{$vo.art_time|date="Y-m-d H:i:s",###}</time>
+       <span class="page_arrow"></span></li>
+     </volist>
+    </ul>
+    <div class="fixed_div"><a href="javascript:void(0)" onclick="getInfo()" class="more_btn">加载更多新闻</a></div>
+  </div>
+</main>
+<div class="f-seat"></div>
+<script type="text/javascript">
+    // 加载更多新闻
+    var nowPage = {$page.nowPage};
+    var total = {$page.total};
+    $(function(){
+		$("head").prepend("<title>{$type_name}</title>");
+        if(nowPage ==total || nowPage > total){
+            $(".fixed_div").hide();
+        }
+    });
+    function getInfo() {
+        nextPage = nowPage+1;
+        $.ajax({
+            url: location.href,
+            data: { p: nextPage },
+            type: 'get',
+            async: true,
+            success: function (res) {
+                $(".colum-list ul").append(res);
+                if (total == nextPage) {
+                    $(".fixed_div").hide();
+                }
+                nowPage++;
+            },
+        });
+    }
+    $(".colum-list li").click(function(){
+        window.location.href = $(this).find("a").attr("href");
+    });
+</script>
+<include file="Pub:footer" />

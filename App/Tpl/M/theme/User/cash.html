@@ -1,0 +1,84 @@
+<include file="Pub:header" />
+<main>
+  <div class="recharge width-100 color-bg-whtie text-center">
+    <p class="color-444">可提现金额</p>
+    <div> <span class="span_o float-left text-right color-999 font05">账户余额（元）</span> <span class="span_t float-right text-left">{$vo.all_money|getMoneyFormt=###}</span> </div>
+  </div>
+  <form action="" method="post" name="cashForm" id="cashForm">
+    <div class="width-100">
+      <div class="m_withdrawals  borderbottom bordertop margintop0175 color-bg-whtie color-444">
+        <div class="cen_m_withdrawals">
+          <p class="float-left color-444">银行账号：</p>
+          <span class="float-left color-999">{$vo.bank_num|hidecard=###,3,'还没有登记您的银行账号'}  </span> </div>
+      </div>
+      <div class="m_withdrawals  borderbottom bordertop margintop0175 color-bg-whtie color-444">
+        <div class="cen_m_withdrawals">
+          <p class="float-left color-444">开户银行：</p>
+          <span class="float-left color-999">{$vo.bank_name}</span> </div>
+      </div>
+      <div class="m_withdrawals  borderbottom color-bg-whtie color-444">
+        <div class="cen_m_withdrawals">
+          <p class="float-left color-444">真实姓名：</p>
+          <span class="float-left color-999">{$vo.real_name|hidecard=###,5}</span> </div>
+      </div>
+      <div class="m_withdrawals  borderbottom color-bg-whtie color-444">
+        <div class="cen_m_withdrawals">
+          <p class="float-left color-444">联系手机：</p>
+          <span class="float-left color-999">{$vo.user_phone|default="还未验证"}</span> </div>
+      </div>
+      <div class="m_withdrawals  borderbottom bordertop margintop0175 color-bg-whtie color-444">
+        <div class="cen_m_withdrawals">
+          <p class="float-left color-444">提现金额：</p>
+          <input type="text" name='money' id="money" class="box7_wbk" placeholder="输入金额"/>
+        </div>
+      </div>
+      <div class="m_withdrawals  borderbottom bordertop margintop0175 color-bg-whtie color-444">
+        <div class="cen_m_withdrawals">
+          <p class="float-left color-444">支付密码：</p>
+          <input type="password" name="paypass" id="paypass" class="box7_wbk" placeholder="输入支付密码"/>
+        </div>
+      </div>
+      <div class="withdrawals_button text-center">
+        <input class="withdrawals-button" type="button" id="dobutton" value="确认提现"/>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </form>
+</main>
+<div class="f-seat"></div>
+<script language="javascript">
+$(function() {
+	$("head").prepend("<title>我要提现</title>");
+	$("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+	$("body").css("background","#f0f0f0");
+    $("#dobutton").click(function() {
+        var e = $("#money").val(),
+            t = $("#paypass").val(),
+            r = "money=" + e + "&paypass=" + t;
+        if (!(/^\d+(.)?\d{1,2}$/.test(e))) {
+            return Apprise("<font color=red>请输入正确的提现金额，如1001.20。</font>");
+        }
+        if (parseFloat(e) < 100) {
+            return Apprise("<font color=red>提现金额不能小于100。</font>");
+        }    
+        if ($.trim(e) == "") return Apprise("<font color=red>请输入要提取的金额!</font>"), !1;
+        if ($.trim(t) == "") return Apprise("<font color=red>请输入支付密码！</font>"), !1;
+        $.ajax({
+            type: "POST",
+            url: "",
+            dataType : "json",
+            data: r,
+            success: function(e) {
+                e.status == 1 ? (Apprise("恭喜您申请成功，等待网站处理！"), $("#apprise-btn-confirm").click(function() {
+                    window.location.href = "{:U('M/user/index')}"
+                })) : Apprise("<font color=red>" + e.message + "</font>")
+            },
+            error: function(e) {
+                Apprise("<font color=red>提交发生错误！请重试</font>")
+            }
+        })
+    })
+})
+</script>
+<div class="f-seat"></div>
+﻿<include file="Pub:footer" /> 

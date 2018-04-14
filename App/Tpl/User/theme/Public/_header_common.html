@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/Style/H/css/css.css" />
+    <link rel="stylesheet" type="text/css" href="/Style/H/css/config.css" />
+    <link rel="stylesheet" type="text/css" href="/Style/layer/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="/Style/Member/css/member.css" />
+    <link href="/Style/H/css/Mbmber.css" rel="stylesheet" type="text/css">
+    <script language=javascript type="text/javascript" src="/Style/Js/jquery.js"></script>
+    <script type="text/javascript" src="/Style/layer/layui/layui.js"></script>
+    <script>
+        //由于模块都一次性加载，因此不用执行 layui.use() 来加载对应模块，直接使用即可：
+        layui.use('layer', function(){
+            var layer = layui.layer;
+        });
+    </script>
+    <script  type="text/javascript" src="/Style/Js/ui.core.js"></script>
+    <script  type="text/javascript" src="/Style/Js/ui.tabs.js"></script>
+    <script type="text/javascript" src="/Style/My97DatePicker/WdatePicker.js" language="javascript"></script>
+    <script type="text/javascript" src="/Style/Js/utils.js"></script>
+    <script type="text/javascript">
+        function makevar(v){
+            var d={};
+            for(i in v){
+                var id = v[i];
+                d[id] = $("#"+id).val();
+                if(!d[id]) d[id] = $("input[name='"+id+"']:checked").val();
+            }
+            return d;
+        }
+
+        function ajaxGetData(url,targetid,data){
+            if(!url) return;
+            data = data||{};
+            var ii = layer.load();
+            $.ajax({
+                url: url,
+                data: data,
+                timeout: 10000,
+                cache: true,
+                type: "get",
+                dataType: "json",
+                success: function (d, s, r) {
+                    layer.close(ii);
+                    if(d) {
+                        $("#"+targetid).html(d.html);
+                        if(url.indexOf("header")>0&&$("iframe").length>0) {
+                            $("iframe:eq(0)").load(function () {
+                                $("iframe:eq(0)").contents().find("div").each(function(){
+                                    $(this).mousedown(function(){
+                                        $.post("/Common/header",{ra:Math.random()},function(d){
+                                            $("#fragment-1 img").attr("src", d+"?ra="+Math.random());
+                                        },"text");
+                                    });
+                                });
+                            });
+                        }
+                    }
+                },
+                error: '',
+                complete: ''
+            });
+
+        }
+        var currentUrl = window.location.href.toLowerCase();
+        $(document).ready(function() {
+            $('#rotate > ul').tabs();/* 第一个TAB渐隐渐现（{ fx: { opacity: 'toggle' } }），第二个TAB是变换时间（'rotate', 2000） */
+            $('.dw_navlist li a').click(function() { // 绑定单击事件
+                var nowurl = $(this).attr('href');
+                var vid = nowurl.split("#");
+                try{
+                    if(currentUrl.indexOf(vid[0]) != -1 ){
+                        $('#rotate > ul').tabs('select', "#"+vid[1]); // 切换到第三个选项卡标签
+                        var geturl= $('#rotate > ul li a [href="#'+vid[1]+'"]').attr("ajax_href");
+                        ajaxGetData(geturl,vid[1]);
+                        return false;
+                    }
+                }catch(ex){};
+                return true;
+            });
+
+            $('.ajaxdata a').click(function(){
+                var geturl = $(this).attr('ajax_href');
+                var hasget = $(this).attr('get')||0;
+                var nowurl = $(this).attr('href');
+                var vid = nowurl.split("#");
+                if(hasget!=1) ajaxGetData(geturl,vid[1]);
+                $(this).attr('get','1');
+                $('html,body').animate({scorllTop:0},1000);
+                return false;
+            })
+        });
+        //ui
+
+
+        $(function() {
+            $(".dw_navlist li,.dv_r_5 li").mousemove(function() {
+                $(this).addClass("current");
+            }).mouseout(function() {
+                $(this).removeClass("current");
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <include file="theme:Public:top" group="Website"/>
+    <include file="theme:Public:menu" group="Website"/>
+<include file="Public:menu" />

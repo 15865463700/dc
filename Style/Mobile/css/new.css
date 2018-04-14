@@ -1,0 +1,39 @@
+@charset "utf-8";
+/************************** 微信端新闻模块样式表 start*****************************/
+
+/*新闻分类展示页*/
+.type-box{margin: 0 auto;line-height: 50px;font-size: 16px;color: #333;}
+.type-box a{color: #333;}
+.border-top{border-top: 1px #e4e4e4 solid;}
+.border-bottom{border-bottom: 1px #e4e4e4 solid;}
+.parent-type{position: relative;padding-left: 20px;padding-right: 20px;background-color: #fff;border-bottom: 1px #e4e4e4 solid;}
+.parent-type:active{background-color: #e4e4e4;}
+.ico-top{border-left: 4px #fff solid ;border-right: 4px #fff solid;border-top: 4px #555 solid;height: 0;width: 0;position:absolute;top:24px;right: 20px;}
+.parent-type:active .ico-top{border-left: 4px #e4e4e4 solid ;border-right: 4px  #e4e4e4 solid;border-top: 4px solid #555;height: 0;width: 0;position:absolute;top:24px;right: 20px;}
+.ico-bottom{border-top: 0 !important;border-bottom: 4px solid #555;}
+.son-type li{border-bottom: 1px #e4e4e4 solid;padding-left: 40px;}
+.son-type li:active{background-color: #e4e4e4;}
+.arrow{float: right;margin-top: 15px;width: 10px;}
+
+/*新闻列表展示页*/
+.list-content{background-color: #f0eff5;clear: both;padding: 15px 0 5px 0;position: relative;top: -10px;}
+.list-box{margin-bottom: 15px;padding:15px 15px 15px 20px;background-color: #fff;position: relative;}
+.list-box:active{background-color: #e4e4e4;}
+.list-title{font-size: 18px;color: #030303;line-height: 30px;}
+.list-info{font-size: 16px;color: #a1a1a1;line-height: 25px;}
+.list-time{font-size: 14px;color: #818181;line-height: 30px;}
+.list-left{margin-right: 30px;}
+.list-right{float: right;width:30px;}
+.list-arrow{margin-left: 15px;width: 10px;position: absolute;top:50%;margin-top: -10px;}
+.load-more-btn{width:40%;height: 25px;text-align: center;line-height: 25px;font-size: 14px;color: #fff;background-color: #45b8ef;margin: 20px auto 50px auto;clear: both;display: block;border-radius: 5px;}
+
+/*新闻内容展示页*/
+.new-box{padding: 15px 0;background-color: #f0eff5;position: relative;top: -10px;}
+.content-box{border-top: 1px #e4e4e4 solid;border-bottom: 1px #e4e4e4 solid;padding: 0 20px;background-color: #fff;padding: 20px;font-size: 14px;}
+.new-title{text-align: center;font-size: 18px;color: #030303;line-height: 30px;margin-bottom: 15px;}
+.new-time{font-size: 14px;color: #818181;line-height: 30px;margin-bottom: 15px;}
+.new-img{max-width:100%;margin-bottom: 15px;}
+.content-box img{max-width: 100% !important;}
+.content-box div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td ,table{max-width: 100% !important;font-size: 14px;}
+/************************** 微信端新闻模块样式表 start*****************************/
+

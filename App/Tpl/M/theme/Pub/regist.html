@@ -1,0 +1,214 @@
+<include file="Pub:header" />
+<main>
+  <div class="login-wrap">
+  <div class="login-form">
+      <div class="form-group">
+        <label class="label-img"><img src="/Style/M/images/icon/phone.png" alt="" /></label>
+        <input type="text" name='phone' placeholder="请输入手机号码" id="phone" value="" class="form-control" />
+      </div>
+      <div class="form-group" id="psd">
+        <label class="label-img"><img src="/Style/M/images/icon/lock.png" alt="" /></label>
+        <input type="password" name="password" placeholder="请输入密码" value="" id="password" class="form-control" />
+        <div class="btnsee" id="btnSee">
+        <img src="/Style/M/images/icon/eye_close.png" />
+        </div>
+       </div>
+        <div class="form-group">
+        <label class="label-img"><img src="/Style/M/images/icon/lock.png" alt="" /></label>
+        <input type="password" name="password2" placeholder="请再次输入密码" value="" id="password2" class="form-control" />
+        </div>
+         <div class="form-group">
+        <label class="label-img"><img src="/Style/M/images/icon/rem.png" alt="" /></label>
+        <input type="text" name="spread"  placeholder="请输入推荐人用户名（选填）" id="spread" class="form-control" value="{$fx_name}"/>
+        </div>
+		
+		
+        <if condition="$is_start eq 1">
+          <div class="form-group">
+                    <label class="label-img"><img src="/Style/M/images/icon/yz.png" alt="" /></label>
+                    <input type="text"  placeholder="图形验证码" class="form-control login_code" name="phonecode" id="phonecode"/>
+                    <img src='/M/Pub/verify'  class="verify" onclick="this.src=this.src+'?t='+Math.random()"/>
+                </div>
+                <else />
+            </if>
+      <div class="form-group">
+        <label class="label-img"><img src="/Style/M/images/icon/yz.png" alt="" /></label>
+        <input type="text" placeholder="短信验证码" name="verify" id="verify"  class="form-control login_code" value="" />
+        <input type="button" value="获取手机验证码" id="sendphone" data="1" /> </div>
+       <div class="button"><span class="butt">免费注册</span></div>
+    <div class="login_other">已有账号？<a href="{:U('M/pub/login')}">立即登录</a></div>
+  </div>
+</div>
+</main>
+<div class="f-seat"></div>
+<script language="javascript">
+    var mbTest = /^(13|14|15|17|18)[0-9]{9}$/;
+    var leftsecond = 60;
+    var timer = null;
+    var msg = "";
+    $(function(){
+		$("head").prepend("<title>注册</title>");
+		$("#btnSee").click(function () {
+			var $psd = $("#password");
+			var eye = $(this).find('img');
+			if ($psd.attr('type') == 'password') {
+				eye.attr("src","/Style/M/images/icon/eye_opens.png");
+				$psd.attr('type', 'text');
+			} else {
+				eye.attr("src","/Style/M/images/icon/eye_close.png");
+				$psd.attr('type', 'password');
+			}
+		});
+
+        $("#sendphone").click(function(){
+            var is_start="<?php echo $is_start; ?>";
+            var phonecode=$("#phonecode").val();
+            if(is_start == 1){
+                if(phonecode==''){
+                    Apprise('请先填写图形验证码！');
+                    return false;
+                }
+                $.ajax({
+                    url: "__URL__/phonecode/",
+                    type: "post",
+                    dataType: "json",
+                    data: {"phonecode":phonecode},
+                    success: function(d) {
+                        if(d.status ==1){
+                            var mobile = $("#phone").val();
+                            var re= /^(13|14|15|18|17)[0-9]{9}$/;
+                            if($("#sendphone").attr("data")==0){
+                                return;
+                            }
+                            if (re.test(mobile)) {
+                                $.ajax({
+                                    url: "__URL__/sendphone/",
+                                    type: "post",
+                                    dataType: "json",
+                                    data: {cellphone:mobile,phonecode:$("#phonecode").val()},
+                                    success: function(d) {
+                                        if (d.status == 1) {
+                                            leftsecond = 60;
+                                            Apprise("手机验证码已发送!");
+											clearInterval(timer);
+                               			    timer = setInterval(setLeftTime, 1000, "1");
+
+                                        }
+                                        else {
+                                            Apprise("<font color=red>"+d.message+"</font>");
+
+                                        }
+                                    }
+                                });
+
+                            }
+                            else {
+                                Apprise('<font color=red>手机号格式错误！</font>');
+                            }
+//                            clearInterval(timer);
+//                            timer = setInterval(setLeftTime, 1000, "1");
+                        }else{
+                            Apprise('<font color=red>图形验证码填写错误！</font>');
+                        }
+                    }
+                });
+            }else{
+                var mobile = $("#phone").val();
+                var re= /^(13|14|15|18|17)[0-9]{9}$/;
+                if($("#sendphone").attr("data")==0){
+                    return;
+                }
+                if (re.test(mobile)) {
+                    $.ajax({
+                        url: "__URL__/sendphone/",
+                        type: "post",
+                        dataType: "json",
+                        data: {"cellphone":mobile,phonecode:$("#phonecode").val()},
+                        success: function(d) {
+                           leftsecond = 60;
+                            if (d.status == 1) {
+                                Apprise("手机验证码已发送!");
+                                clearInterval(timer);
+                 			    timer = setInterval(setLeftTime, 1000, "1");
+                            }else {
+                                Apprise("<font color=red>"+d.message+"</font>");
+                            }
+                        }
+                    });
+                    
+                }
+                else {
+                    Apprise('<font color=red>手机号格式错误！</font>');
+                }
+//                clearInterval(timer);
+//                timer = setInterval(setLeftTime, 1000, "1");
+            }
+
+        });
+        $(".butt").click(function(){
+            var phone =  $.trim($("#phone").val());
+            var username =  $.trim($("#username").val());
+            var password =  $.trim($("#password").val());
+            var password2 =  $.trim($("#password2").val());
+            var verify =  $.trim($("#verify").val());
+            var re= /^(13|14|15|18|17)[0-9]{9}$/;
+
+            if(!re.test(phone)){
+                return Apprise('<font color=red>手机号格式错误！</font>');
+            }
+//            if(username==''){
+//                return Apprise('<font color=red>请输入用户名</font>');
+//            }
+            if(password == ''){
+                return Apprise('<font color=red>请输入密码！</font>');
+            }
+            if(password.length<6||password.length>16){
+                return Apprise('<font color=red>密码为6-16个字母、数字、下划线！</font>');
+            }
+            if(password2 == ''){
+                return Apprise('<font color=red>请输入确认密码！</font>');
+            }
+            if(password != password2){
+                return Apprise('<font color=red>确认密码不正确，请修改</font>');
+            }
+            if(verify.length!=6){
+                return Apprise('<font color=red>请输入6位手机验证码！</font>');
+            }
+            $.ajax({
+                type: "POST",
+                url: "",
+                dataType :"json",
+                data: {"phone":phone,"username":username,"password":password,"verify":verify,"invite":$("#spread").val()
+                },
+                success: function(e) {
+                    if(e.status==1){
+                        Apprise("恭喜您注册成功，请进行实名认证!");
+                        $("#apprise-btn-confirm").click(function() {
+                            window.location.href = "{:U('M/user/idcard')}" ;
+                        })
+                    }else{
+                        Apprise("<font color=red>" + e.message+ "</font>");
+                    }
+                },
+                error: function(e) {
+                    Apprise("<font color=red>提交发生错误！请重试</font>")
+                }
+            })
+        })
+    })
+    function setLeftTime() {
+        var second = Math.floor(leftsecond);
+        $("#sendphone").val(second + "秒后可重发");
+		$("#sendphone").attr("data",0);
+       
+        leftsecond--;
+        if (leftsecond < 1) {
+            clearInterval(timer);
+            $("#sendphone").val("获取手机验证码");
+            $("#sendphone").attr("data",1);
+
+            return;
+        }
+    }
+</script>
+﻿<include file="Pub:footer" />

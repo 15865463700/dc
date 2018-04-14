@@ -1,0 +1,122 @@
+<div class="layui-width100 bottom">
+    <div class="layui-main">
+        <div class="btm-nav">
+            <div class="btm-ntitle">关于我们</div>
+            <ul>
+                <li><a href="/anenst/intro.html">公司简介</a></li>
+                <li><a href="/anenst/team.html">团队介绍</a></li>
+            </ul>
+        </div>
+        <div class="btm-nav">
+            <div class="btm-ntitle">帮助中心</div>
+            <ul>
+                <li><a href="/assistance/newbee.html">新手指导</a></li>
+                <li><a href="/assistance/Q_A.html">常见问题</a></li>
+                <li><a href="/assistance/mingci.html">名词解释</a></li>
+            </ul>
+        </div>
+        <div class="btm-nav">
+            <div class="btm-ntitle">安全保障</div>
+            <ul>
+                <li><a href="/anenst/baozhang.html">五大保障</a></li>
+                <li><a href="/assistance/userinfo.html">账户管理</a></li>
+            </ul>
+        </div>
+        <div class="btm-phone">
+            <div class="btm-ntitle">客户服务</div>
+            <div style="height: 26px;line-height: 26px;font-size: 26px;padding-top: 10px;padding-bottom: 10px;color: #6ea8ec"><img src="/Style/H/images/index/phone-blue.png" /><?php $dw_kefu=get_qq(2); echo($dw_kefu[0]["qq_num"]); ?></div>
+            <div style="color: #999;">服务时间:周一至周五9:00-17:30</div>
+        </div>
+        <div class="btm-erweima">
+            {:get_ad(8)}
+            微信公众号
+        </div>
+        <div class="btm-erweima">
+            {:get_ad(9)}
+            关注{$glo.web_name}微信<br/>
+            知悉大小事
+        </div>
+        <div class="clear"></div>
+        <div class="btm-line"></div>
+        <div class="btm-glo-bottom" style="padding-bottom:8px;">{$glo.bottom}</div>
+		<div class="btm-glo-bottom">
+		<a id='___szfw_logo___' href='https://credit.szfw.org/CX20171102036632391666.html' target='_blank'><img src='http://icon.szfw.org/cert.png' border='0' /></a>
+<script type='text/javascript'>(function(){document.getElementById('___szfw_logo___').oncontextmenu = function(){return false;}})();</script>
+		
+		</div>
+    </div>
+    <ul class="float-r hidden-xs">
+        <li class="qqq2">
+            <i class="img"></i>
+            <div class="t-c">
+                <div class="r-a"></div>
+                <div class="r-b"></div><!-- self-c -->
+                <div class="r-c">
+                    <div style="width:120px;min-height: 80px;">
+
+                        <volist name="qqlist" id="vb">
+                            <div>
+                                <div style="float:left;margin-left:5px;margin-top:5px;"><img src="/Style/H/images/icon-qq.png"/> </div>
+                                <div style="float:left;margin-left:5px;margin-top:5px;">
+                                    <a href="tencent://Message/?Uin={$vb.qq_num}&amp;websiteName={$vb.qq_title}&amp;Menu=ye" class="icoTc">&nbsp;{$vb.qq_title}</a>
+                                </div>
+                                <div style="clear: both;"></div>
+                            </div>
+                        </volist>
+                    </div>
+
+                </div>
+            </div>
+        </li>
+        <li class="qqq">
+            <i class="img" onclick="window.open('/tools/tool2.html');"></i>
+        </li>
+        <li class="app">
+            <i class="img"></i>
+            <div class="t-c">
+                <div class="r-a"></div>
+                <div class="r-b"></div>
+                <div class="r-c">
+                    <div style="width:120px;min-height: 40px;">
+                        <?php $dw_kefu=get_qq(2);?>
+                        <?php echo ($dw_kefu[0]["qq_num"]); ?>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="wx">
+            <i class="img" onclick="window.open('/assistance/newbee.html');"></i>
+        </li>
+
+        <li id="btn_up_page" class="up">
+            <i class="img"></i>
+        </li>
+    </ul>
+</div>
+
+
+
+<script type="text/javascript">
+    function showWeixin(){
+        layer.open({
+            type: 1
+            ,title: "本站官方微信" //不显示标题栏
+            ,area: '260;'
+            ,shade: 0.3
+            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+            ,resize: false
+            ,moveType: 1 //拖拽模式，0或者1
+            ,content: '<div style="padding: 30px;">{:get_ad(38)}</div>'
+        });
+    }
+    $(function(){
+        $(".float-r > li:not(.up)").hover(function() {
+            $(this).addClass('enable');
+        }, function() {
+            $(this).removeClass('enable');
+        });
+    });
+</script>
+</body>
+</html>

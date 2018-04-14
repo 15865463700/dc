@@ -1,0 +1,8 @@
+<if condition="$vo['id_status'] eq 1">
+<include file="theme:Safe:idcard" group="User"/>
+<elseif condition="$vo['id_status'] eq 3"/>
+<div style="overflow: auto; width: 594px; height: auto; text-align:center; padding:20px; font-size:18px" id="mybox2_content">
+	<span style="font-size:12px;" class="member-color-red"><img src="/Style/M/images/zhuce1.gif" style="vertical-align:middle">&nbsp;&nbsp;亲爱的[{:session('u_user_name')}]，您好，你提交的身份认证正在审核中...</span>
+</div>
+<else/>
+</if>

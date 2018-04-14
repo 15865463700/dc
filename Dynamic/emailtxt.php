@@ -1,0 +1,2 @@
+<?php
+return array ( 'regsuccess' => '尊敬的\'#UserName#\'您好！<br>恭喜您注册成功,请点击下面的链接即可完成激活#LINK#<br><div style="text-align:right">客服中心</div>', 'safecode' => '您的验证码是"#CODE#"', 'changephone' => '您的验证码是"#CODE#"', 'verifysuccess' => '您的借款申请审核通过。', 'getpass' => '您好，点击验证链接#LINK#继续进行密码找回。', 'repaymentTip' => '尊敬的\'#UserName#\'您好，！您的借款名为【#borrowName#】的借款即将到期，请及时还款！<br/>您的本次借款金额为：#borrowMoney#元。', 'getpaypass' => '您好，点击验证链接#LINK#继续进行支付密码找回。', ); ?>

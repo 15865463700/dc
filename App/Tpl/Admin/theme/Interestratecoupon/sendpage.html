@@ -1,0 +1,54 @@
+<include file="Public:_header"/>
+<tagLib name="htmlA"/>
+<script type="text/javascript">
+    var isSearchHidden = 1;
+    var searchName = "搜索/筛选会员";
+</script>
+<div class="so_main">
+    <div class="page_tit">管理员预发送加息券</div>
+    <!--<input type="hidden" value="{$flag}" id="flag"/>-->
+    <!--搜索/筛选会员-->
+    <include file="search" />
+    <!--搜索/筛选会员-->
+
+    <div class="Toolbar_inbox">
+        <div class="page right">{$list.page}</div>
+        <htmlA:commonBtn type="jsfun" action="dosearch();" value="搜索/筛选会员" style="search_action" />
+        <htmlA:commonBtn type="href" action="__URL__/sendcoupon?{$query}" value="为当前用户预发送加息券"/>
+    </div>
+
+    <div class="list" >
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th class="line_l">ID</th>
+                <th class="line_l">用户名</th>
+                <th class="line_l">真实姓名</th>
+                <th class="line_l">手机号</th>
+                <th class="line_l" >累计投资金额</th>
+                <th class="line_l" >累计提现金额</th>
+                <th class="line_l" >累计充值金额</th>
+                <th class="line_l" >是否领取加息券</th>
+            </tr>
+            <volist id="vo" name="list.list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>{$vo.id}</td>
+                    <td>{$vo.user_name}</td>
+                    <td>{$vo.real_name}</td>
+                    <td>{$vo.user_phone}</td>
+                    <td>{$vo.capital|default="0.00"}</td>
+                    <td>{$vo.withdraw|default="0.00"}</td>
+                    <td>{$vo.charge|default="0.00"}</td>
+                    <td>{$vo.getcoupon}</td>
+                </tr>
+            </volist>
+        </table>
+
+    </div>
+
+    <div class="Toolbar_inbox">
+        <div class="page right">{$list.page}</div>
+        <htmlA:commonBtn type="jsfun" action="dosearch();" value="搜索/筛选会员" style="search_action" />
+        <htmlA:commonBtn type="href" action="__URL__/sendcoupon?{$query}" value="为当前用户预发送加息券"/>
+    </div>
+</div>
+<include file="Public:_footer" />

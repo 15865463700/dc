@@ -1,0 +1,89 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+	var delUrl = '__URL__/doDel';
+	var addUrl = '__URL__/add';
+</script>
+
+<div class="so_main">
+  <div class="page_tit">红包列表</div>
+  <div class="Toolbar_inbox">
+    <div class="page right">{$pagebar}</div>
+      <htmlA:commonBtn type="href" action="__URL__/add" value="添加红包" />
+      
+  </div>
+  <div class="list">
+    <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th style="width:30px;"> <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+          <label for="checkbox"></label>
+        </th>
+        <th class="line_l">ID</th>
+        <th class="line_l">红包名称</th>
+        <th class="line_l">金额</th>
+        <th class="line_l">投资期限范围(单位)</th>
+        <th class="line_l">最低投资金额(单位)</th>
+        <th class="line_l">是否需手机验证</th>
+        <th class="line_l">是否需邮箱验证</th>
+        <th class="line_l">是否需实名认证</th>
+        <th class="line_l">有效期</th>
+          <!--<th class="line_l">收券人管理</th>-->
+        <th class="line_l">添加时间</th>
+		<th class="line_l">状态</th>
+          <!--<th class="line_l">收券人管理</th>-->
+        <th class="line_l">操作</th>
+      </tr>
+      <volist id="vo" name="list">
+        <tr overstyle='on' id="list_{$vo.id}">
+            <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+            <td>{$vo.id}</td>
+            <td>{$vo.title}</td>
+            <td>{$vo.rmoney}（元）</td>
+            <td>{$vo.min_duration}-{$vo.max_duration}（月）</td>
+			 <td>{$vo.min_invest_money}（元）</td>
+            <td><if condition="$vo['phone_status']==0">不需要<else/>需要</if></td>
+            <td><if condition="$vo['email_status']==0">不需要<else/>需要</if></td>
+            <td><if condition="$vo['name_status']==0">不需要<else/>需要</if></td>
+            <td>{$vo.expire_time}</td>
+            <td>{$vo.add_time|date="Y-m-d H:i",###}</td>
+            <td>
+                <if condition="$vo['status']==0">
+                    未发送
+                    <elseif condition="$vo['status']==1"/>
+                    已发送
+                    <else/>
+                    错误
+                </if>
+            </td>
+            <!--
+            <td>
+                <if condition="$vo['status']==0">
+                    <a href="#?irc_id={$vo.id}">收券人管理</a>
+                    <elseif condition="$vo['status']==1"/>
+                    <a href="#?irc_id={$vo.id}">收券人记录</a>
+                    <else/>
+                    错误
+                </if>
+            </td>-->
+            <td>
+                <if condition="$vo['status']==0">
+                    <a href="__URL__/edit?id={$vo['id']}">编辑</a>
+                    &nbsp;|&nbsp;
+                    <!--<a href="javascript:;" onclick="showurl('__URL__/edit?id={$vo['id']}','加息券');">发送</a>-->
+                    <a href="__URL__/sendpage?id={$vo['id']}">发送</a>
+                    <elseif condition="$vo['status']==1"/>
+                    <a href="__URL__/sublist?id={$vo['id']}">查看</a>
+                    <else/>
+                    错误
+                </if>
+            </td>
+        </tr>
+      </volist>
+    </table>
+  </div>
+  <div class="Toolbar_inbox">
+    <div class="page right">{$pagebar}</div>
+    <htmlA:commonBtn type="href" action="__URL__/add" value="添加红包" />
+  </div>
+</div>
+<include file="Public:_footer" />

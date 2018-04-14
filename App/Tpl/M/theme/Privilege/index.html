@@ -1,0 +1,99 @@
+<include file="Pub:header" />
+<link rel="stylesheet" type="text/css" href="/Style/M/css/security.css">
+<section class="gold_con">
+    <notempty name="list.list">
+	<ul>
+        <volist name="list.list" id="tqj">
+        <li>
+        	<img src="/Style/M/images/gold.jpg" alt="特权金列表"/>
+            <div class="gold_con_title">
+                <h3>特<br/>权<br/>金</h3>
+                <div class="gold_box">
+                	<h5>{$tqj.title}</h5>
+                    <h4>{$tqj.rate}<em>%</em></h4>
+                    <b>年利率</b>
+                    <div class="gold_width">
+                        <if condition="$tqj['conditions']['phone'] eq 1">
+                            <i>手机认证</i>
+                        </if>
+                        <if condition="$tqj['conditions']['idcard'] eq 1">
+                            <i>实名认证</i>
+                        </if>
+                        <br/>
+                        <if condition="$tqj['conditions']['email'] eq 1">
+                            <i>邮箱认证</i>
+                        </if>
+                        <if condition="$tqj['conditions']['principal'] gt 0">
+                            <i>待收本金:{$tqj['conditions']['principal']}元</i>
+                        </if>
+                    </div>
+                </div>
+                <div class="gold_time">
+                	<p>开始时间：{$tqj.online_time|date="Y-m-d",###}</p>
+                    <p>结束时间：{$tqj.deadline|date="Y-m-d",###}</p>
+                </div>
+                <div class="gold_money">
+                	<h4>{$tqj.money}<em>元</em></h4>
+                </div>
+                <if condition="$tqj.send_status gt 0">
+                    <a style="background:#ccc;">已领取</a>
+                    <else/>
+                    <if condition="$tqj.status eq 1">
+                        <a href="javascript:;" pid="{$tqj.id}" money="{$tqj.money}" rate="{$tqj.rate}" total="{$tqj.total}" class="test">领取</a>
+                        <else/>
+                        <a style="background:#ccc;">已结束</a>
+                    </if>
+                </if>
+            </div>
+        </li>
+        </volist>
+	</ul>
+    <else/>
+    <ul >
+        <img src="/Style/H/images/images/no_records.png" alt="" style="width: 10rem;height: 8rem;margin:5rem 3rem 0.5rem 3rem;"/>
+        <p style="font: 0.75rem/0.5rem arial;color: #1d1d1d;text-align: center;line-height: 2rem">暂无记录</p>
+    </ul>
+    </notempty>
+	<div class="pubPage" style="text-align:center;">{$list.page}</div>
+</section>
+<script type="text/javascript">
+$(function(){
+	$("head").prepend("<title>特权金</title>");
+	$("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+    $(".test").click(function(){
+        var id=$(this).attr('pid');
+        var money = $(this).attr('money');
+        var rate = $(this).attr('rate');
+        var total = $(this).attr('total');
+        if(confirm("特权金额："+money+"元  年利率："+rate+"%  收益次数："+total+"次\n您确定要领取吗？")){
+            $.ajax({
+                url:"__URL__/receive",
+                type:"post",
+                data:{"id":id},
+                dataType:"json",
+                success:function(e){
+                    if(e.status==1){
+                        Apprise("领取成功");
+                        $("#apprise-btn-confirm").click(function(){
+                            window.location.reload();
+                        })
+                    }else if(e.status==2){
+                        Apprise("登录后才可领取特权金，是否跳转登录页？");
+                        $("#apprise-btn-confirm").click(function(){
+                            location.href="/M/pub/login.html";
+                        });
+                    }else{
+                        Apprise('<font color=red>'+e.message+'</font>');
+                        return false;
+                    }
+                }
+
+            })
+        }
+
+
+    });
+});
+	
+</script>
+﻿<include file="Pub:footer" />

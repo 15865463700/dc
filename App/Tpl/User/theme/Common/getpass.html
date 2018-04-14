@@ -1,0 +1,54 @@
+<include file="Public:_header_common" />
+<title>我的账户-- {$glo.web_name}</title>
+<script type="text/javascript" src="/Style/Js/ajaxfileupload.js"></script>
+
+<div style="height:300px; width:100%">
+
+</div>
+<script type="text/javascript">
+var mbTest = /^(13|14|15|18)[0-9]{9}$/;
+var timer = null;
+var leftsecond = 60; //倒计时
+var msg = "";
+var closeAction = function (){
+	window.location.href="/";
+}
+
+function jfun_setpass() {
+	var pass1 = $('#pass').val();
+	var pass2 = $('#repass').val();
+	if ($.trim(pass1) == '' || pass1.length<6) {
+        layer.msg("请输入新密码,且新密码的长度不要小于6位",{icon:5,shade:0.3});
+		return;
+	}
+	if ($.trim(pass2) != $.trim(pass1)) {
+        layer.msg("新密码与重复密码必须相同",{icon:5,shade:0.3});
+		return;
+	}
+    var ii = layer.load();
+	$.ajax({
+		url: "__URL__/dosetnewpass/",
+		type: "post",
+		dataType: "json",
+		data: {"pass":pass1},
+		success: function(result) {
+            layer.close(ii);
+			if (result.status == 1) {
+                layer.msg("修改成功",{icon:6,shade:0.3},function(){
+                    window.location.href="/login";
+                });
+			}
+			else {
+                layer.msg("修改失败",{icon:5,shade:0.3});
+			}
+		}
+	});
+}
+
+	$.jBox("get:__URL__/setnewpass/", {
+		title: "{$glo.web_name}验证中心",
+		width: "auto",
+		buttons: {'设置新密码':'jfun_setpass()','关闭': true }
+	});
+</script>
+<include file="Public:_footer"/>

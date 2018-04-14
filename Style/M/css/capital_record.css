@@ -1,0 +1,93 @@
+*{ padding:0; margin:0;}
+ul,ol{ list-style:none;}
+a{ text-decoration:none;}
+input,a{ outline:none;}
+body{ font-family:"微软雅黑";}
+img{ border:none;}
+
+/*资金记录页面*/
+
+.cap_re_gray{ width:100%; height:7px; background:#f0f0f0;}
+.cap_re_con{ width:100%; background:#fff; border-bottom:1px solid #eaeaea; border-top:1px solid #eaeaea;}
+.cap_re_con ul{ width:90%; margin:0 auto;}
+.cap_re_con ul li{ border-bottom:1px solid #e4e4e4; position:relative;}
+/*.cap_re_con ul li img{ margin:18px 0 10px;}*/
+.cap_re_con ul li:last-child{ border-bottom:0;}
+.cap_re_con ul li .cap_yell,.cap_re_con ul li .cap_red{ margin:18px 0 10px; height:68px; width:68px;}
+.cap_re_con ul li .left{ position:absolute; top:28px; left:95px;}
+.cap_re_con ul li .left p{ font-size:20px; color:#444; margin-bottom:3px;}
+.cap_re_con ul li .left b{ font-size:18px; color:#999; font-weight:400;}
+.cap_re_con ul li .right{ float:right;}
+/*.cap_re_con ul li .right i{ font-size:24px; font-style:normal; margin-top:30px; position:relative; top:27px;}
+.cap_re_con ul li .right .f96e6e{ color:#f96e6e;}
+.cap_re_con ul li .right .color_444{ color:#444;}*/
+.cap_re_con ul li .right .color_money{ font-size:24px; font-style:normal; margin-top:30px; position:relative; top:26px; color:#444;}
+
+.display_none{ display:none;}
+
+/*资金记录页面*/
+.loan_input{ padding:0 0.75rem;font-size:0.4rem;color: #666;line-height: 1.65rem;box-shadow: 0rem 0.18rem 0.13rem #e0e0e0; background:#fff;}
+.loan_input b{ color:#666; font-size:20px; font-weight:100; margin:0 5px;}
+.loan_input .form-control{ width:142px !important; height:45px !important; display:inline !important; border-radius:7px;}
+.loan_input .search-but{ width:98px; height:45px; background:#fc7580; color:#fff; font-size:16px; margin-left:44px; border-radius:7px;}
+
+.loan_list{ width:100%; height:100%; background:#f0f0f0; overflow:hidden;}
+.loan_list ul .loan_li{ margin-bottom:-120px; position:relative;}
+.loan_list ul .loan_li img{ width:607px; height:280px; margin-left:10%; position:absolute; top:0; left:0;}
+.loan_list ul .loan_li .loan_con{ position:relative; top:30px; left:0; width:75%; margin:0 auto;}
+.loan_list ul .loan_li h3{ font-size:24px; color:#444;}
+.loan_list ul .loan_li b{ font-size:18px; color:#999; font-weight:100; float:right; position:relative; top:-35px; right:15px;}
+.loan_list .loan_left{ position:relative; top:11px;}
+.loan_list .loan_left li{ font-size:20px; color:#999; margin-bottom:20px;}
+.loan_list .loan_right li{ font-size:20px; color:#444; position:relative; left:200px; top:-180px; margin-bottom:20px;}
+
+.loan_list ul .loan_li .loan_con .box{ position:absolute; top:115px; left:422px; width:100px; height:100px;}
+.loan_list ul .loan_li .loan_con p{ font-size:30px; color:#fff; text-align:center;}
+
+/*特权金列表*/
+.p_gold{ width:100%; background:#f0f0f0;}
+.p_gold ul{ overflow:hidden;}
+.p_gold li{ position:relative; top:0.45rem; height:5.5rem;}
+.p_gold li img{ display:block; margin:0 auto; width:15.2rem; height:4.9rem;}
+.p_gold li .p_gold_left{ position:absolute; top:1.5rem; left:1.0rem; text-align:center;}
+.p_gold li .p_gold_left h3{ font-size:1rem; color:#444; font-weight:100;}
+.p_gold li .p_gold_left p{ font-size:0.45rem; color:#999;}
+
+.p_gold li .p_gold_center{ position:absolute; top:0.95rem; left:4.7rem;}
+.p_gold li .p_gold_center h4{ font-size:0.45rem; color:#999; font-weight:100;}
+.p_gold li .p_gold_center b{ font-size:0.85rem; color:#ff864a; font-weight:100; position:relative; top:0.3rem;}
+.p_gold li .p_gold_center em{ font-style:normal; font-size:20px;}
+.p_gold li .p_gold_center i{ font-size:0.5rem; color:#444; font-style:normal; position:absolute; top:1.1rem; left:4.6rem; width:2.5rem;}
+.p_gold li .p_gold_center p{ font-size:0.4rem; color:#999; position:relative; bottom:-1.2rem;}
+
+.p_gold li .p_gold_right{ position:absolute; top:0.4rem; left:12rem;}
+.p_gold li .p_gold_right img{ width:3rem; height:3rem;}
+
+.p_gold_box{ width:100%; height:2rem; background:#f0f0f0;}
+
+@media(max-width:641px){
+/*特权金列表*/
+body{ background:#f0f0f0;}
+.p_gold li .p_gold_center i{ top:1.15rem; left:4.6rem;}
+.p_gold li .p_gold_center p{ font- size:0.35rem; bottom:-1.1rem;}
+
+}
+
+@media(max-width:380px){
+/*特权金列表*/
+.p_gold li .p_gold_center i{ top:1.2rem; left:4.65rem;}
+.p_gold li .p_gold_center p{ bottom:-1rem;}
+}
+
+@media(max-width:365px){
+/*特权金列表*/
+.p_gold li .p_gold_center i{ top:1.3rem; left:4.65rem;}
+.p_gold li .p_gold_center p{ bottom:-0.9rem;}
+.p_gold li .p_gold_right{ left:12.05rem;}
+}
+
+@media(max-width:330px){
+/*特权金列表*/
+.p_gold li .p_gold_center i{ top:1.4rem; left:4.65rem;}
+.p_gold li .p_gold_center p{ bottom:-0.7rem;}
+}

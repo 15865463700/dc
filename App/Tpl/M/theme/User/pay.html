@@ -1,0 +1,74 @@
+<include file="Pub:header" />
+<style type="text/css">
+.pay-left { margin-top: 0.175rem; height: 2.5rem; border-top: 0.025rem solid #eaeaea; border-bottom: 0.025rem solid #eaeaea; }
+.pay-input { height: 2.5rem; color: #666666;width: 5rem;}
+</style>
+<div class="main">
+<div class="recharge width-100 color-bg-whtie text-center">
+  <p class="color-444">我的账户余额</p>
+  <div> <span class="span_o float-left text-right color-999 font05">账户余额（元）</span> <span class="span_t float-right text-left">{$account_money|default="0.00"}</span> </div>
+</div>
+<div class="pay-left color-bg-whtie">
+  <div class="cen_pay-left">
+    <p class="float-left color-444">充值金额：</p>
+    <input type="text" name="money" class="input_money pay-input font05" id="t_money" value="填写您所要充值的金额" onblur="if(this.value == '')this.value='填写您所要充值的金额';" onclick="if(this.value == '填写您所要充值的金额')this.value='';" />
+    <span class="notice" style="font-size:0.45rem;color:#ff8e50;"></span> </div>
+</div>
+<div class="pay_button text-center">
+  <input type="button" id="bank_submit" value="充值" class="pay-button" />
+</div>
+<div class="width-100" style="margin-top: 2.5rem;">
+  <div class="cen_pay_bottom"> <span class="font05">温馨提示：</span>
+    <p>1、最低充值金额50元，小数点后最多两位。</p>
+    <p>2、充值免手续费！充值资金可用于进行验证、投标、还款等。</p>
+    <p>3、充值成功后资金会立刻划拨到您的账户。</p>
+  </div>
+  <div class="clear"></div>
+</div>
+</div>
+<div class="f-seat"></div>
+<script type="text/javascript">
+function BlurMoney() {
+        var pat = /^[0-9]*(\.[0-9]{1,2})?$/;
+        var str = $('.input_money').val();
+
+        if (str == "") {
+            $('.notice').html("<img src='/Style/H/images/zhuce2.png' style='vertical-align:sub;width: 0.5rem;height: 0.5rem;' />&nbsp;数据有误！");
+            return false;
+        }
+
+        var m = parseFloat(str);
+
+        if (m < 50) {
+            $('.notice').html("<img src='/Style/H/images/zhuce2.png' style='vertical-align:sub;width: 0.5rem;height: 0.5rem;' />&nbsp;不能小于最低充值金额！");
+            return false;
+        }
+
+        if (pat.test(str)) {
+            $('.notice').html("<img src='/Style/H/images/zhuce3.gif' style='vertical-align:sub;width: 0.4rem;height: 0.4rem;' />&nbsp;");
+            return true;
+        }else {
+            $('.notice').html("<img src='/Style/H/images/zhuce2.png' style='vertical-align:sub;width: 0.5rem;height: 0.5rem;' />&nbsp;小数点后保留两位");
+            return false;
+        }
+    }
+$(function(){
+	$("head").prepend("<title>我要充值</title>");
+	$("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+	$("body").css("background","#f0f0f0");
+	//充值金额
+    $('.input_money').blur(function(){
+        BlurMoney();
+    });
+    //支付
+    $('#bank_submit').click(function(){
+        if (BlurMoney()) {
+            var money = $(".input_money").val();
+            var url = "bankCode=allinpay" + "&t_money=" + money;
+            window.open("/Pay/allinpaywap?" + url);
+        }
+    });
+});   
+</script>
+<div class="f-seat"></div>
+﻿<include file="Pub:footer" />

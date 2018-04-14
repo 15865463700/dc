@@ -1,0 +1,326 @@
+<include file="Pub:header" />
+<script type="text/javascript" src="/Style/js/area.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<script type="text/javascript">
+    function myrefresh(){
+        window.location.href="/M/User/index";
+    }
+	var newTitle = '{$glo.web_name}提醒您：';
+	$(function() {
+        $("head").prepend("<title>银行卡</title>");
+        $("#member").addClass("f-cur").find("img").attr("src","/Style/M/images/icon/user-on.png");
+        $("body").css("background","#f0f0f0");
+		$("#btn_set").click(function() {
+			clearErr();
+			if ($("#bank_name").val()=="") {
+				addErr("请选择开户行");
+                return;
+			}
+			if ($("#txt_account").val().length < 1) {
+				addErr("请输入您的银行账号");
+                return;
+			}
+			if ($("#txt_account").val().length < 9) {
+				addErr("请输入正确的银行卡号");
+                return;
+			}
+            if ($("#txt_account").val().length > 25) {
+                addErr("请输入正确的银行卡号");
+                return;
+            }
+			if ($("#txt_bankName").val().length < 1) {
+				addErr("请输入开户支行名称");
+                return;
+			}
+			if ($("#province").val()=="") {
+				addErr("请选择开户行所在省份");
+                return;
+			}
+			if ($("#city").val()=="") {
+				addErr("请选择开户行所在市");
+                return;
+			}
+           if ($("input[name='account_type']:checked").val()==1 && $("#pub_accname").val()==""){
+
+                   addErr("请填写企业账户户主名称！");
+               return;
+              
+           }
+			if ($("#txt_confirmaccount").val() != $("#txt_account").val()) {
+				addErr("更新失败。两次输入银行账号不一致，请重新输入！");
+				$("#txt_confirmaccount").val("");
+				$("#txt_confirmaccount").focus();
+                return;
+			}
+            if ($("#phone_code").val()=="") {
+                addErr("请填写手机验证码");
+                return;
+            }
+			if (hasErr()) {
+				showErr();
+				return false;
+			}
+			else {
+					$.ajax({
+						url: "/M/User/bindbank",
+						type: "post",
+						dataType: "json",
+						data: {
+							account: $("#txt_account").val(), oldaccount: $("#txt_oldaccount").val(),
+							province: $("#province").val(),cityName: $("#city").val(),
+							bankaddress: $("#txt_bankName").val(), bankname: $("#bank_name").val(),
+                            phone_code:$("#phone_code").val()
+						},
+						success: function(d) {
+							if (d.status == 1) {
+                                Apprise("恭喜，您的银行卡更新成功！");
+                                $("#apprise-btn-confirm").click(function(){
+                                    window.location.href="{:U('M/User/index')}";
+                                });
+							}else{
+                                Apprise('<font color=red>'+ d.message+'</font>');
+							}
+						}
+					});
+			}
+		});
+		var ops = '添加';
+		if (ops == '添加') {
+			$("#trOldAccount").css("display", "none")
+		}
+		$("#bankname").html($("#" + 'sel_bankList2' + " :selected").html());
+		$("#txt_account").bind("keyup", function() {
+			$this = $(this);
+			$this.val($this.val().toString().replace(/[^\d]+/, ""));
+		});
+	});
+	function checkSub() {
+		$("input[type='text']").each(function() {
+			if ($(this).val().length < 1)
+				return false;
+		});
+		return true;
+	}
+
+	//根据隐藏的银行卡账户判断是更新还是新增
+	function showErr() {
+		$(".alertDiv").css("display", "");
+	}
+	function clearErr() {
+		$(".alertDiv ul").html("");
+		hideErr();
+	}
+	function addErr(err) {
+        $(".alertDiv").css("display", "");
+		$(".alertDiv ul").append("<li class='ts_li'>" + err + "</li>");
+	}
+	function hideErr() {
+		$(".alertDiv").css("display", "none");
+	}
+	function hasErr() {
+		return $(".alertDiv ul li").length > 0;
+	}
+    //若为企业账户隐藏户主姓名
+    function hidename(){
+        document.getElementById("account_name").style.display="none";
+        document.getElementById("account_name1").style.display=""; document.getElementById("account_name").style.display="none";
+        document.getElementById("account_name1").style.display="";
+    }
+    //若为个人账户显示户主姓名
+    function showname(){
+        document.getElementById("account_name").style.display="";
+        document.getElementById("account_name1").style.display="none";
+    }
+	
+</script>
+<div class="main">
+    <div id="formTb">
+        <div class="binding_bank bordertop borderbottom color-bg-whtie margintop0175">
+            <div class="cen_bind_bank">
+                <p class="float-left color-444">您当前的银行账号：</p>
+                <span class="float-left color-999 font05">{$vobank.bank_num|hidecard=###,3,'还没有登记您的银行账号'}</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="binding_bank borderbottom color-bg-whtie">
+            <div class="cen_bind_bank">
+                <p class="float-left color-444">您当前的银行名称：</p>
+            <span class="float-left color-999">
+                <htmlA:select id="bank_name" value="key|vobank.bank_name" datakey='bank_list' class="selectStyle" addstr='style="width:4rem"'/>
+            </span>
+                <span class="bind_bank_span float-left">*</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="binding_bank borderbottom color-bg-whtie">
+            <div class="cen_bind_bank">
+                <p class="float-left color-444">您银行账户户主姓名：</p>
+            <span class="float-left color-999" id="spname">
+                {:cnsubstr($voinfo['real_name'],1,0,'utf-8',false).str_repeat("*",strlen($voinfo['real_name'])-1)}
+            </span>
+                <span class="bind_bank_span float-left">*</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="binding_bank borderbottom color-bg-whtie" id="account_name1" style="display: none">
+            <div class="cen_bind_bank">
+                <p class="float-left color-444">企业账户户主名称：</p>
+            <span class="float-left color-999">
+                <input class="text2 tdinput" id="pub_accname" type="text">
+                <span style="color:#fc8936; margin: 0px 5px;">*</span>
+            </span>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <if condition="$vobank.bank_num gt 10">
+            <div class="binding_bank borderbottom color-bg-whtie">
+                <div class="cen_bind_bank">
+                    <p class="float-left color-444">当前的银行账号：</p>
+                    <span class="float-left color-444">
+                        <input class="text2 tdinput font05" id="txt_oldaccount" type="text" placeholder="输入当前银行账号">
+                    </span>
+                    <span class="bind_bank_span float-left">*</span>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </if>
+
+        <div class="binding_bank bordertop borderbottom color-bg-whtie margintop0175">
+            <div class="cen_bind_bank">
+                <p class="float-left color-444">新的银行账号：</p>
+            <span class="float-left color-444">
+                <input class="text2 tdinput font05" id="txt_account" type="text" placeholder="银行账号">
+            </span>
+                <span class="bind_bank_span float-left">*</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="binding_bank borderbottom color-bg-whtie">
+            <div class="cen_bind_bank">
+                <p class="float-left color-444">确认新的银行账号：</p>
+            <span class="float-left color-444">
+                <input class="text2 tdinput font05" id="txt_confirmaccount" type="text" placeholder="确认银行账号">
+            </span>
+                <span class="bind_bank_span float-left">*</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="binding_bank bordertop borderbottom color-bg-whtie margintop0175">
+            <div class="cen_bind_bank">
+                <p class="float-left color-444">开户银行所在省份：</p>
+            <span class="float-left color-999">
+                <select name="selectp" id="province" style="width: 2.5rem;" class="selectStyle">
+                    <option value="0">请选择省份 </option>
+                </select>
+            </span>
+                <span class="bind_bank_span float-left">*</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="binding_bank borderbottom color-bg-whtie">
+            <div class="cen_bind_bank">
+                <p class="float-left color-444">开户银行所在市：</p>
+            <span class="float-left color-999">
+                <select name="selectc" id="city" style="width: 2.5rem" class="selectStyle">
+                    <option value="0">请选择城市</option>
+                </select>
+					<select name="selectc" id="district" style="width:2.5rem; display:none" class="selectStyle">
+                        <option value="0">请选择地区</option>
+                    </select>
+            </span>
+                <span class="bind_bank_span float-left">*</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="binding_bank bordertop borderbottom color-bg-whtie margintop0175">
+            <div class="cen_bind_bank">
+                <p class="float-left color-444"> 开户行支行名称：</p>
+            <span class="float-left color-444">
+                <input name="txt_bankName" id="txt_bankName" value="" class="text2 tdinput" type="text" placeholder="输入名称">
+            </span>
+                <span class="bind_bank_span float-left">*</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <if condition="$vobank.bank_num gt 10">
+            <div class="binding_bank borderbottom color-bg-whtie">
+                <div class="cen_bind_bank">
+                    <p class="float-left color-444">手机验证码：</p>
+                    <span class="float-left color-999">
+                        <input class="text2 float-left" id="phone_code" type="text" style="width:2.8rem;line-height: 2.5rem;" placeholder="验证码">
+                    </span>
+                    <span id="sendSMSTip" class="float-left" style="color: #d24848;font-size: 0.45rem;">
+                            <a href="javascript:;" onclick="sendMobileValidSMSCode()" id="btnSendMsg" class="phone_color2 float-left" style="color: #fff;">获取验证码</a>
+                        </span>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </if>
+        <div style="display: none; margin:1rem auto 0;width: 15rem;" class="alertDiv">
+            <ul style="display: block;">
+            </ul>
+        </div>
+        <div class="bind_bank_input">
+            <if condition="$edit_bank eq 1 or $vobank.bank_num lt 10">
+                <input value="提交数据" class="phone_button width-100 color-white" id="btn_set" type="button">
+                <elseif condition="$edit_bank eq 0 and $vobank.bank_num gt 10"/>
+                <input value=" 禁止修改 "  id="phone_button width-100 color-white" type="button" disabled="disabled">
+            </if>
+        </div>
+    </div>
+</div>
+<div class="bind_bank_wz phone_left phone_border phone_right">
+    <span class="phone_color">温馨提示：</span>
+    <p><b>1.</b>请用户尽量填写较大的银行（如农行、工行、建行、中国银行等），避免填写那些比较少见的银行（如农村信用社、平安银行、恒丰银行等）。 否则提现资金很容易会被退票。</p>
+    <p><b>2.</b>信用卡账号无法提现，请不要误填。</p>
+    <p><b>3.</b>绑定银行卡的过程中如遇任何问题，请联系客服。</p>
+</div>
+<script type="text/javascript">
+    var areaurl="/M/User/getarea/";
+    var s = new GetAreaSelect('#province','#city','#district',<empty name="vobank['bank_province']">2<else/>{$vobank.bank_province}</empty>,<empty name="vobank['bank_city']">52<else/>{$vobank.bank_city}</empty>);
+</script>
+<script type="text/javascript">
+var timer = null;
+var leftsecond = 60; //倒计时
+var msg = "";
+function sendMobileValidSMSCode() {
+    $('#sendSMSTip').html("短信发送中...");
+    $.ajax({
+        url: "__URL__/sendphone/",
+        type: "post",
+        dataType: "json",
+        success: function(d) {
+            leftsecond = 60;
+            if (d.status == 1) {
+                //$.jBox.tip(d.message, 'success');
+                msg = "发送成功,";
+                clearInterval(timer);
+                timer = setInterval(setLeftTime, 1000, "1");
+            }else if (d.status == 2){
+                $('#sendSMSTip').html(d.message);
+            }else{
+                $('#sendSMSTip').html(d.message);
+            }
+        }
+    });
+	
+}
+
+function setLeftTime() {
+	var second = Math.floor(leftsecond);
+	$("#sendSMSTip").html(second+'s');
+	leftsecond--;
+	if (leftsecond < 1) {
+		$("#sendSMSTip").html('<a href="javascript:;" onclick="sendMobileValidSMSCode()" id="btnSendMsg" class="phone_color2 float-left">获取验证码</a>');
+		clearInterval(timer);
+		try {
+                    $("#sendSMSTip").html('<a href="javascript:;" onclick="sendMobileValidSMSCode()" id="btnSendMsg" class="phone_color2 float-left">获取验证码</a>');
+		} catch (E) { }
+		return;
+	}
+}
+</script>
+<div class="f-seat"></div>
+﻿<include file="Pub:footer" />

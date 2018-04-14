@@ -1,0 +1,24 @@
+<FORM method="post" name="investForm" id="investForm" class="ajax-invest" action="__URL__/investmoney"onkeydown="if(event.keyCode==13)return false;">
+<input type="hidden" name="T_borrow_id" id="T_borrow_id" value="{$id}" />
+<input type="hidden" name="per_transfer" id="per_transfer" value="{$vo.per_transfer}" />
+<input type="hidden" name="chooseWay" id="chooseWay" value="{$chooseway}" />
+<input type="hidden" name="transfer_invest_num" id="transfer_invest_num" value="{$num}" />
+
+ <ul class="item">
+			<if condition="$has_pin eq 'yes'">
+				<li>
+					<h6>支付密码</h6>
+					<input type="password" id="T_pin" name="T_pin" />
+				</li>
+				<li>
+					<div>
+					<a href="javascript:void(0);" class="center" onclick="T_PostData()">立即投资</a>
+					</div>
+				</li>
+			<else/>
+				<li>
+					<a href='/user/user#fragment-3' target="_blank" onclick="$.jBox.close();" class="center">请设置支付密码</a>
+				</li>
+			</if>
+	</ul>
+</FORM>

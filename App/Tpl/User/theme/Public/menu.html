@@ -1,0 +1,64 @@
+<div class="layui-width100 user-bg-e7 user-h85">
+    <div class="layui-main">
+        <ul class="layui-nav layui-nav-user" lay-filter="">
+            <li class="layui-nav-item"><a href="/user">账户总览</a></li>
+            <li class="layui-nav-item">
+                <a href="/user/memberinfo#fragment-1">基本设置</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/user/memberinfo#fragment-1">基本资料</a></dd>
+                    <dd><a href="/user/user#fragment-1">头像与密码</a></dd>
+                    <dd><a href="/user/verify#fragment-1">认证中心</a></dd>
+                    <dd><a href="/user/msg#fragment-1">系统消息</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/user/capital#fragment-1">资金管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/user/capital#fragment-1">资金统计</a></dd>
+                    <dd><a href="/user/charge#fragment-1">我要充值</a></dd>
+                    <dd><a href="/user/withdraw#fragment-1">我要提现</a></dd>
+                    <dd><a href="/user/bank#fragment-1">银行账户</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/user/tendout#fragment-3">投资管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/user/tendout#fragment-3">散标投资</a></dd>
+                    <dd><a href="/user/fund#fragment-2">优计划投资</a></dd>
+                    <dd><a href="/user/debt#fragment-1">债权转让</a></dd>
+                    <dd><a href="/user/auto/index.html">自动投标</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/user/borrowin#fragment-3">借款管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/user/borrowin#fragment-3">借款总表</a></dd>
+                    <dd><a href="/user/moneylimit#fragment-1">额度申请</a></dd>
+                    <!--<dd><a href="/user/verify#fragment-7">资料上传</a></dd>-->
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/user/interestratecoupon#fragment-1">福利管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/user/interestratecoupon#fragment-1">加息券</a></dd>
+                    <dd><a href="/user/index/tqj_details#fragment-1">特权金</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/user/promotion#fragment-1">邀请好友</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    $('.layui-nav-item').children('a').each(function(){
+        if($($(this))[0].href==String(window.location)){
+            $(this).parent().addClass('layui-this');
+        }
+    });
+    $('.layui-nav-item').children('dl').children('dd').children('a').each(function(){
+        if($($(this))[0].href==String(window.location)){
+            $(this).parent().parent().parent().addClass('layui-this');
+        }
+    });
+</script>

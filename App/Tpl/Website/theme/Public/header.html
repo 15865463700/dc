@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Imagetoolbar" content="no" />  
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge">
+	<meta name="renderer" content="webkit">
+
+    <link href="favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="__ROOT__/Style/H/css/config.css" />
+    <link rel="stylesheet" type="text/css" href="/Style/layer/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="/Style/H/css/index-old.css" />
+    <script type="text/javascript" src="/Style/Js/jquery.js"></script>
+    <script type="text/javascript" src="/Style/layer/layui/layui.js"></script>
+    <script>
+        //由于模块都一次性加载，因此不用执行 layui.use() 来加载对应模块，直接使用即可：
+        layui.use('layer', function(){
+            var layer = layui.layer;
+        });
+    </script>
+    <script  type="text/javascript" src="/Style/Js/ui.core.js"></script>
+    <script  type="text/javascript" src="/Style/Js/ui.tabs.js"></script>
+    <script type="text/javascript" src="/Style/My97DatePicker/WdatePicker.js" language="javascript"></script>
+    <script type="text/javascript" src="/Style/Js/utils.js"></script>
+    <script type="text/javascript">
+        var browser=navigator.appName;
+        var b_version=navigator.appVersion;
+        var version=b_version.split(";");
+        if(version.length>1) var trim_Version=version[1].replace(/[ ]/g,"");
+
+        if(browser=="Microsoft Internet Explorer" && (trim_Version=="MSIE5.0" || trim_Version=="MSIE6.0"))
+            alert("您正在使用的浏览器版本过低，为了保障您的安全、体验，建议升级后再使用本网站。");
+
+        function makevar(v){
+            var d={};
+            for(i in v){
+                var id = v[i];
+                d[id] = $("#"+id).val();
+                if(!d[id]) d[id] = $("input[name='"+id+"']:checked").val();
+                if(!d[id]) d[id] = $("input[name='"+id+"']").val();
+                if(typeof d[id] == "undefined") d[id] = "";
+            }
+            return d;
+        }
+
+    </script>
+
+</head>
+<body>
+<include file="theme:Public:top" group="Website"/>
+<include file="theme:Public:menu" group="Website"/>

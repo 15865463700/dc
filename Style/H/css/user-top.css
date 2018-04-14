@@ -1,0 +1,8 @@
+.user-top{height: 40px; line-height: 40px;}
+.user-top a{float: right;margin-left: 26px;}
+.user-top .login-reg{ color: #5CACEE;}
+.user-top a:hover{color: #1C86EE}
+.user-top .hlp{ color:#ff682d }
+.user-top .hlp:hover{color: orange}
+.user-top .tp-tu{ height: 40px; line-height: 40px; display: inline-block}
+.user-top .tp-tu img{ margin-top: 8px;}

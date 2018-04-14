@@ -1,0 +1,12 @@
+<volist name="list" id="vo">
+    <div class="list-box">
+        <a href="/M/New/new_view.html?nid={$vo.id}">
+            <div class="list-right"><img src="/Style/Mobile/images/jiantou.png" class="list-arrow"/></div>
+            <div class="list-left">
+                <div class="list-title">{$vo.title|cnsubstr=###,25}</div>
+                <div class="list-info">{$vo.art_info|cnsubstr=###,50}</div>
+                <div class="list-time">{$vo.art_time|date="Y-m-d H:i:s",###}</div>
+            </div>
+        </a>
+    </div>
+</volist>

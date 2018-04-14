@@ -1,0 +1,143 @@
+/*新首页*/
+body{background-color: #f4f5f6}
+.bgfff { background-color: #fff;}
+.index-more{
+    color: #5CACEE !important;
+    float: right;
+    margin-right: 4px;
+}
+.index-more:hover{
+    color: #1C86EE;
+}
+.clear{
+    clear: both;
+}
+.index-gonggao{
+    background: url("/Style/H/images/index/new-gonggao.png") no-repeat left center;
+    height: 54px;
+    line-height: 54px;
+    color: #aaa;
+}
+.index-gonggao font{
+    margin-left: 22px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #666;
+}
+.index-gonggao a{
+    color: #aaa;
+}
+.index-gonggao a:hover{
+    color: #1C86EE;
+}
+.index-credit{
+    height: 98px;
+    background: url("/Style/H/images/index/bg-1.png") repeat;
+    text-align: center;
+    padding-top: 41px;
+    padding-bottom: 41px;
+    margin-bottom: 20px;
+}
+.index-title{
+    height: 60px;
+    line-height: 60px;
+    color: #aaa;
+    font-size: 26px;
+    font-weight: 100;
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+.index-title img{
+    margin-right: 12px;
+    width: 50px;
+    height: 50px;
+}
+.index-title span{
+    color: #666;
+    font-weight: 500;
+    font-size: 26px;
+}
+.index-title font{
+    font-size: 14px;
+    color: #aaa;
+}
+.index-box{
+    height: 378px;
+}
+.index-box .index-box-class{
+    width: 246px;
+    float: left;
+    position: relative;
+}
+.index-box .index-box-class img{width: 248px;height: 379px;}
+.index-box .index-box-class .more-program{
+    position: absolute;
+    top: 222px;
+    left: 22px;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+    -webkit-border-radius: 0.3em;
+    width: 110px;
+    text-align: center;
+    height: 36px;
+    line-height: 36px;
+}
+.index-box .index-box-program{
+    float: left;
+    width: 954px;
+}
+.index-box .index-border-top1{
+    border-top: #5CACEE 1px solid;
+}
+.index-box .index-border-top2{
+    border-top: #9aa5ea 1px solid;
+}
+.index-box .index-border-top3{
+    border-top: #ffaa66 1px solid;
+}
+.index-box .index-box-program .program{
+    background-color: #fff;
+    height: 378px;
+}
+.index-box .index-box-program .br{
+    border-right: #e5e7e6 1px solid;
+}
+.index-box .index-box-program .program .ptitle{font-size: 18px;line-height: 42px;text-align: center;color: #666}
+.index-box .index-box-program .program .pline{background: url("/Style/H/images/index/line.png") center center no-repeat; height: 2px;}
+.index-box .index-box-program .program .prate{font-size: 50px;line-height: 66px;text-align: center;color: #333;height: 60px;}
+.index-box .index-box-program .program .prate font{font-size: 14px;color: #666}
+.index-box .index-box-program .program .prate-word{color: #999;text-align: center}
+.index-box .index-box-program .program .pcanvs{width: 110px;height: 110px; margin: 8px auto;}
+.index-box .index-box-program .program .pword{width: 220px;height: 26px;line-height: 26px;font-size: 12px; color: #555;margin: 0 auto}
+.index-box .index-box-program .program .pword font{font-size: 20px;}
+.index-box .index-box-program .program .pbtn{width: 226px;margin: 16px auto}
+.index-box .index-box-program .program .pbtn a{color: #fff;display: block; width: 226px; height: 38px; line-height: 38px;font-size: 14px;text-align: center;
+    border-radius: 0.3em;
+    -webkit-border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+}
+.index-box .index-box-program .program .pbtn .pbg1{background-color: #6ea8ec}
+.index-box .index-box-program .program .pbtn .pbg2{background-color: #bfbfbf}
+
+.index-news{padding: 22px;}
+.index-news .ntitle{ line-height: 42px;border-bottom: 1px #e5e7e6 solid;}
+.index-news .ntitle span{ font-size: 20px; color: #666;border-bottom: #6ea8ec 1px solid;line-height: 42px;height: 42px; display: inline-block;margin-bottom: -1px}
+.index-news ul{ padding-top: 20px; padding-bottom: 10px;}
+.index-news ul li{line-height: 30px;}
+.index-news ul li a{margin-left: 12px;}
+.index-news ul li a:hover{ color: #6ea8ec}
+.index-news ul li label{float: right; color: #a1a1a1}
+.index-news .fengcai{width: 240px; height: 170px;margin:40px 5px 10px 5px;}
+.index-news-new ul li{height: 36px !important; line-height: 36px !important;}
+.index-news-new ul li div{width: 33.33%;text-align: left;display: inline-block;color: #666}
+.index-friend{}
+.index-friend .ftitle{ line-height: 42px;border-bottom: 1px #e5e7e6 solid;}
+.index-friend .ftitle span{ margin-left:22px;font-size: 20px; color: #666;border-bottom: #6ea8ec 1px solid;line-height: 42px;height: 42px; display: inline-block;margin-bottom: -1px}
+.index-friend a{ display: inline-block;width: 130px; height: 36px; margin: 20px;}
+.index-friend a img{ width: 130px; height: 36px;}
+
+
+
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link REL="SHORTCUT ICON" href="/favicon.ico">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="applicable-device" content="mobile" />
+<meta name="author" content="" />
+<meta name="renderer" content="webkit">
+<meta name="mobile-webapp-frame-capable" content="yes" />
+<meta name="mobile-webapp-frame-status-bar-style" content="black" />
+<meta name="MobileOptimized" content="320" />
+<link rel="stylesheet" href="/Style/M/css/reset.css" type="text/css" />
+<!--原页面引用开始-->
+<link type="text/css" rel="stylesheet" href="/Style/Mobile/css/index.css">
+<link rel="stylesheet" href="/Style/apprise/apprise-v2.css" type="text/css">
+<script type="text/javascript" src="/Style/Js/jquery.js"></script>
+<script type="text/javascript" src="/Style/Mobile/jquery-global.js"></script>
+<script type="text/javascript" src="/Style/Mobile/switch.js"></script>
+<script type="text/javascript" src="/Style/apprise/apprise-v2.js"></script>
+<script src="/Style/M/js/autoWindow.js" type="text/javascript" charset="utf-8"></script>
+<!--原页面引用开始-->
+</head>
+<body>
+<script>
+function Jump(){
+    window.location.href = '{$jumpUrl}';
+}
+document.onload = setTimeout("Jump()" , 3* 1000);
+</script>
+<base target="_self" />
+<div class="tipBox">
+ <div class="hint">
+ <p><img src="/Style/Mobile/images/wrong.png" /><font>{$error}</font></p>
+ <p>系统将在 <span style="color:blue;font-weight:bold">3</span> 秒后自动跳转,如果不想等待,直接点击 <A HREF="{$jumpUrl}">这里</A> 跳转或者 <a href="{:U('/M')}">返回首页</a></p>
+ </div>
+</div>
+</body>
+</html>

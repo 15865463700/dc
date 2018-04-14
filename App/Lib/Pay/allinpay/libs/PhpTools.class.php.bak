@@ -1,0 +1,236 @@
+<?php
+
+class PhpTools {
+
+    //C("APP_ROOT") . "Lib/Pay/allinpay/libs/ArrayXml.class.php"
+    const certFile = './Static/data/allinpay-pds.pem1'; //通联公钥证书
+    const privateKeyFile = './Static/data/20045200001359704.pem1'; //商户私钥证书
+    const password = '111111'; //商户私钥密码以及用户密码
+
+//	const  apiUrl = 'http://172.16.1.11:8080/aipg/ProcessServlet';//通联系统对接请求地址（内网）
+
+    public $arrayXml;
+
+    const apiUrl = 'http://113.108.182.3:8083/aipg/ProcessServlet';//通联系统对接请求地址（外网,商户测试时使用）
+    //const apiUrl = 'https://tlt.allinpay.com/aipg/ProcessServlet'; //（生产环境地址，上线时打开该注释）
+
+    public function __construct() {
+        $this->arrayXml = new ArrayAndXml();
+    }
+
+    /**
+     * PHP版本低于 5.4.1 的在通联返回的是 GBK编码环境使用
+     * 但是本地文件编码是 UTF-8
+     *
+     * @param string $hexstr
+     * @return binary string
+     */
+    public function hextobin($hexstr) {
+        $n = strlen($hexstr);
+        $sbin = "";
+        $i = 0;
+
+        while ($i < $n) {
+            $a = substr($hexstr, $i, 2);
+            $c = pack("H*", $a);
+            if ($i == 0) {
+                $sbin = $c;
+            } else {
+                $sbin .= $c;
+            }
+
+            $i+=2;
+        }
+
+        return $sbin;
+    }
+
+    /**
+     * 验签
+     */
+    public function verifyXml($xmlResponse,$reqno = "",$optype=0) {
+        $xmlData = $xmlResponse;
+
+
+        // 本地反馈结果验证签名开始
+        $signature = '';
+        if (preg_match('/<SIGNED_MSG>(.*)<\/SIGNED_MSG>/i', $xmlResponse, $matches)) {
+            $signature = $matches[1];
+        }
+
+
+        $xmlResponseSrc = preg_replace('/<SIGNED_MSG>.*<\/SIGNED_MSG>/i', '', $xmlResponse);
+        $xmlResponseSrc1 = mb_convert_encoding(str_replace('<', '&lt;', $xmlResponseSrc), "UTF-8", "GBK");
+//        print_r('验签原文');
+//        print_r($xmlResponseSrc1);
+        $pubKeyId = openssl_get_publickey(file_get_contents(PhpTools::certFile));
+        $flag = (bool) openssl_verify($xmlResponseSrc, hex2bin($signature), $pubKeyId);
+        openssl_free_key($pubKeyId);
+        //echo '<br/>'+$flag;
+        if ($flag) {
+//            echo '<br/>Verified: <font color=green>Passed</font>.';
+
+
+            // 变成数组，做自己相关业务逻辑
+            $xmlResponse = mb_convert_encoding(str_replace('<?xml version="1.0" encoding="GBK"?>', '<?xml version="1.0" encoding="UTF-8"?>', $xmlResponseSrc), 'UTF-8', 'GBK');
+
+            //
+
+            $results = $this->arrayXml->parseString($xmlResponse, TRUE);
+ //          echo "<br/><br/><font color=blue>-------------华丽丽的分割线--------------------</font><br/><br/>";
+////		    echo $results;
+//            dump($xmlResponseSrc1);
+//print_r('aaaaaaaaaaaaaaaaaaaaaaaaaaa');
+//            
+//                $value = stripos($xmlResponseSrc1,"&lt;RET_CODE>0000&lt;/RET_CODE>");
+//            
+//                var_dump($xmlData);
+//            
+//            print_r($value);
+//            print_r('bbbbbbbbbbbbbbbbbbbbbbbbbbb');
+//            exit;
+            //var_dump($xmlData);
+            if(preg_match("/<RET_CODE>\d*<\/RET_CODE>/", $xmlData,$codeData)){
+                $code = str_replace("<RET_CODE>","",str_replace("</RET_CODE>","",$codeData[0]));
+//                echo "+++++".$code."+++++";
+//                exit;
+
+//                if($reqno){
+//                    preg_match("/<ERR_MSG>\S*\s*\S*\s*<\/ERR_MSG>/", $xmlResponseSrc,$errData);
+//                    M("member_withdraw")->where(array(
+//                        "reqno"=>$reqno
+//                    ))->save(array(
+//                        "response"=>$errData
+//                    ));
+//                }
+
+                if($code&&$code<>"0000"&&$code<>'4000'){
+                    return $code;
+                }
+                if($reqno&&$optype==1){
+//                    echo "错误编号(".$code.")";
+//                    preg_match("/<ERR_MSG>\S*\s*\S*\s*<\/ERR_MSG>/", $xmlResponseSrc1,$errData);
+//                    $err_msr=str_replace("<ERR_MSG>","",str_replace("</ERR_MSG>","",$errData[0]));
+////                    print_r(iconv("GBK", "UTF-8", $err_msr));
+//                    $code2 = str_replace("<RET_CODE>","",str_replace("</RET_CODE>","",$codeData[1]));
+
+
+                    preg_match_all("/<RET_CODE>\d*<\/RET_CODE>/", $xmlData,$query_ret_code);
+                    preg_match_all("/<ERR_MSG>\S*\s*\S*\s*<\/ERR_MSG>/", $xmlResponseSrc,$query_err_msg);
+                    $query_err_msg_code = $query_ret_code[0][1];
+
+                    $query_err_msg_code = str_replace("<RET_CODE>","",str_replace("</RET_CODE>","",$query_err_msg_code));
+                    $query_err_msg_str=str_replace("<ERR_MSG>","",str_replace("</ERR_MSG>","",$query_err_msg[0][1]));
+
+                    M("member_withdraw")->where(array(
+                        "reqno"=>$reqno
+                    ))->save(array(
+                        "response"=>$xmlResponse,
+                        "msg"=>"编号(".$query_err_msg_code.")".iconv("GBK", "UTF-8", $query_err_msg_str)
+                    ));
+                    echo "编号(".$query_err_msg_code.")，信息：".iconv("GBK", "UTF-8", $query_err_msg_str);
+					if($query_err_msg_code)
+                    return $query_err_msg_code;
+                }
+
+                if($code=='0000'||$code=='4000'){
+                    return $code;
+                }elseif($code=='2000'||$code=='2001'||$code=='2003'||$code=='2005'||$code=='2007'||$code=='2008'||$code=='0003'||$code=='0014'){
+                    return $code;
+                }else{
+					echo "错误编号(".$code.")";
+                    preg_match("/<ERR_MSG>\S*\s*\S*\s*<\/ERR_MSG>/", $xmlResponseSrc,$errData);
+                    $err_msr=str_replace("<ERR_MSG>","",str_replace("</ERR_MSG>","",$errData[0]));
+                    print_r(iconv("GBK", "UTF-8", $err_msr));
+
+                    return false;
+                }
+            }
+            return false;
+        } else {
+            echo '<br/>Verified: <font color=red>Failed</font>.';
+            return FALSE;
+        }
+    }
+
+    /**
+     * 验签
+     */
+    public function verifyStr($orgStr, $signature) {
+        echo '签名原文:' . $orgStr;
+        $pubKeyId = openssl_get_publickey(file_get_contents(PhpTools::certFile));
+        $flag = (bool) openssl_verify($orgStr, hex2bin($signature), $pubKeyId);
+        openssl_free_key($pubKeyId);
+
+        if ($flag) {
+            echo '<br/>Verified: <font color=red>SUCC</font>.';
+            return TRUE;
+        } else {
+            echo '<br/>Verified: <font color=red>Failed</font>.';
+            return FALSE;
+        }
+    }
+
+    /**
+     * 签名
+     */
+    public function signXml($params) {
+
+        $xmlSignSrc = $this->arrayXml->toXmlGBK($params, 'AIPG');
+        $xmlSignSrc = str_replace("TRANS_DETAIL2", "TRANS_DETAIL", $xmlSignSrc);
+//		echo ($xmlSignSrc);
+        $privateKey = file_get_contents(PhpTools::privateKeyFile);
+
+        $pKeyId = openssl_pkey_get_private($privateKey, PhpTools::password);
+        openssl_sign($xmlSignSrc, $signature, $pKeyId);
+        openssl_free_key($pKeyId);
+
+        $params['INFO']['SIGNED_MSG'] = bin2hex($signature);
+
+        $xmlSignPost = $this->arrayXml->toXmlGBK($params, 'AIPG');
+
+        return $xmlSignPost;
+    }
+
+    /**
+     * 发送请求
+     */
+    public function send($params,$reqno="",$optype=0) {
+//        print_r($params);
+        if($reqno){
+            M("member_withdraw")->where(array(
+                "reqno"=>$reqno
+            ))->save(array(
+                "request"=>json_encode($params)
+            ));
+        }
+        $xmlSignPost = $this->signXml($params);
+        $xmlSignPost = str_replace("TRANS_DETAIL2", "TRANS_DETAIL", $xmlSignPost);
+        $response = cURL::factory()->post(PhpTools::apiUrl, $xmlSignPost);
+
+        if (!isset($response['body'])) {
+            die('Error: HTTPS REQUEST Bad.');
+        }
+        //获取返回报文
+        $xmlResponse = $response['body'];
+
+        $dir = 'D:/withdrawlog';
+        if(!file_exists($dir)){
+            mkdir($dir);
+        }
+        $dir .= '/'.date("Y_m_d",time());
+        if(!file_exists($dir)){
+            mkdir($dir);
+        }
+        file_put_contents($dir.'/req_'.date("Y_m_d_H_i_s_",time()).$reqno.".txt",serialize($params));
+        file_put_contents($dir.'/res_'.date("Y_m_d_H_i_s_",time()).$reqno.".txt",serialize($xmlResponse));
+        //print_r("返回报文如下：");
+		//print_r(str_replace('<','&lt;',$xmlResponse));
+        //验证返回报文
+        $result = $this->verifyXml($xmlResponse,$reqno,$optype);
+        return $result;
+    }
+
+}
+
+?>

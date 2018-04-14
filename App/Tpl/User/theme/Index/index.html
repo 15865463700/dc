@@ -1,0 +1,100 @@
+<include file="Public:_header_common"/>
+<title>我的账户--{$glo.web_name}</title>
+<link rel="stylesheet" type="text/css" href="/Style/Member/css/member.css" />
+<link rel="stylesheet" type="text/css" href="/Style/H/css/Mbmber.css" />
+<div class="layui-main user-index-1">
+    <a href="/user/user#fragment-1"  title="点击进行头像更换"><img src="{$UID|get_avatar=###}" class="header"/></a>
+    <div class="middle">
+        <div class="layui-row cont1 bor">
+            <div class="layui-col-md4">欢迎您，{:session('u_user_name')}</div>
+            <div class="layui-col-md4">可用余额：<font color="#fc8026">{$vo.total_money|Fmoney1=###}</font></div>
+             <div class="layui-col-md4">
+	            {:getMemberBusiness($minfo['id'])}
+        	</div>
+        </div>
+        <div class="layui-row cont2">
+            <div class="layui-col-md4">资料完整度：
+                <span class="member-proprogress border-radius member-bg-gray inline-block" style="top:22px;position: absolute"><span class="member-height15 border-radius member-bg-red inline-block" style="width:{$member_info_progress}%;"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;<font style="position: absolute; right: 26px;">{$member_info_progress}%</font></div>
+            <div class="layui-col-md8">认证情况：{$minfo.id|getVerify_ucenter=###}</div>
+        </div>
+    </div>
+    <div class="iright">
+        <a href="/invest/index.html">
+            {:get_ad(26)}
+        </a>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="layui-main user-index-2">
+    <div class="layui-row bort borl borr borb">
+        <div class="layui-col-md3 borr">
+            <div class="marleft_30 font18 height30 martop_20 color-272727" style="font-weight:500">总资产：<font style="color: #fc8026">{$vo.total|Fmoney1=###}</font>元
+                &nbsp;&nbsp;<i class="layui-icon" style="font-size: 20px;cursor: pointer" title="总资产为可用冻结待收之和">&#xe60b;</i>
+            </div>
+            <div class="marleft_30 height40">账户余额：{$vo.total_money|Fmoney1=###}元</div>
+            <div class="marleft_30 height30">冻结余额：{$vo.money_freeze|Fmoney1=###}元</div>
+            <div class="marleft_30 height30 marbottom_20">
+                <a href="/user/charge#fragment-1" class="layui-btn layui-btn-normal layui-btn-little marright_30">充&nbsp;&nbsp;值</a>
+                <a href="/user/withdraw#fragment-1" class="layui-btn layui-btn-grey layui-btn-little">提&nbsp;&nbsp;现</a>
+            </div>
+        </div>
+        <div class="layui-col-md5 borr user-index-2-bg-m">
+            <div class="marleft_30 font18 height30 martop_20 color-272727" style="font-weight:500">其他资产：
+            </div>
+            <div class="marleft_30 height40">特权金：<font style="color: #fc8026">{$tqj|Fmoney1=###}</font>元
+                &nbsp;&nbsp;<i class="layui-icon" style="font-size: 20px;cursor: pointer" title="特权金福利">&#xe60b;</i>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="marleft_30 font18 height30 martop_20">向好友推荐{$glo.web_name},拿返利红包</div>
+            <div class="marleft_30 user-index-friend martop_10 inline-block member-border-blue color-blue lineheight26 padright_30"><i class="layui-icon" style="color: #00a7e6;font-size: 20px;">&#xe612;</i>累计推荐了{$spread_info['num']|default="0"}个好友</div>
+            <div class="marleft_30 height30 martop_10">累计推广奖励{$spread_info['reward']|Fmoney1=###}元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="layui-icon" style="color: #00a7e6;font-size: 20px;">&#xe613;</i><a href="/user/promotion#fragment-1" class="color-blue">邀请好友</a>,获得奖励</div>
+        </div>
+    </div>
+    <div class="layui-row borl borr borb padtop_40 padbottom_50">
+        <div class="layui-col-md4">
+            <div class="layui-anim layui-anim-upbit user-index-2-circle marleft_30 layui-circle">投</div>
+            <div class="inline-block user-index-2-word marleft_30">投资中的总额：<font>{$vo.dsbj|Fmoney1=###}</font>元</div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-anim layui-anim-upbit user-index-2-circle marleft_30 layui-circle">赚</div>
+            <div class="inline-block user-index-2-word marleft_30">赚取收益：<font>{$vo.jzlx|Fmoney1=###}</font>元</div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-anim layui-anim-upbit user-index-2-circle marleft_30 layui-circle">支</div>
+            <div class="inline-block user-index-2-word marleft_30">支付费用：<font>{:Fmoney1($vo['paid_interest']+$vo['borrow_fee']+$vo['overdue']+$vo['withdraw_fee']+$vo['vip_fee'])}</font>元</div>
+        </div>
+    </div>
+</div>
+<div class="layui-main user-index-3 layui-row">
+    <div class="layui-col-md9 bor layui-row">
+        <div class="borr layui-col-md6">
+            <div class="utitle borb"><span>投资概况</span></div>
+            <ul >
+                <li class="borb font18 color-95"><div>状态</div><div>笔数</div><div>投资额</div></li>
+                <li class="borb"><div>投资中</div><div>{$capital_count_1}</div><div>{$capital_money_1|Fmoney1=###}元</div></li>
+                <li class="borb"><div>已结算</div><div>{$capital_count_2}</div><div>{$capital_money_2|Fmoney1=###}元</div></li>
+                <li><div>合计</div><div>{$capital_count_1+$capital_count_2}</div><div>{:Fmoney1($capital_money_1+$capital_money_2)}元</div></li>
+            </ul>
+        </div>
+        <div class="layui-col-md6">
+            <div class="utitle borb"><span>推荐投资</span></div>
+            <div class="layui-row">
+                <volist name="tuijianlist.list" id="vt" key="k">
+                    <div class="layui-col-md6 martop_30 <if condition='$k lt 2'>borr</if>">
+                        <div class="rate">{$vt.borrow_interest_rate}%</div>
+                        <div class="rate-word">年化利率</div>
+                        <div class="tuijian-a"><a href="{$vt['id']|getInvestUrl=###}">查看详情</a></div>
+                        <div class="tuijian-info">理财期间<font>{$vt.borrow_duration}</font><if condition="$vt['repayment_type'] eq 1">天<else/>个月</if><font>{$vt.borrow_min|intval=###}</font>元起投</div>
+                    </div>
+                </volist>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md3" style="text-align: right">
+        <a href="/invest/index.html">{:get_ad(13)}</a>
+    </div>
+</div>
+<!--中间内容结束-->
+<include file="Public:_footer"/>
+

@@ -1,0 +1,60 @@
+<footer class="foot-nav">
+  <ul>
+    <li id="home"><a href="/M" class="db f-home"><p><img src="/Style/M/images/icon/home.png" class="fimg" alt="" /></p><p>首页</p></a></li>
+    <li id="invest"><a href="/M/index/index4" class="db f-pro"><p><img src="/Style/M/images/icon/invest.png" class="fimg" alt="" /></p><p>投资理财</p></a></li>
+    <li id="member"><a href="/M/user/index" class="db f-account"><p><img src="/Style/M/images/icon/user.png" class="fimg" alt="" /></p><p>我的账户</p></a></li>
+    <li id="new"><a href="/M/New/index" class="db f-more"><p><img src="/Style/M/images/icon/more.png" class="fimg" alt="" /></p><p>更多</p></a></li>
+  </ul>
+</footer>
+<script type="text/javascript">
+    if (window.location.pathname == "/m" || window.location.pathname == "/M" || window.location.pathname == "/M/index/index.html") {
+		 $("#home").addClass("f-cur").find(".fimg").hide().parent().append("<img src='/Style/M/images/icon/home-on.png' />");
+    }
+    if(window.location.pathname == "/M/pub/login.html" || window.location.pathname == "/M/pub/regist.html"){
+       $("#member").addClass("f-cur").find(".fimg").hide().parent().append("<img src='/Style/M/images/icon/user-on.png' />");
+    }
+    if(window.location.pathname == "/M/user/index"){
+        $("#member").addClass("f-cur").find(".fimg").hide().parent().append("<img src='/Style/M/images/icon/user-on.png' />");
+    }
+    if(window.location.pathname == "/M/index/index4" || window.location.pathname == "/M/index/index3" || window.location.pathname == "/M/index/index2"){
+		$("#invest").addClass("f-cur").find(".fimg").hide().parent().append("<img src='/Style/M/images/icon/invest-on.png' />");
+    }
+    if(window.location.pathname == "/M/New/index" || window.location.pathname == "/M/New/new_list.html" || window.location.pathname == "/M/New/new_view.html"){
+		$("#new").addClass("f-cur").find(".fimg").hide().parent().append("<img src='/Style/M/images/icon/more-on.png' />");
+    }
+
+
+    var browser = navigator.userAgent
+  
+ // browser.indexOf('AppleWebKit') > -1 //苹果、谷歌内核
+  //browser.indexOf('Presto') > -1  //opera内核
+ // browser.indexOf('Trident') > -1 //IE内核
+ // browser.indexOf('Gecko') > -1 && browser.indexOf('KHTML') == -1 //火狐内核
+ // !!browser.match(/AppleWebKit.*Mobile.*/) //是否为移动终端 
+  //!!browser.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)  //ios终端
+  // browser.indexOf('Android') > -1 || browser.indexOf('Linux') > -1  
+   //android终端或uc浏览器
+ //  browser.indexOf('iPhone') > -1  //是否为iPhone或者QQHD浏览器
+ //  browser.indexOf('iPad') > -1  //是否iPad
+
+                               
+// 判断屏幕是否旋转
+function orientationChange() {
+    if(browser.indexOf('Android') > -1 || browser.indexOf('Linux') > -1){
+        manWidth(screen.width);
+    }
+    
+}
+
+function manWidth(width){
+    // width = width/2-12;
+     //$(".main").css('width',width+'px');
+}
+// 添加事件监听
+addEventListener('load', function(){ 
+    orientationChange();
+    window.onorientationchange = orientationChange;
+}); 
+</script> 
+</body>
+</html>

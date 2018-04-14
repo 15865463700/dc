@@ -1,0 +1,2 @@
+<?php
+return array ( 'stmp' => array ( 'server' => '', 'port' => '', 'user' => 'zerunadmin', 'pass' => 'admin123', 'name' => '', ), 'sms' => array ( 'type' => '5', 'user1' => '', 'pass1' => '', 'user2' => 'SDK-SRF-010-00432', 'pass2' => '', 'user3' => '', 'pass3' => '', 'userid4' => '1326', 'user4' => 'SDK-A321-1326', 'pass4' => '123456', 'userid5' => '1327', 'user5' => 'SDK-A321-1326', 'pass5' => '123456', 'user6' => 'kwsm', 'pass6' => 'kwsm', ), 'baidu' => array ( 'apiKey' => '', 'secretKey' => '', 'apkVersion' => '', 'apkPath' => '', ), ); ?>

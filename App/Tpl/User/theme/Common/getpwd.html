@@ -1,0 +1,294 @@
+<include file="Public:_header_common" />
+<title>我的账号 -- {$glo.web_name}</title>
+<link rel="stylesheet" href="/Style/H/css/registerreset.css" />
+<link rel="stylesheet" href="/Style/H/css/registerstyle.css" />
+
+<link rel="stylesheet" href="/Style/H/css/getpwd.css" />
+
+
+
+<script type="text/javascript">
+    var imgpath="/Style/M/";
+    var curpath="__URL__";
+</script>
+<script language="JavaScript">
+    function keyLogin(){
+        if (event.keyCode==13)   //回车键的键值为13
+            document.getElementById("btnReg").click();  //调用登录按钮的登录事件
+    }
+</script>
+<script type="text/javascript" src="/Style/M/js/getpwd.js"></script>
+
+<!-- 找回密码开始 -->
+<div class="main_title">
+    <div class="main_tab">
+        <span id="phone_back" class="current">通过绑定手机找回密码</span>
+    </div>
+</div>
+<div style="width: 980px;" id="con_phone_back" class="conbox t40">
+    <div class="regist_bor">
+
+        <form method="post" action="">
+            <div style="text-align:left; display:none;"><img src="/themes/blue/images/phonepic.jpg"></div>
+            <div style="height:350px;">
+                <table width="980" cellspacing="0" cellpadding="0" border="0" align="left" class="reg_tab">
+                    <input type="hidden" value="phoneway" name="getway">
+                    <tbody>
+                    <tr>
+                        <td class="tex_left"><font class="red">*</font> 验证码：</td>
+                        <td style="vertical-align:middle;">
+                            <input id="txtvalicode2" type="text" style="border:#C2C2C2 solid 1px; background:#fff; height:20px; width:50px">
+                            <img id="valicode2" align="absmiddle" style="cursor:pointer" onclick="this.src='__URL__/verify?t='+Math.random()" alt="获取验证码" src=""></td>
+                    </tr>
+                    <tr>
+                        <td class="tex_left"><font class="red">*</font> 手机号：</td>
+                        <td>
+                            <input type="text" onkeyup="value=value.replace(/[^0-9Xx]/g,'')" style="border:#C2C2C2 solid 1px; background:#fff; height:20px; width:200px" id="ajax_phone" name="phone">
+                            <input id="yanzheng" type="button" value="获取验证码" onclick="sendPhoneMsg()"><span id="ajax_phone_msg"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tex_left"><font class="red">*</font> 手机验证码：</td>
+                        <td>
+                            <input id="pcode" type="hidden"/>
+                            <input id="verify_phone" name="verify_phone" type="text" style="border:#C2C2C2 solid 1px; background:#fff; height:20px; width:200px">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tex_left"><font class="red">*</font> 密码修改为：</td>
+                        <td>
+                            <input id="upwd" type="password" style="border:#C2C2C2 solid 1px; background:#fff; height:20px; width:200px" name="password">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tex_left">&nbsp;</td>
+                        <td align="left">
+                            <input id="btnReg" class="input_getpwd" type="button" onclick="getPassByPhone();" value="提  交">&nbsp;<font class="red"></font></td>
+                    </tr>
+                    </tbody></table>
+            </div>
+        </form>
+        <script>
+            $(function(){
+                $("#ajax_phone_get").click(function(){
+                    var patrn = /(^0{0,1}1[3|4|5|6|7|8|9][0-9]{9}$)/;
+                    var o=$("#ajax_phone_get");
+                    var wait=60;
+                    if ($("#ajax_phone").val()==""){
+                        $("#ajax_phone_msg").html('&lt;p style="color: red"&gt;手机号码不能为空&lt;/p&gt;');
+                    }else if (!patrn.exec($("#ajax_phone").val())) {
+                        $("#ajax_phone_msg").html('&lt;p style="color: red"&gt;手机号码格式不正确&lt;/p&gt;');
+                    }else{
+                        var phone = $("#ajax_phone").val();
+                        var username = $("#username").val();
+                        var valicode = $("#vali_phone").val();
+                        $.post("/modules/member/re_send.php",{valicode:valicode,username:username, phone: phone, sign: "phonegetpwd", style : "ajax"},
+                                function (result){
+                                    if(result==1){
+                                        alert('短信已经发送到你的手机,请注意查收');
+                                        $("#ajax_phone_msg").html('短信已经发送到你的手机,请注意查收');
+                                        var timeID=setInterval(function(){o.val("重新发送"+wait);o.attr("disabled", "true");wait=wait-1;if(wait==-1){clearInterval(timeID);o.val("获取验证码");o.removeAttr("disabled")}},1000);
+                                    }else{
+                                        $("#ajax_phone_msg").html('&lt;p style="color: red"&gt;'+result+'&lt;/p&gt;');
+                                        alert(result);
+                                    }
+                                });
+                    }
+
+                });
+            });
+        </script>
+    </div>
+</div>
+<script language="javascript">
+    var leftsecond = 60;
+    var timer = null;
+    var msg = "";
+    function sendPhoneMsg(){
+        var phonecode = $("#txtvalicode2").val();
+        if(phonecode==''){
+            layer.msg("请先填写图形验证码",{icon:5,shade:0.3});
+            return ;
+        }
+        var code = $("#ajax_phone").val();
+        var pat = new RegExp("^[\\da-z]{11}$", "i");
+        if(!pat.test(code)){
+            layer.msg("手机号码填写错误",{icon:5,shade:0.3});
+            return;
+        }
+        $.ajax({
+            url: "__URL__/phonecode/",
+            type: "post",
+            dataType: "json",
+            data: {"phonecode":phonecode},
+            success: function(d) {
+                if(d.status ==1){
+                    ValiPhone();
+                }else{
+                    layer.msg("图形验证码填写错误",{icon:5,shade:0.3});
+                }
+            }
+        });
+
+    }
+    function setLeftTime() {
+        var second = Math.floor(leftsecond);
+        $("#yanzheng").val(msg+second+'后可重新发送');
+        leftsecond--;
+        if (leftsecond < 1) {
+            $("#yanzheng").val("现在可重新发送！");
+            clearInterval(timer);
+            try {
+                $("#yanzheng").val("获取短信验证码").attr("disabled",false);
+            } catch (E) { }
+            return;
+        }else{
+            $("#yanzheng").attr("disabled",true);
+        }
+    }
+    function ValiPhone(){
+        var userPhone = $("#ajax_phone").val();
+        var ii = layer.load();
+        $.ajax({
+            type: "post",
+            async: false,
+            dataType: "json",
+            url: "__URL__/ckphone/",
+            data: {"up":userPhone},
+            success: function (d, s, r) {
+                layer.close(ii);
+                if(d.status==1){
+                    AsyncSendPhone();
+                }else{
+                    layer.msg("此手机号码不存在",{icon:5,shade:0.3});
+                }
+            }
+        });
+    }
+    function AsyncSendPhone(){
+        var userPhone = $("#ajax_phone").val();
+        var ii = layer.load();
+        $.ajax({
+            type: "post",
+            async: false,
+            dataType: "json",
+            url: "__URL__/sendPhone2/",
+            data: {"uphone":userPhone,"ra":Math.random(),phonecode:$("#txtvalicode2").val()},
+            success: function (d, s, r) {
+                leftsecond = 60;
+                layer.close(ii);
+                if(d.status==1){
+                    $("#pcode").val(d.message);
+                    layer.msg("信息发送成功,请注意查收",{icon:6,shade:0.3});
+                    clearInterval(timer);
+                    timer = setInterval(setLeftTime, 1000, "1");
+                }else{
+                    layer.msg("信息发送失败",{icon:5,shade:0.3});
+                }
+            }
+        });
+    }
+
+
+    function getPassByPhone(){
+        var code = $("#txtvalicode2").val();
+        var pat = new RegExp("^[\\da-z]{4}$", "i");
+        if(!pat.test(code)){
+            layer.msg("验证码填写错误",{icon:5,shade:0.3});
+            return;
+        }
+        var upwd = $("#upwd").val();
+        var pat = new RegExp("^[\\da-z_]{6,16}$", "i");
+        if(!pat.test(upwd)){
+            layer.msg("密码输入错误",{icon:5,shade:0.3});
+            return;
+        }
+        if($("#verify_phone").val()==''){
+            layer.msg("手机验证码不能为空",{icon:5,shade:0.3});
+            return;
+        }
+        AsyncCode2();
+
+    }
+
+    function AsyncCode2(){
+        var txtvalicode = $("#txtvalicode2").val();
+        var ii = layer.load();
+        $.ajax({
+            type: "post",
+            async: false,
+            dataType: "json",
+            url: "__URL__/ckcode/",
+            data: {"sVerCode":txtvalicode,"ra":Math.random()},
+            success: function (d, s, r) {
+                layer.close(ii);
+                if(d==1){
+                    AsyncMdPass();
+                }else{
+                    layer.msg("验证码输入错误",{icon:5,shade:0.3});
+                }
+            }
+        });
+    }
+
+    function AsyncMdPass(){
+        $.ajax({
+            type: "post",
+            async: false,
+            dataType: "json",
+            url: "__URL__/resetPwd/",
+            data: {"pass":$("#upwd").val(),"uphone":$("#ajax_phone").val(),"pcode":$("#verify_phone").val()},
+            success: function (d, s, r) {
+                if(d.status==1){
+                    $("#ajax_phone").val('');
+                    $("#verify_phone").val('');
+                    $("#upwd").val('');
+                    $("#txtvalicode2").val('');
+                    layer.msg("密码修改成功",{icon:6,shade:0.3},function(){
+                        window.location.href="__URL__/login/";
+                    });
+                }else{
+                    if(d.status==2){
+                        layer.msg("手机验证码输入错误",{icon:5,shade:0.3});
+                    }else{
+                        layer.msg("密码修改失败",{icon:5,shade:0.3});
+                    }
+                }
+            }
+        });
+    }
+
+</script>
+
+<script>
+    $(function(){
+        $("#email_back").click(function(){
+            $("#valicode").attr("src","__URL__/verify?t="+Math.random());
+            $("#email_back").attr("class","current");
+            $("#phone_back").removeAttr("class");
+            $("#con_phone_back").hide();
+            $("#con_email_back").show();
+
+        });
+        $("#phone_back").click(function(){
+            $("#valicode2").attr("src","__URL__/verify?t="+Math.random());
+            $("#phone_back").attr("class","current");
+            $("#email_back").removeAttr("class");
+            $("#con_phone_back").show();
+            $("#con_email_back").hide();
+
+        });
+    });
+</script>
+
+<!-- //找回密码开始 -->
+
+<script type="text/jscript">
+            $("#m1").attr("class", "dv_header_4");
+            $("#a1").attr("class", "a_h_o");
+            $("#m7").attr("class", "dv_header_2");
+            $("#a7").attr("class", "a_h_m");
+            $("#b1").css("display", "none");      
+        </script>
+
+<include file="Public:_footer" />

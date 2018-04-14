@@ -1,0 +1,109 @@
+<include file="Public:header"/>
+<title>特权金-{$glo.web_name}</title>
+<meta http-equiv="keywords" content="{$glo.web_keywords}"/>
+<meta http-equiv="description" content="{$glo.web_descript}"/>
+<link rel="stylesheet" href="/Style/H/css/privilege.css"/>
+<!--特权金开始-->
+<div class="tqj-main width-100 padtop_515 minwidth1236 font20">
+    <!--特权金列表开始-->
+    <div class="width1200 marbottom_20">
+        <div class="tqj-title marginauto afrel text-center font40 lineheight85">领取特权金专区</div>
+        <div class="tqj-content border-radius">
+            <volist name="list.list" id="tqj">
+                <div class="tqj-list-box border-radius marbottom_30">
+                    <div class="tqj-list-left float_left">
+                        <div class="font34 fontbold marbottom_20">{$tqj.title}</div>
+                        <div class="marbottom_10">
+                            <div class="tqj-width390 float_left">特权金金额：{$tqj.money}元</div>
+                            <div class="inline-block float_left">年利率：{$tqj.rate}%</div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="marbottom_10">
+                            <div class="tqj-width390 float_left">开始时间：{$tqj.online_time|date="Y-m-d",###}</div>
+                            <div class="inline-block float_left">结束时间：{$tqj.deadline|date="Y-m-d",###}</div>
+                            <div class="clear"></div>
+                        </div>
+                        <div>
+                            领取条件：
+                            <if condition="$tqj['conditions']['phone'] eq 1">
+                                手机认证&nbsp;
+                            </if>
+                            <if condition="$tqj['conditions']['idcard'] eq 1">
+                                实名认证&nbsp;
+                            </if>
+                            <if condition="$tqj['conditions']['email'] eq 1">
+                                邮箱认证&nbsp;
+                            </if>
+                            <if condition="$tqj['conditions']['principal'] gt 0">
+                                待收本金:{$tqj['conditions']['principal']}元
+                            </if>
+                        </div>
+                    </div>
+                    <if condition="$tqj.send_status gt 0">
+                        <div class="tqj-list-right float_right tqj-list-right-bg3"></div>
+                        <else/>
+                        <if condition="$tqj.status eq 1">
+                            <div class="tqj-list-right float_right martop_10 tqj-list-right-bg1"><a href="javascript:;" pid="{$tqj.id}" money="{$tqj.money}" rate="{$tqj.rate}" total="{$tqj.total}" class="pri test block tqj-height55"></a></div>
+                            <else/>
+                            <div class="tqj-list-right float_right tqj-list-right-bg2"></div>
+                        </if>
+                    </if>
+
+                    <div class="clear"></div>
+                </div>
+            </volist>
+            <div class="text-center font20 martop_20 tqj-list-page">{$list.page}</div>
+        </div>
+    </div>
+    <!--特权金列表结束-->
+    <!--活动说明开始-->
+    <div class="width1200 padbottom_150">
+        <div class="tqj-title marginauto afrel text-center font40 lineheight85">活动说明</div>
+        <div class="tqj-content border-radius color-white afrel">
+            <div class="marbottom_15 padleft_60"><span class="tqj-circle border-radius50 text-center inline-block lineheight30 marright_10">1</span>特权金收益直接进入到我的账户--可用余额。</div>
+            <div class="marbottom_15 marbottom_15 padleft_60"><span class="tqj-circle border-radius50 text-center inline-block lineheight30 marright_10">2</span>收益可用于投资，也可用于提现。</div>
+            <div class="marbottom_15 marbottom_15 padleft_60"><span class="tqj-circle border-radius50 text-center inline-block lineheight30 marright_10">3</span>本活动金最终解释权归平台所有。</div>
+            <div class="padleft_60 marbottom_30"><span class="tqj-circle border-radius50 text-center inline-block lineheight30 marright_10">4</span>特权金收益每日凌晨0:00点自动返现到用户账户。</div>
+            <div class="afabs tqj-detail-packet"></div>
+            <div class="tqj-detail-bottom afabs marginauto"></div>
+        </div>
+    </div>
+    <!--活动说明结束-->
+    <div class="clear"></div>
+</div>
+<!--特权金结束-->
+<script type="text/javascript">
+    $(".pri").click(function(){
+        var id=$(this).attr('pid');
+        var money = $(this).attr('money');
+        var rate = $(this).attr('rate');
+        var total = $(this).attr('total');
+        layer.confirm("特权金额："+money+"元  年利率："+rate+"%  收益次数："+total+"次\n您确定要领取吗？",
+                {icon:3,shade:0.3,btn:['确认','取消']},
+                function(){
+                    $.ajax({
+                        url:"__URL__/receive",
+                        type:"post",
+                        data:{"id":id},
+                        dataType:"json",
+                        success:function(d){
+                            if(d.status==1){
+                                layer.msg(d.message,{icon:6,shade:0.3},function(){
+                                    location.reload();
+                                });
+                            }else if(d.status==2){
+                                layer.msg(d.message,{icon:5,shade:0.3},function(){
+                                    location.href="/login?ty=p";
+                                });
+                            }else{
+                                layer.msg(d.message,{icon:5,shade:0.3});
+                            }
+                        }
+
+                    })
+                }
+        );
+
+    });
+</script>
+<include file="Public:bottom"/>

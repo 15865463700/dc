@@ -1,0 +1,57 @@
+<style type="text/css">
+    .tdTitle { text-align: right; padding-left: 10px; font-size: 12px; height: 40px; line-height: 40px; vertical-align: middle; width: 160px; font-weight: bold; background-color: #F9F9F9; }
+    .tdContent1 { text-align: left; padding-left: 10px; font-size: 12px; height: 40px; line-height: 40px; vertical-align: middle; width: 535px; }
+    .tdContent { line-height: 28px; border: 1px solid #ccc; }
+    .tdHeard { border: 1px solid #ccc; }
+</style>
+<div style="height: 25px; line-height: 25px; padding: 16px 0px; width: 708px; margin-left: 24px;text-align: left; float: left;border-bottom:#eb790d 0px solid"> 截止<span class="member-color-red fontbold">
+  <php>echo date("Y-m-d H:i:s",time());</php>
+  </span>您成功邀请的会员和奖励信息： </div>
+<div style="width: 100%;">
+    <table class="tdBordert" style="width: 985px; margin-left: 20px; float: left;border-collapse: collapse;" cellspacing="0">
+        <THEAD>
+        <tr id="tdHead">
+            <th scope="col" class="tdHeard"> 会员名 </th>
+            <th scope="col" class="tdHeard">  手机号</th>
+            <th scope="col" class="tdHeard"> 真实姓名 </th>
+            <th scope="col" class="tdHeard"> 注册时间 </th>
+            <th scope="col" class="tdHeard"> 投资次数 </th>
+            <th scope="col" class="tdHeard"> 奖金贡献 </th>
+        </tr>
+        <volist name="list" id="vo">
+            <tr class="nodatashowtr">
+                <td class="tdContent">{$vo.user_name}</td>
+                <td class="tdContent">{$vo.user_phone}</td>
+                <td class="tdContent">{$vo.real_name}</td>
+                <td class="tdContent">{$vo.reg_time|date="Y-m-d H:i:s",###}</td>
+                <td class="tdContent">{$vo.suc_num|default=0}</td>
+                <td class="tdContent">{$vo.reward|default='0.00'}</td>
+            </tr>
+        </volist>
+        </THEAD>
+    </table>
+    <div data="fragment-3" id="pager" style="float: right; text-align: right; width: 700px; padding-right: 0px;" class="yahoo2 ajaxpagebar">{$pagebar}</div>
+    <!--<div class="pages" style="width:930px; margin-left:50px;">{$page}</div>-->
+    <script type="text/javascript">
+        $('.ajaxpagebar a').click(function(){
+            try{
+                var geturl = $(this).attr('href');
+                var id = $(this).parent().attr('data');
+                var x={};
+                $.ajax({
+                    url: geturl,
+                    data: x,
+                    timeout: 5000,
+                    cache: false,
+                    type: "get",
+                    dataType: "json",
+                    success: function (d, s, r) {
+                        if(d) $("#"+id).html(d.html);//更新客户端信息 作个判断，避免报错
+                    }
+                });
+            }catch(e){};
+            return false;
+        })
+    </script>
+
+</div>

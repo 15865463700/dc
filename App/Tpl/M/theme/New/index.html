@@ -1,0 +1,23 @@
+<include file="Pub:header" />
+<main>
+  <div class="colum-list">
+  <ul>
+  <volist name="parent" id="parent">
+    <if condition="$parent.son eq ''">
+    <li><div class="colum-title"><a href="<if condition='$parent.type_set eq 1'>/M/New/new_list.html?id={$parent.id}<else />/M/New/new_view.html?cid={$parent.id}</if>"><img src="/Style/M/images/dot.png" alt="" />{$parent.type_name}</a></div><a href="<if condition='$parent.type_set eq 1'>/M/New/new_list.html?id={$parent.id}<else />/M/New/new_view.html?cid={$parent.id}</if>"><span class="page_arrow"></span></a></li>
+    <else />
+    <volist name="parent.son" id="son">
+    <li><div class="colum-title"><a href="<if condition='$parent.type_set eq 1'>/M/New/new_list.html?id={$son.id}<else />/M/New/new_view.html?cid={$son.id}</if>"><img src="/Style/M/images/dot.png" alt="" />{$son.type_name}</a></div><a href="<if condition='$parent.type_set eq 1'>/M/New/new_list.html?id={$son.id}<else />/M/New/new_view.html?cid={$son.id}</if>"><span class="page_arrow"></span></a></li>
+    </volist>
+    </if>
+  </volist>
+  </ul> 
+  </div>
+</main>
+<div class="f-seat"></div> 
+<script language="javascript">
+$(function(){
+	$("head").prepend("<title>{$glo['web_name']}</title>");
+});
+</script> 
+<include file="Pub:footer" />

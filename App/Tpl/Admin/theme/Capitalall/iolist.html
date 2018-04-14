@@ -1,0 +1,101 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+    var isSearchHidden = 1;
+    var searchName = "搜索/筛选";
+</script>
+<div class="so_main">
+    <div class="page_tit">会员账户详细</div>
+    <!--搜索/筛选会员-->
+    <include file="search" />
+    <!--搜索/筛选会员-->
+
+    <div class="Toolbar_inbox">
+        <div class="page right">{$list.page}</div>
+        <htmlA:commonBtn type="jsfun" action="dosearch();" value="搜索/筛选" style="search_action" />
+        <htmlA:commonBtn type="href" action="__URL__/export?{$query}" value="将当前条件下数据导出为Excel"/>
+    </div>
+
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th class="line_l">ID</th>
+                <th class="line_l">时间</th>
+                <th class="line_l">平台收入</th>
+                <th class="line_l">平台支出</th>
+
+                <th class="line_l">今日注册用户数</th>
+                <th class="line_l">今日活跃人次</th>
+                <th class="line_l">管理员操作(-代表支出)</th>
+
+                <th class="line_l">充值</th>
+                <th class="line_l">充值手续费</th>
+                <th class="line_l">提现</th>
+
+                <th class="line_l">提现手续费</th>
+                <th class="line_l">vip费用</th>
+                <th class="line_l">借款管理费</th>
+
+                <th class="line_l">借款服务费</th>
+                <th class="line_l">债权转让手续费</th>
+                <th class="line_l">逾期罚息</th>
+
+                <th class="line_l">催收费</th>
+                <th class="line_l">利息管理费</th>
+                <th class="line_l">推广奖励</th>
+
+                <th class="line_l">续投奖励</th>
+                <th class="line_l">加息奖励</th>
+                <th class="line_l">特权金奖励</th>
+
+            </tr>
+            <volist id="vo" name="list.list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>{$vo.id}</td>
+                    <td>{$vo.date}</td>
+                    <td><font color="green">{$vo.web_in}</font></td>
+                    <td><font color="red">{$vo.web_out}</font></td>
+
+                    <td>{$vo.reg_num}</td>
+                    <td>{$vo.login_num}</td>
+                    <td>{$vo.admin_options}</td>
+
+                    <td>{$vo.charge}</td>
+                    <td>{$vo.charge_fee}</td>
+                    <td>{$vo.withdraw}</td>
+
+                    <td>{$vo.withdraw_fee}</td>
+                    <td>{$vo.vip_fee}</td>
+                    <td>{$vo.borrow_fee}</td>
+
+                    <td>{$vo.service_fee}</td>
+                    <td>{$vo.debt_fee}</td>
+                    <td>{$vo.overdue}</td>
+
+                    <td>{$vo.call_fee}</td>
+                    <td>{$vo.interest_fee}</td>
+                    <td>{$vo.spread_reward}</td>
+
+
+                    <td>{$vo.re_invest_reward}</td>
+                    <td>{$vo.coupon_reward}</td>
+                    <td>{$vo.privilege_reward}</td>
+                </tr>
+            </volist>
+        </table>
+
+    </div>
+
+    <div class="Toolbar_inbox">
+        <div class="page right">{$list.page}</div>
+        <htmlA:commonBtn type="jsfun" action="dosearch();" value="搜索/筛选" style="search_action" />
+        <htmlA:commonBtn type="href" action="__URL__/export?{$query}" value="将当前条件下数据导出为Excel"/>
+    </div>
+</div>
+<script type="text/javascript">
+    function showurl(url,Title){
+        ui.box.load(url, {title:Title});
+    }
+</script>
+
+<include file="Public:_footer" />
